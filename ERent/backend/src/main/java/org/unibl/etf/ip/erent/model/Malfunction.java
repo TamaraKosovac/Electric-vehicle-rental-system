@@ -12,10 +12,8 @@ public class Malfunction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String description;
     private LocalDateTime dateTime;
-
     @ManyToOne
     private Vehicle vehicle;
 }

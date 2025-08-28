@@ -12,23 +12,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class Vehicle {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(unique = true, nullable = false)
     private String uniqueId;
-
     @ManyToOne
     private Manufacturer manufacturer;
-
     private String model;
     private Double purchasePrice;
     private String imagePath;
-
     private boolean rented = false;
-
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Malfunction> malfunctions = new ArrayList<>();
 }

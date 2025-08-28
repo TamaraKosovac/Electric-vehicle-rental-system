@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Employee extends User {
-
     @Enumerated(EnumType.STRING)
     private EmployeeRole role;
 }

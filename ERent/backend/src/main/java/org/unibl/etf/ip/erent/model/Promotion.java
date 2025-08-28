@@ -9,20 +9,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Promotion {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
     @Column(length = 2000)
     private String content;
-
     private LocalDate createdAt;
-
     private LocalDate startDate;
     private LocalDate endDate;
-
     @ManyToOne
     private Employee createdBy;
 }

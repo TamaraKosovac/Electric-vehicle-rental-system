@@ -8,13 +8,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Client extends User {
-
     @Enumerated(EnumType.STRING)
     private DocumentType documentType;
-
     private String documentNumber;
     private String drivingLicense;
-
     private String email;
     private String phone;
     private String avatarPath;
