@@ -8,7 +8,7 @@ import org.unibl.etf.ip.erent.service.ManufacturerService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/manufacturers")
+@RequestMapping("/api/manufacturers")
 @RequiredArgsConstructor
 public class ManufacturerController {
 
