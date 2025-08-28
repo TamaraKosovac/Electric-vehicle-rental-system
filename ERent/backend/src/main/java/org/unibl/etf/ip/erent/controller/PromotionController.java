@@ -39,4 +39,30 @@ public class PromotionController {
     public void delete(@PathVariable Long id) {
         promotionService.delete(id);
     }
+
+    @GetMapping(value = "/rss", produces = "application/xml")
+    public String getRssFeed() {
+        List<Promotion> promotions = promotionService.findAll();
+
+        StringBuilder rss = new StringBuilder();
+        rss.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+        rss.append("<rss version=\"2.0\"><channel>");
+        rss.append("<title>ETFBL_IP Promotions</title>");
+        rss.append("<link>http://localhost:8080/api/promotions/rss</link>");
+        rss.append("<description>Latest promotions and announcements</description>");
+
+        for (Promotion p : promotions) {
+            rss.append("<item>");
+            rss.append("<title>").append(p.getTitle()).append("</title>");
+            rss.append("<description>").append(p.getContent()).append("</description>");
+            rss.append("<pubDate>").append(p.getCreatedAt()).append("</pubDate>");
+            rss.append("<startDate>").append(p.getStartDate()).append("</startDate>");
+            rss.append("<endDate>").append(p.getEndDate()).append("</endDate>");
+            rss.append("</item>");
+        }
+
+        rss.append("</channel></rss>");
+        return rss.toString();
+    }
+
 }
