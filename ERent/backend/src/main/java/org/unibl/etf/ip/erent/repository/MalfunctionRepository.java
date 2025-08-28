@@ -5,6 +5,6 @@ import org.unibl.etf.ip.erent.model.Malfunction;
 
 import java.util.List;
 
-public interface MalfunctionRepository extends JpaRepository<Malfunction,Long> {
+public interface MalfunctionRepository extends JpaRepository<Malfunction, Long> {
     List<Malfunction> findByVehicleId(Long vehicleId);
 }
