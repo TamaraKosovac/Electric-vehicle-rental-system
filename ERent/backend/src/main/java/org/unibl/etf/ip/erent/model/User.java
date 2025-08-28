@@ -1,7 +1,7 @@
 package org.unibl.etf.ip.erent.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+        import lombok.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
