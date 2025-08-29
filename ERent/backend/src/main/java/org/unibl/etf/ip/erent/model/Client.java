@@ -12,6 +12,7 @@ public class Client extends User {
     private DocumentType documentType;
     private String documentNumber;
     private String drivingLicense;
+    @Column(unique = true, nullable = false)
     private String email;
     private String phone;
     private String avatarPath;

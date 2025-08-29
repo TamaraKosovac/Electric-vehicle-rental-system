@@ -1,6 +1,7 @@
 package org.unibl.etf.ip.erent.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.ip.erent.model.Employee;
 import org.unibl.etf.ip.erent.repository.EmployeeRepository;
@@ -12,6 +13,7 @@ import java.util.List;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<Employee> findAll() {
         return employeeRepository.findAll();
@@ -23,6 +25,9 @@ public class EmployeeService {
     }
 
     public Employee save(Employee employee) {
+        if (employee.getPassword() != null) {
+            employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+        }
         return employeeRepository.save(employee);
     }
 
