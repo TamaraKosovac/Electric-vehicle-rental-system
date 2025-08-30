@@ -1,1 +1,92 @@
-<p>users works!</p>
+<h2>Users Management</h2>
+
+<mat-tab-group>
+  <mat-tab label="Clients">
+    <table mat-table [dataSource]="clients" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let c">{{c.id}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef> Username </th>
+        <td mat-cell *matCellDef="let c">{{c.username}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let c">{{c.email}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="blocked">
+        <th mat-header-cell *matHeaderCellDef> Blocked </th>
+        <td mat-cell *matCellDef="let c">{{c.blocked ? 'Yes' : 'No'}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let c">
+          <button mat-button color="warn" *ngIf="!c.blocked" (click)="blockClient(c.id)">Block</button>
+          <button mat-button color="primary" *ngIf="c.blocked" (click)="unblockClient(c.id)">Unblock</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedClientColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedClientColumns;"></tr>
+    </table>
+  </mat-tab>
+
+  <mat-tab label="Employees">
+    <table mat-table [dataSource]="employees" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let e">{{e.id}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef> Username </th>
+        <td mat-cell *matCellDef="let e">{{e.username}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef> Role </th>
+        <td mat-cell *matCellDef="let e">{{e.role}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let e">
+          <button mat-button color="primary" (click)="editEmployee(e)">Edit</button>
+          <button mat-button color="warn" (click)="deleteEmployee(e.id)">Delete</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedEmployeeColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedEmployeeColumns;"></tr>
+    </table>
+
+    <hr>
+
+    <h3>Add Employee</h3>
+    <form (ngSubmit)="addEmployee()">
+      <input matInput placeholder="Username" [(ngModel)]="newEmployee.username" name="username" required>
+      <input matInput placeholder="Password" [(ngModel)]="newEmployee.password" name="password" required>
+      <input matInput placeholder="First Name" [(ngModel)]="newEmployee.firstName" name="firstName" required>
+      <input matInput placeholder="Last Name" [(ngModel)]="newEmployee.lastName" name="lastName" required>
+      <input matInput placeholder="Role" [(ngModel)]="newEmployee.role" name="role" required>
+      <button mat-raised-button color="primary" type="submit">Add</button>
+    </form>
+
+    <div *ngIf="editingEmployee">
+      <h3>Edit Employee</h3>
+      <form (ngSubmit)="updateEmployee()">
+        <input matInput placeholder="Username" [(ngModel)]="editingEmployee.username" name="username" required>
+        <input matInput placeholder="First Name" [(ngModel)]="editingEmployee.firstName" name="firstName" required>
+        <input matInput placeholder="Last Name" [(ngModel)]="editingEmployee.lastName" name="lastName" required>
+        <input matInput placeholder="Role" [(ngModel)]="editingEmployee.role" name="role" required>
+        <button mat-raised-button color="primary" type="submit">Save</button>
+        <button mat-button type="button" (click)="editingEmployee=null">Cancel</button>
+      </form>
+    </div>
+  </mat-tab>
+</mat-tab-group>
