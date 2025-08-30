@@ -1,1 +1,27 @@
-<p>vehicle-details works!</p>
+<h2>Vehicle Details</h2>
+
+<div *ngIf="vehicle">
+  <p><b>Model:</b> {{vehicle.model}}</p>
+  <p><b>Manufacturer:</b> {{vehicle.manufacturer?.name}}</p>
+  <p><b>Purchase Price:</b> {{vehicle.purchasePrice}}</p>
+  <p><b>Rented:</b> {{vehicle.rented ? 'Yes' : 'No'}}</p>
+  <img *ngIf="vehicle.imagePath" [src]="vehicle.imagePath" width="200"/>
+</div>
+
+<h3>Malfunctions</h3>
+<input #malfDesc placeholder="New malfunction"/>
+<button (click)="addMalfunction(malfDesc.value); malfDesc.value=''">Add</button>
+
+<ul>
+  <li *ngFor="let m of malfunctions">
+    {{m.description}} ({{m.dateTime}})
+    <button (click)="deleteMalfunction(m.id)">Delete</button>
+  </li>
+</ul>
+
+<h3>Rentals</h3>
+<ul>
+  <li *ngFor="let r of rentals">
+    From {{r.startDateTime}} to {{r.endDateTime}} – {{r.price}} KM
+  </li>
+</ul>
