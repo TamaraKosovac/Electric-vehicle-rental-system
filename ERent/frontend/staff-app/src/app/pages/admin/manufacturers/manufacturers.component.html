@@ -1,1 +1,63 @@
-<p>manufacturers works!</p>
+<h2>Manufacturers</h2>
+
+<table mat-table [dataSource]="manufacturers" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let m">{{m.id}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let m">{{m.name}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="country">
+    <th mat-header-cell *matHeaderCellDef> Country </th>
+    <td mat-cell *matCellDef="let m">{{m.country}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="address">
+    <th mat-header-cell *matHeaderCellDef> Address </th>
+    <td mat-cell *matCellDef="let m">{{m.address}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="contact">
+    <th mat-header-cell *matHeaderCellDef> Contact </th>
+    <td mat-cell *matCellDef="let m">{{m.contact}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let m">
+      <button mat-button color="primary" (click)="editManufacturer(m)">Edit</button>
+      <button mat-button color="warn" (click)="deleteManufacturer(m.id)">Delete</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<hr>
+
+<h3>Add Manufacturer</h3>
+<form (ngSubmit)="addManufacturer()" #addForm="ngForm">
+  <input matInput placeholder="Name" [(ngModel)]="newManufacturer.name" name="name" required>
+  <input matInput placeholder="Country" [(ngModel)]="newManufacturer.country" name="country">
+  <input matInput placeholder="Address" [(ngModel)]="newManufacturer.address" name="address">
+  <input matInput placeholder="Contact" [(ngModel)]="newManufacturer.contact" name="contact">
+  <button mat-raised-button color="primary" type="submit">Add</button>
+</form>
+
+<div *ngIf="editing">
+  <h3>Edit Manufacturer</h3>
+  <form (ngSubmit)="updateManufacturer()" #editForm="ngForm">
+    <input matInput placeholder="Name" [(ngModel)]="editing.name" name="name" required>
+    <input matInput placeholder="Country" [(ngModel)]="editing.country" name="country">
+    <input matInput placeholder="Address" [(ngModel)]="editing.address" name="address">
+    <input matInput placeholder="Contact" [(ngModel)]="editing.contact" name="contact">
+    <button mat-raised-button color="primary" type="submit">Save</button>
+    <button mat-button type="button" (click)="editing=null">Cancel</button>
+  </form>
+</div>
