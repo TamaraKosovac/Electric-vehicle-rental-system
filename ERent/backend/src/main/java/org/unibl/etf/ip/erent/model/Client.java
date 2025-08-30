@@ -16,4 +16,5 @@ public class Client extends User {
     private String email;
     private String phone;
     private String avatarPath;
+    private boolean blocked = false;
 }

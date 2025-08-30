@@ -39,4 +39,14 @@ public class ClientController {
     public void delete(@PathVariable Long id) {
         clientService.delete(id);
     }
+
+    @PutMapping("/{id}/block")
+    public Client blockClient(@PathVariable Long id) {
+        return clientService.blockClient(id);
+    }
+
+    @PutMapping("/{id}/unblock")
+    public Client unblockClient(@PathVariable Long id) {
+        return clientService.unblockClient(id);
+    }
 }
