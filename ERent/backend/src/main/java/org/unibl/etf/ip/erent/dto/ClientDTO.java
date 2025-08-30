@@ -14,4 +14,5 @@ public class ClientDTO {
     private String documentType;
     private String documentNumber;
     private String drivingLicense;
+    private boolean blocked;
 }

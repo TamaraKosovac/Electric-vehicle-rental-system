@@ -34,4 +34,16 @@ public class ClientService {
     public void delete(Long id) {
         clientRepository.deleteById(id);
     }
+
+    public Client blockClient(Long id) {
+        Client client = findById(id);
+        client.setBlocked(true);
+        return clientRepository.save(client);
+    }
+
+    public Client unblockClient(Long id) {
+        Client client = findById(id);
+        client.setBlocked(false);
+        return clientRepository.save(client);
+    }
 }
