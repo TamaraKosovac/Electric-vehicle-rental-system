@@ -115,3 +115,21 @@ a, .mat-mdc-button {
 .mdc-text-field--focused .mdc-floating-label { 
   color: #4CA79C !important; 
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; 
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+
+app-root, app-admin, .admin-layout {
+  height: 100%;
+  min-height: 0;
+}
