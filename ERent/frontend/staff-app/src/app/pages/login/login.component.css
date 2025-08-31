@@ -32,27 +32,32 @@
   padding-top: 4px;
 }
 
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.login-logo {
+  width: 60px;
+  height: auto;
+  margin-bottom: 10px;  
+}
+
 .login-title {
   margin: 0;
   font-size: 30px;
   font-weight: 500;
 }
 
-.brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;       
-  text-align: center;
-  gap: 6px;                  
+.login-tagline {
+  font-size: 15px;
+  color: #6b7280;
+  margin-top: 2px;
+  margin-bottom: 30px;
 }
-
-.login-logo {
-  width: 60px;
-  height: auto;
-  margin-top: 6px;   
-  margin-bottom: 30px;        
-}
-
 
 .form-title {
   margin: 0 0 12px;
@@ -62,7 +67,7 @@
   text-align: center;
 }
 
-.form-group { margin-bottom: 5px; }
+.form-group { margin-bottom: 0px; }
 
 .form-group label {
   display: block;
