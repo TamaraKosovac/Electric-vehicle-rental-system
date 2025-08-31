@@ -1,4 +1,117 @@
-/* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: #f9f9f9;
+}
+
+.mat-mdc-raised-button.mat-primary {
+  background-color: #4CA79C !important;  
+  color: white !important;
+}
+.mat-mdc-raised-button.mat-primary:hover {
+  background-color: #1D4E4A !important;   
+}
+
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__leading,
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__trailing,
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__notch {
+  border-color: #4CA79C !important;
+}
+.mdc-text-field--focused .mdc-floating-label {
+  color: #4CA79C !important;
+}
+.mat-mdc-input-element {
+  caret-color: #4CA79C !important;
+}
+
+.mat-mdc-checkbox .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background {
+  border-color: #4CA79C !important;
+  background-color: #4CA79C !important;
+}
+
+.mat-mdc-radio-button .mdc-radio__native-control:enabled:checked + .mdc-radio__background .mdc-radio__inner-circle {
+  border-color: #4CA79C !important;
+}
+.mat-mdc-radio-button .mdc-radio__native-control:enabled:checked + .mdc-radio__background .mdc-radio__outer-circle {
+  border-color: #4CA79C !important;
+}
+
+.mat-mdc-select.mat-mdc-select-focused .mat-mdc-select-arrow {
+  color: #4CA79C !important;
+}
+.mat-mdc-select-panel .mat-mdc-option.mdc-list-item--selected {
+  color: #4CA79C !important;
+}
+
+a, .mat-mdc-button {
+  color: #4CA79C !important;
+}
+
+.full-width .mat-mdc-text-field-wrapper {
+  background: #f5f7f8;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+  overflow: hidden;
+  min-height: 45px !important;
+  height: 45px !important;
+}
+
+.full-width .mdc-notched-outline,
+.full-width .mdc-notched-outline__leading,
+.full-width .mdc-notched-outline__notch,
+.full-width .mdc-notched-outline__trailing {
+  display: none;
+}
+
+.full-width .mat-mdc-form-field-flex {
+  min-height: 45px !important;
+  padding: 0 12px !important;
+}
+
+.full-width .mat-mdc-form-field-infix {
+  padding: 0 !important;
+  min-height: 40px !important;
+}
+
+.full-width .mat-mdc-input-element {
+  font-size: 16px !important;
+  line-height: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  background: transparent;
+  color: #1f2937 !important;
+}
+
+.full-width .mat-mdc-input-element::placeholder {
+  color: #6b7280 !important;
+  opacity: 1;
+}
+
+.full-width .mat-mdc-input-element:-webkit-autofill {
+  -webkit-text-fill-color: #1f2937 !important;
+}
+
+.full-width .mat-mdc-text-field-wrapper:hover {
+  background: #f2f4f6;
+}
+
+.full-width .mat-mdc-text-field-wrapper:focus-within {
+  background: #fff;
+  border-color: #4CA79C;
+  box-shadow: 0 0 0 4px rgba(76,167,156,0.12);
+}
+
+.full-width.mat-mdc-form-field-invalid .mat-mdc-text-field-wrapper {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 4px rgba(255,107,107,0.12);
+  background: #fff;
+}
+
+.mdc-text-field--focused .mdc-floating-label { 
+  color: #4CA79C !important; 
+}
