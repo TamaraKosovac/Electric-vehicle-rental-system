@@ -17,14 +17,20 @@
 </div>
 
 <mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="onTabChange($event)">
-  <mat-tab label="Clients">
+<mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">people</mat-icon>
+      <span class="tab-text">Clients</span>
+    </ng-template>
   <app-data-table
     [dataSource]="clients"
-    [displayedColumns]="['username','email','blocked']"
+    [displayedColumns]="['fullName','username','email','documentNumber','phone']"
     [columnLabels]="{
+      fullName: 'Full Name',
       username: 'Username',
       email: 'Email',
-      blocked: 'Blocked'
+      documentNumber: 'ID Number',
+      phone: 'Phone'
     }"
     [currentPage]="currentClientPage"
     [totalPages]="clientTotalPages"
@@ -36,23 +42,28 @@
     (next)="paginatorClients.nextPage()"
     (blockUnblock)="blockUnblockClient($event)">
   </app-data-table>
-  </mat-tab>
+</mat-tab>
 
-  <mat-tab label="Employees">
-    <app-data-table
-      [dataSource]="employees"
-      [displayedColumns]="['username','role']"
-      [columnLabels]="{
-        username: 'Username',
-        role: 'Role'
-      }"
-      [currentPage]="currentEmployeePage"
-      [totalPages]="employeeTotalPages"
-      (previous)="paginatorEmployees.previousPage()"
-      (next)="paginatorEmployees.nextPage()"
-      (edit)="editEmployee($event)"
-      (delete)="deleteEmployee($event.id)">
-    </app-data-table>
+<mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">work</mat-icon>
+      <span class="tab-text">Employees</span>
+    </ng-template>
+  <app-data-table
+    [dataSource]="employees"
+    [displayedColumns]="['fullName','username','role']"
+    [columnLabels]="{
+      fullName: 'Full Name',
+      username: 'Username',
+      role: 'Role'
+    }"
+    [currentPage]="currentEmployeePage"
+    [totalPages]="employeeTotalPages"
+    (previous)="paginatorEmployees.previousPage()"
+    (next)="paginatorEmployees.nextPage()"
+    (edit)="editEmployee($event)"
+    (delete)="deleteEmployee($event.id)">
+  </app-data-table>
 
     <div *ngIf="editingEmployee">
       <h3>Edit Employee</h3>

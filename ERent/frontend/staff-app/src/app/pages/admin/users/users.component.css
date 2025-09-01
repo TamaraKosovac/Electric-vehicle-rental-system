@@ -55,3 +55,17 @@
   border-radius: 5px !important;
   padding: 0 16px;
 }
+
+.tab-icon {
+  color: #2e6f6a;      
+  font-size: 20px;
+  margin-right: 6px;
+  margin-top: 5px;
+  vertical-align: middle;
+}
+
+.tab-text {
+  color: #2e6f6a;       
+  font-weight: 500;    
+  font-size: 15px;
+}

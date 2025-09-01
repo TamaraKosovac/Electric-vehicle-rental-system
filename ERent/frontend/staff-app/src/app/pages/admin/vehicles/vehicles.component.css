@@ -91,3 +91,19 @@
 .csv-btn:active {
   background-color: #cce9e6;   
 }
+
+::ng-deep .mat-mdc-tab .mat-mdc-tab-labels {
+  color: #2e6f6a !important;
+}
+
+.tab-icon {
+  font-size: 20px;
+  margin-right: 6px;
+  margin-top: 5px;
+  color: #2e6f6a !important;
+}
+
+.tab-label {
+  color: #2e6f6a !important;
+  font-weight: 500;
+}
