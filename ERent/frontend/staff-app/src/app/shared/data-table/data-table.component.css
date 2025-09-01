@@ -27,3 +27,52 @@
   justify-content: flex-end; 
   margin-top: 8px;
 }
+
+.action-icons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.icon-btn {
+  color: #2e6f6a !important;        
+  background-color: transparent !important; 
+  border: none !important;          
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.icon-btn:hover {
+  color: #245854 !important;          
+  transform: scale(1.15);
+}
+
+.icon-btn:active {
+  color: #1f4a47 !important;        
+  transform: scale(1.05);
+}
+
+.small-btn {
+  font-size: 12px;
+  padding: 4px 10px;
+  min-width: unset;
+  line-height: 22px;
+  border-radius: 4px;
+  text-transform: none;
+
+  background-color: #fff !important;      
+  color: #2e6f6a !important;              
+  border: 2px solid #2e6f6a !important;   
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.small-btn:hover {
+  background-color: #e6f4f3 !important;   
+  color: #245854 !important;
+  transform: scale(1.05);
+}
+
+.small-btn:active {
+  background-color: #cce9e6 !important; 
+  color: #1f4a47 !important;
+  transform: scale(0.98);
+}

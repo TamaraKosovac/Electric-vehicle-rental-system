@@ -2,12 +2,19 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MinimalPaginatorComponent } from '../minimal-paginator/minimal-paginator.component';
 
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MinimalPaginatorComponent],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MinimalPaginatorComponent
+  ],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.css']
 })
@@ -18,6 +25,13 @@ export class DataTableComponent {
   @Input() currentPage = 1;
   @Input() totalPages = 1;
 
+  @Input() showInfo = true;
+  @Input() showEdit = true;
+  @Input() showDelete = true;
+  @Input() showBlockUnblock = false;
+  @Output() blockUnblock = new EventEmitter<any>();
+
+  @Output() info = new EventEmitter<any>();  
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
   @Output() previous = new EventEmitter<void>();

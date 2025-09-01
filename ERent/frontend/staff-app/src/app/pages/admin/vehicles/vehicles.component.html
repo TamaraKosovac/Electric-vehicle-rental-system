@@ -30,11 +30,11 @@
       [dataSource]="carsDS.data"
       [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','purchaseDate','rented','hasMalfunctions','description']"
       [columnLabels]="{
-        uniqueId: 'Unique ID',
+        uniqueId: 'ID',
         manufacturer: 'Manufacturer',
         model: 'Model',
-        purchasePrice: 'Price',
-        purchaseDate: 'Purchase Date',
+        purchasePrice: 'Purchase price',
+        purchaseDate: 'Purchase date',
         rented: 'Rented',
         hasMalfunctions: 'Malfunctions',
         description: 'Description'
@@ -51,13 +51,13 @@
   <mat-tab label="Bikes">
     <app-data-table
       [dataSource]="bikesDS.data"
-      [displayedColumns]="['uniqueId','manufacturer','model','autonomy','purchasePrice','rented','hasMalfunctions']"
+      [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','autonomy','rented','hasMalfunctions']"
       [columnLabels]="{
-        uniqueId: 'Unique ID',
+        uniqueId: 'ID',
         manufacturer: 'Manufacturer',
         model: 'Model',
         autonomy: 'Autonomy',
-        purchasePrice: 'Price',
+        purchasePrice: 'Purchase price',
         rented: 'Rented',
         hasMalfunctions: 'Malfunctions'
       }"
@@ -73,13 +73,13 @@
   <mat-tab label="Scooters">
     <app-data-table
       [dataSource]="scootersDS.data"
-      [displayedColumns]="['uniqueId','manufacturer','model','maxSpeed','purchasePrice','rented','hasMalfunctions']"
+      [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','maxSpeed','rented','hasMalfunctions']"
       [columnLabels]="{
-        uniqueId: 'Unique ID',
+        uniqueId: 'ID',
         manufacturer: 'Manufacturer',
         model: 'Model',
-        maxSpeed: 'Max Speed',
-        purchasePrice: 'Price',
+        maxSpeed: 'Max speed',
+        purchasePrice: 'Purchase price',
         rented: 'Rented',
         hasMalfunctions: 'Malfunctions'
       }"
