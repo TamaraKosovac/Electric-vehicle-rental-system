@@ -2,6 +2,8 @@ package org.unibl.etf.ip.erent.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.unibl.etf.ip.erent.dto.BikeDTO;
+import org.unibl.etf.ip.erent.dto.CarDTO;
 import org.unibl.etf.ip.erent.model.Bike;
 import org.unibl.etf.ip.erent.repository.BikeRepository;
 import org.unibl.etf.ip.erent.repository.ScooterRepository;
@@ -16,6 +18,22 @@ public class BikeService {
 
     public List<Bike> findAll() {
         return bikeRepository.findAll();
+    }
+
+    public List<BikeDTO> findAllDto() {
+        return bikeRepository.findAll()
+                .stream()
+                .map(bike -> new BikeDTO(
+                        bike.getId(),
+                        bike.getUniqueId(),
+                        bike.getModel(),
+                        bike.getManufacturer().getName(),
+                        bike.getAutonomy(),
+                        bike.getPurchasePrice(),
+                        !bike.getMalfunctions().isEmpty(),
+                        bike.isRented()
+                ))
+                .toList();
     }
 
     public Bike findById(Long id) {

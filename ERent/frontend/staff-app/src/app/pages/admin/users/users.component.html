@@ -18,20 +18,24 @@
 
 <mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="onTabChange($event)">
   <mat-tab label="Clients">
-    <app-data-table
-      [dataSource]="clients"
-      [displayedColumns]="['username','email','blocked']"
-      [columnLabels]="{
-        username: 'Username',
-        email: 'Email',
-        blocked: 'Blocked'
-      }"
-      [currentPage]="currentClientPage"
-      [totalPages]="clientTotalPages"
-      (previous)="paginatorClients.previousPage()"
-      (next)="paginatorClients.nextPage()"
-      (delete)="blockUnblockClient($event)">
-    </app-data-table>
+  <app-data-table
+    [dataSource]="clients"
+    [displayedColumns]="['username','email','blocked']"
+    [columnLabels]="{
+      username: 'Username',
+      email: 'Email',
+      blocked: 'Blocked'
+    }"
+    [currentPage]="currentClientPage"
+    [totalPages]="clientTotalPages"
+    [showBlockUnblock]="true"
+    [showInfo]="false"
+    [showEdit]="false"
+    [showDelete]="false"
+    (previous)="paginatorClients.previousPage()"
+    (next)="paginatorClients.nextPage()"
+    (blockUnblock)="blockUnblockClient($event)">
+  </app-data-table>
   </mat-tab>
 
   <mat-tab label="Employees">

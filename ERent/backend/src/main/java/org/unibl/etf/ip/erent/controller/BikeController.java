@@ -2,6 +2,7 @@ package org.unibl.etf.ip.erent.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.unibl.etf.ip.erent.dto.BikeDTO;
 import org.unibl.etf.ip.erent.model.Bike;
 import org.unibl.etf.ip.erent.service.BikeService;
 
@@ -15,8 +16,8 @@ public class BikeController {
     private final BikeService bikeService;
 
     @GetMapping
-    public List<Bike> getAll() {
-        return bikeService.findAll();
+    public List<BikeDTO> getAll() {
+        return bikeService.findAllDto();
     }
 
     @GetMapping("/{id}")

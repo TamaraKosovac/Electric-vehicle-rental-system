@@ -14,7 +14,6 @@ import { VehiclesService } from '../../../services/vehicles.service';
 import { Car } from '../../../models/car.model';
 import { Bike } from '../../../models/bike.model';
 import { Scooter } from '../../../models/scooter.model';
-import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/minimal-paginator.component';
 import { DataTableComponent } from '../../../shared/data-table/data-table.component';
 
 

@@ -2,6 +2,7 @@ package org.unibl.etf.ip.erent.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.unibl.etf.ip.erent.dto.ScooterDTO;
 import org.unibl.etf.ip.erent.model.Scooter;
 import org.unibl.etf.ip.erent.service.ScooterService;
 
@@ -15,8 +16,8 @@ public class ScooterController {
     private final ScooterService scooterService;
 
     @GetMapping
-    public List<Scooter> getAll() {
-        return scooterService.findAll();
+    public List<ScooterDTO> getAll() {
+        return scooterService.findAllDto();
     }
 
     @GetMapping("/{id}")
