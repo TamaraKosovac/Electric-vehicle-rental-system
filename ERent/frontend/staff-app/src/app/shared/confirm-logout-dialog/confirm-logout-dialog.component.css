@@ -1,0 +1,83 @@
+.dlg {
+  padding: 28px 32px 24px;
+  width: 460px;
+  min-height: 160px; 
+  border-radius: 30px;
+}
+
+.dlg-header {
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.dlg-header mat-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  color: #2e6f6a;
+}
+
+.dlg-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: center;
+}
+
+.dlg-content {
+  color: #334155;
+  margin: 16px 0 12px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.dlg-actions {
+  display: flex;
+  justify-content: center; 
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.dlg-actions button {
+  min-width: 90px;
+  border-radius: 5px !important;
+  padding: 8px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: none; 
+  transition: all 0.2s ease-in-out; 
+}
+
+.cancel-btn {
+  color: #2e6f6a;
+  border: 2px solid #2e6f6a !important;
+  background-color: transparent;
+}
+
+.cancel-btn:hover {
+  background-color: #e6f4f3; 
+  border-color: #245854;
+}
+
+.cancel-btn:active {
+  background-color: #cce9e6;
+  border-color: #1f4a47;
+}
+
+.confirm-btn {
+  background-color: #2e6f6a !important;
+  color: #fff !important;
+}
+
+.confirm-btn:hover {
+  background-color: #245854 !important;
+}
+
+.confirm-btn:active {
+  background-color: #1f4a47 !important;
+}

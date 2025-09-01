@@ -1,12 +1,93 @@
-table {
-  width: 100%;
-  margin-top: 20px;
+.toolbar-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 0 20px;
+  gap: 16px;
 }
 
-h2 {
-  margin-bottom: 20px;
+.search-field.small {
+  width: 230px;
 }
 
-button {
-  margin-right: 8px;
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.actions button mat-icon {
+  margin-right: 6px;
+}
+
+:host ::ng-deep .search-field.small .mat-mdc-text-field-wrapper {
+  height: 36px !important;
+  min-height: 36px !important;
+  border-radius: 5px !important;
+  overflow: hidden;
+}
+
+:host ::ng-deep .search-field.small .mat-mdc-form-field-icon-prefix {
+  color: gray !important;
+  margin-right: -15px !important;
+}
+
+:host ::ng-deep .search-field.small .mat-mdc-form-field-icon-prefix mat-icon {
+  font-size: 18px !important;
+  margin-top: 9px !important;
+}
+
+:host ::ng-deep .search-field.small .mat-mdc-form-field-infix {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  min-height: 36px !important;
+}
+
+:host ::ng-deep .search-field.small .mat-mdc-input-element {
+  height: 36px !important;
+  font-size: 14px !important;
+  box-sizing: border-box;
+  color: gray !important;
+}
+
+:host ::ng-deep .actions .mat-mdc-raised-button,
+:host ::ng-deep .actions .mat-mdc-outlined-button {
+  border-radius: 5px !important;
+  padding: 0 16px;
+}
+
+:host ::ng-deep .search-field.small .mdc-notched-outline__leading,
+:host ::ng-deep .search-field.small .mdc-notched-outline__trailing,
+:host ::ng-deep .search-field.small .mdc-notched-outline__notch {
+  border-color: #ccc !important;
+  border-width: 1px !important;
+}
+
+:host ::ng-deep .search-field.small.mat-focused .mdc-notched-outline__leading,
+:host ::ng-deep .search-field.small.mat-focused .mdc-notched-outline__trailing,
+:host ::ng-deep .search-field.small.mat-focused .mdc-notched-outline__notch {
+  border-color: #4CA79C !important;
+}
+
+.paginator-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.csv-btn {
+  color: #2e6f6a !important;              
+  border: 2px solid #2e6f6a !important;   
+  border-radius: 5px;
+  padding: 6px 16px;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.csv-btn:hover {
+  background-color: #e6f4f3;  
+}
+
+.csv-btn:active {
+  background-color: #cce9e6;   
 }

@@ -1,0 +1,5 @@
+<div class="minimal-paginator">
+  <button (click)="previous.emit()" [disabled]="currentPage === 1">←</button>
+  <span>{{ currentPage }}</span>
+  <button (click)="next.emit()" [disabled]="currentPage === totalPages">→</button>
+</div>

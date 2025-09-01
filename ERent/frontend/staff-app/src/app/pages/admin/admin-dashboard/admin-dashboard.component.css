@@ -130,13 +130,14 @@ html, body {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
+  gap: 16px;               
+  padding: 18px 24px;       
   margin-bottom: 16px;
   background: #ffffffcc;
   border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 10px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  min-height: 60px;        
 }
 
 .spacer {
@@ -195,4 +196,24 @@ html, body {
   width: 22px;
   height: 22px;
   line-height: 22px;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dashboard-title {
+  font-weight: 500;
+  font-size: 18px;
+  color: #2e6f6a;
+  letter-spacing: 0.2px;
 }

@@ -1,81 +1,54 @@
-<h2>Users Management</h2>
+<div class="toolbar-card">
+  <mat-form-field appearance="outline" class="search-field small">
+    <mat-icon matPrefix>search</mat-icon>
+    <input 
+      matInput 
+      (keyup)="applyFilter($event, activeTab)" 
+      placeholder="Search..."
+    />
+  </mat-form-field>
 
-<mat-tab-group>
+  <div class="actions" *ngIf="activeTab === 'employees'">
+    <button mat-raised-button color="primary" (click)="addEmployee()">
+      <mat-icon>add</mat-icon>
+      Add Employee
+    </button>
+  </div>
+</div>
+
+<mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="onTabChange($event)">
   <mat-tab label="Clients">
-    <table mat-table [dataSource]="clients" class="mat-elevation-z8">
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let c">{{c.id}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="username">
-        <th mat-header-cell *matHeaderCellDef> Username </th>
-        <td mat-cell *matCellDef="let c">{{c.username}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let c">{{c.email}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="blocked">
-        <th mat-header-cell *matHeaderCellDef> Blocked </th>
-        <td mat-cell *matCellDef="let c">{{c.blocked ? 'Yes' : 'No'}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let c">
-          <button mat-button color="warn" *ngIf="!c.blocked" (click)="blockClient(c.id)">Block</button>
-          <button mat-button color="primary" *ngIf="c.blocked" (click)="unblockClient(c.id)">Unblock</button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedClientColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedClientColumns;"></tr>
-    </table>
+    <app-data-table
+      [dataSource]="clients"
+      [displayedColumns]="['username','email','blocked']"
+      [columnLabels]="{
+        username: 'Username',
+        email: 'Email',
+        blocked: 'Blocked'
+      }"
+      [currentPage]="currentClientPage"
+      [totalPages]="clientTotalPages"
+      (previous)="paginatorClients.previousPage()"
+      (next)="paginatorClients.nextPage()"
+      (delete)="blockUnblockClient($event)">
+    </app-data-table>
   </mat-tab>
 
   <mat-tab label="Employees">
-    <table mat-table [dataSource]="employees" class="mat-elevation-z8">
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let e">{{e.id}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="username">
-        <th mat-header-cell *matHeaderCellDef> Username </th>
-        <td mat-cell *matCellDef="let e">{{e.username}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef> Role </th>
-        <td mat-cell *matCellDef="let e">{{e.role}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let e">
-          <button mat-button color="primary" (click)="editEmployee(e)">Edit</button>
-          <button mat-button color="warn" (click)="deleteEmployee(e.id)">Delete</button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedEmployeeColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedEmployeeColumns;"></tr>
-    </table>
-
-    <hr>
-
-    <h3>Add Employee</h3>
-    <form (ngSubmit)="addEmployee()">
-      <input matInput placeholder="Username" [(ngModel)]="newEmployee.username" name="username" required>
-      <input matInput placeholder="Password" [(ngModel)]="newEmployee.password" name="password" required>
-      <input matInput placeholder="First Name" [(ngModel)]="newEmployee.firstName" name="firstName" required>
-      <input matInput placeholder="Last Name" [(ngModel)]="newEmployee.lastName" name="lastName" required>
-      <input matInput placeholder="Role" [(ngModel)]="newEmployee.role" name="role" required>
-      <button mat-raised-button color="primary" type="submit">Add</button>
-    </form>
+    <app-data-table
+      [dataSource]="employees"
+      [displayedColumns]="['username','role']"
+      [columnLabels]="{
+        username: 'Username',
+        role: 'Role'
+      }"
+      [currentPage]="currentEmployeePage"
+      [totalPages]="employeeTotalPages"
+      (previous)="paginatorEmployees.previousPage()"
+      (next)="paginatorEmployees.nextPage()"
+      (edit)="editEmployee($event)"
+      (delete)="deleteEmployee($event.id)">
+    </app-data-table>
 
     <div *ngIf="editingEmployee">
       <h3>Edit Employee</h3>

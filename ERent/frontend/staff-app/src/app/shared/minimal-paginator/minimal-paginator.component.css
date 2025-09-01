@@ -1,0 +1,32 @@
+.minimal-paginator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.minimal-paginator button {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 4px 10px;
+  background: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.minimal-paginator button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.minimal-paginator button:hover:not(:disabled) {
+  background: #f2f2f2;
+}
+
+.minimal-paginator span {
+  font-weight: 500;
+  color: #444;
+  min-width: 20px;
+  text-align: center;
+}
