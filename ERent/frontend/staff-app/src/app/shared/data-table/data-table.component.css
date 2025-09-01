@@ -76,3 +76,12 @@
   color: #1f4a47 !important;
   transform: scale(0.98);
 }
+
+
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab-header {
+  border-bottom: 2px solid #2e6f6a !important;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline {
+  border-color: #2e6f6a !important;
+}

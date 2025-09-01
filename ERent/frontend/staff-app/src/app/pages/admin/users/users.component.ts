@@ -10,6 +10,10 @@ import { UsersService } from '../../../services/users.service';
 import { DataTableComponent } from '../../../shared/data-table/data-table.component';
 import { MatIconModule } from '@angular/material/icon';
 
+import { Client } from '../../../models/client.model';
+import { Employee } from '../../../models/employee.model';
+import { EmployeeRole } from '../../../models/enums/employee-role.enum';
+
 @Component({
   selector: 'app-users',
   standalone: true,
@@ -26,8 +30,9 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  clients: any[] = [];
-  employees: any[] = [];
+  // 👇 koristi modele umesto any
+  clients: Client[] = [];
+  employees: Employee[] = [];
 
   currentClientPage = 1;
   clientTotalPages = 1;
@@ -38,8 +43,16 @@ export class UsersComponent implements OnInit {
   @ViewChild('paginatorClients') paginatorClients!: MatPaginator;
   @ViewChild('paginatorEmployees') paginatorEmployees!: MatPaginator;
 
-  newEmployee: any = { username: '', password: '', firstName: '', lastName: '', role: '' };
-  editingEmployee: any = null;
+  newEmployee: Employee = {
+    id: 0,
+    username: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    role: EmployeeRole.OPERATOR
+  };
+
+  editingEmployee: Employee | null = null;
 
   constructor(private usersService: UsersService) {}
 
@@ -58,12 +71,15 @@ export class UsersComponent implements OnInit {
 
   loadClients() {
     this.usersService.getClients().subscribe(data => {
-      this.clients = data;
+      this.clients = data.map(c => ({
+        ...c,
+        fullName: `${c.firstName} ${c.lastName}`
+      }));
       this.clientTotalPages = 1;
     });
   }
 
-  blockUnblockClient(client: any) {
+  blockUnblockClient(client: Client) {
     if (client.blocked) {
       this.usersService.unblockClient(client.id).subscribe(() => this.loadClients());
     } else {
@@ -73,23 +89,34 @@ export class UsersComponent implements OnInit {
 
   loadEmployees() {
     this.usersService.getEmployees().subscribe(data => {
-      this.employees = data;
+      this.employees = data.map(e => ({
+        ...e,
+        fullName: `${e.firstName} ${e.lastName}`
+      }));
       this.employeeTotalPages = 1;
     });
   }
 
   addEmployee() {
     this.usersService.createEmployee(this.newEmployee).subscribe(() => {
-      this.newEmployee = { username: '', password: '', firstName: '', lastName: '', role: '' };
+      this.newEmployee = {
+        id: 0,
+        username: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        role: EmployeeRole.OPERATOR
+      };
       this.loadEmployees();
     });
   }
 
-  editEmployee(e: any) {
+  editEmployee(e: Employee) {
     this.editingEmployee = { ...e };
   }
 
   updateEmployee() {
+    if (!this.editingEmployee) return;
     this.usersService.updateEmployee(this.editingEmployee.id, this.editingEmployee).subscribe(() => {
       this.editingEmployee = null;
       this.loadEmployees();

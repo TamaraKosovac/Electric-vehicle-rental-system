@@ -25,7 +25,11 @@
 </div>
 
 <mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="onTabChange($event)">
-  <mat-tab label="Cars">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">directions_car</mat-icon>
+      <span class="tab-label">Cars</span>
+    </ng-template>
     <app-data-table
       [dataSource]="carsDS.data"
       [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','purchaseDate','rented','hasMalfunctions','description']"
@@ -48,7 +52,11 @@
     </app-data-table>
   </mat-tab>
 
-  <mat-tab label="Bikes">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">pedal_bike</mat-icon>
+      <span class="tab-label">Bikes</span>
+    </ng-template>
     <app-data-table
       [dataSource]="bikesDS.data"
       [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','autonomy','rented','hasMalfunctions']"
@@ -70,7 +78,11 @@
     </app-data-table>
   </mat-tab>
 
-  <mat-tab label="Scooters">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">electric_scooter</mat-icon>
+      <span class="tab-label">Scooters</span>
+    </ng-template>
     <app-data-table
       [dataSource]="scootersDS.data"
       [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','maxSpeed','rented','hasMalfunctions']"
