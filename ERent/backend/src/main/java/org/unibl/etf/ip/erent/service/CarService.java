@@ -2,6 +2,7 @@ package org.unibl.etf.ip.erent.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.unibl.etf.ip.erent.dto.CarDTO;
 import org.unibl.etf.ip.erent.model.Car;
 import org.unibl.etf.ip.erent.repository.CarRepository;
 
@@ -15,6 +16,23 @@ public class CarService {
 
     public List<Car> findAll() {
         return carRepository.findAll();
+    }
+
+    public List<CarDTO> findAllDto() {
+        return carRepository.findAll()
+                .stream()
+                .map(car -> new CarDTO(
+                        car.getId(),
+                        car.getUniqueId(),
+                        car.getModel(),
+                        car.getManufacturer().getName(),
+                        car.getPurchasePrice(),
+                        car.getPurchaseDate(),
+                        !car.getMalfunctions().isEmpty(),
+                        car.isRented(),
+                        car.getDescription()
+                ))
+                .toList();
     }
 
     public Car findById(Long id) {

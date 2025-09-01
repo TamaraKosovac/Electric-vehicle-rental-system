@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { VehiclesService } from '../../../services/vehicles.service';
+import { Car } from '../../../models/car.model';
+import { Bike } from '../../../models/bike.model';
+import { Scooter } from '../../../models/scooter.model';
+import { Malfunction } from '../../../models/malfunction.model';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -11,11 +15,13 @@ import { VehiclesService } from '../../../services/vehicles.service';
   styleUrls: ['./vehicle-details.component.css']
 })
 export class VehicleDetailsComponent implements OnInit {
-  vehicleType!: string;
+  vehicleType!: 'cars' | 'bikes' | 'scooters';
   vehicleId!: number;
-  vehicle: any;
-  malfunctions: any[] = [];
-  rentals: any[] = [];
+
+  vehicle!: Car | Bike | Scooter;
+
+  malfunctions: Malfunction[] = [];
+  rentals: any[] = []; 
 
   constructor(
     private route: ActivatedRoute,
@@ -23,7 +29,7 @@ export class VehicleDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.vehicleType = this.route.snapshot.paramMap.get('type')!;  // cars | bikes | scooters
+    this.vehicleType = this.route.snapshot.paramMap.get('type') as 'cars' | 'bikes' | 'scooters';
     this.vehicleId = Number(this.route.snapshot.paramMap.get('id'));
 
     this.vehiclesService.getVehicleById(this.vehicleType, this.vehicleId)
@@ -37,7 +43,7 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   addMalfunction(desc: string) {
-    this.vehiclesService.addMalfunction(this.vehicleType, this.vehicleId, { description: desc })
+    this.vehiclesService.addMalfunction(this.vehicleType, this.vehicleId, { description: desc } as Malfunction)
       .subscribe(newM => this.malfunctions.push(newM));
   }
 

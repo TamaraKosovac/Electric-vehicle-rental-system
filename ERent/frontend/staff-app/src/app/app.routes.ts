@@ -17,11 +17,11 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminDashboardComponent,
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'vehicles' }, 
-      { path: 'vehicles', component: VehiclesComponent },
-      { path: 'vehicles/:type/:id', component: VehicleDetailsComponent },
-      { path: 'manufacturers', component: ManufacturersComponent },
-      { path: 'users', component: UsersComponent }
+      { path: '', pathMatch: 'full', redirectTo: 'vehicles' },
+      { path: 'vehicles', component: VehiclesComponent, data: { title: 'Vehicles management' } },
+      { path: 'vehicles/:type/:id', component: VehicleDetailsComponent, data: { title: 'Vehicle details' } },
+      { path: 'manufacturers', component: ManufacturersComponent, data: { title: 'Manufacturers management' } },
+      { path: 'users', component: UsersComponent, data: { title: 'Users management' } }
     ]
   },
 
@@ -29,5 +29,5 @@ export const routes: Routes = [
   { path: 'manager', component: ManagerDashboardComponent },
 
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' } 
+  { path: '**', redirectTo: 'login' }
 ];

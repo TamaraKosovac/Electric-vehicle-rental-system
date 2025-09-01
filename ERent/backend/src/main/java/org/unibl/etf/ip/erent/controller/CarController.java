@@ -2,6 +2,7 @@ package org.unibl.etf.ip.erent.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.unibl.etf.ip.erent.dto.CarDTO;
 import org.unibl.etf.ip.erent.model.Car;
 import org.unibl.etf.ip.erent.service.CarService;
 
@@ -15,8 +16,8 @@ public class CarController {
     private final CarService carService;
 
     @GetMapping
-    public List<Car> getAll() {
-        return carService.findAll();
+    public List<CarDTO> getAll() {
+        return carService.findAllDto();
     }
 
     @GetMapping("/{id}")

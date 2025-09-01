@@ -1,160 +1,94 @@
-<h2>Upravljanje prevoznim sredstvima</h2>
+<div class="toolbar-card">
+  <mat-form-field appearance="outline" class="search-field small">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search..." />
+  </mat-form-field>
 
-<mat-tab-group>
-  <!-- Cars tab -->
-  <mat-tab label="Automobili">
-    <h3>Lista automobila</h3>
-    <table mat-table [dataSource]="cars" class="mat-elevation-z8">
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="startCreate(activeTab)">
+      <mat-icon>add</mat-icon>
+      Add vehicle
+    </button>
 
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let car">{{car.id}}</td>
-      </ng-container>
+    <input
+      #csvFile
+      type="file"
+      accept=".csv"
+      (change)="onFileSelected($event, activeTab)"
+      hidden
+    />
+    <button mat-button class="csv-btn" (click)="csvFile.click()">
+      <mat-icon>upload</mat-icon>
+      Upload CSV
+    </button>
+  </div>
+</div>
 
-      <ng-container matColumnDef="model">
-        <th mat-header-cell *matHeaderCellDef> Model </th>
-        <td mat-cell *matCellDef="let car">{{car.model}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Akcije </th>
-        <td mat-cell *matCellDef="let car">
-          <button mat-button color="primary">Uredi</button>
-          <button mat-button color="warn" (click)="deleteCar(car.id)">Obriši</button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <!-- Forma za dodavanje auta -->
-    <div class="add-form">
-      <h3>Dodaj automobil</h3>
-      <mat-form-field>
-        <mat-label>Model</mat-label>
-        <input matInput [(ngModel)]="newCar.model">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Proizvođač</mat-label>
-        <input matInput [(ngModel)]="newCar.manufacturer">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Cijena</mat-label>
-        <input matInput type="number" [(ngModel)]="newCar.price">
-      </mat-form-field>
-      <button mat-raised-button color="primary" (click)="addCar()">Dodaj</button>
-    </div>
-
-    <!-- CSV upload -->
-    <div class="upload-section">
-      <h3>Uvezi CSV</h3>
-      <input type="file" (change)="onFileSelected($event, 'cars')" accept=".csv">
-      <button mat-raised-button color="accent" (click)="uploadCSV('cars')">Upload</button>
-    </div>
+<mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="onTabChange($event)">
+  <mat-tab label="Cars">
+    <app-data-table
+      [dataSource]="carsDS.data"
+      [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','purchaseDate','rented','hasMalfunctions','description']"
+      [columnLabels]="{
+        uniqueId: 'Unique ID',
+        manufacturer: 'Manufacturer',
+        model: 'Model',
+        purchasePrice: 'Price',
+        purchaseDate: 'Purchase Date',
+        rented: 'Rented',
+        hasMalfunctions: 'Malfunctions',
+        description: 'Description'
+      }"
+      [currentPage]="currentCarPage"
+      [totalPages]="carTotalPages"
+      (previous)="paginatorCars.previousPage()"
+      (next)="paginatorCars.nextPage()"
+      (edit)="onEditCar($event)"
+      (delete)="deleteCar($event.id)">
+    </app-data-table>
   </mat-tab>
 
-  <!-- Bikes tab -->
-  <mat-tab label="Bicikli">
-    <h3>Lista bicikala</h3>
-    <table mat-table [dataSource]="bikes" class="mat-elevation-z8">
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let bike">{{bike.id}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="model">
-        <th mat-header-cell *matHeaderCellDef> Model </th>
-        <td mat-cell *matCellDef="let bike">{{bike.model}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Akcije </th>
-        <td mat-cell *matCellDef="let bike">
-          <button mat-button color="primary">Uredi</button>
-          <button mat-button color="warn" (click)="deleteBike(bike.id)">Obriši</button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <!-- Forma za dodavanje bicikla -->
-    <div class="add-form">
-      <h3>Dodaj bicikl</h3>
-      <mat-form-field>
-        <mat-label>Model</mat-label>
-        <input matInput [(ngModel)]="newBike.model">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Proizvođač</mat-label>
-        <input matInput [(ngModel)]="newBike.manufacturer">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Cijena</mat-label>
-        <input matInput type="number" [(ngModel)]="newBike.price">
-      </mat-form-field>
-      <button mat-raised-button color="primary" (click)="addBike()">Dodaj</button>
-    </div>
-
-    <!-- CSV upload -->
-    <div class="upload-section">
-      <h3>Uvezi CSV</h3>
-      <input type="file" (change)="onFileSelected($event, 'bikes')" accept=".csv">
-      <button mat-raised-button color="accent" (click)="uploadCSV('bikes')">Upload</button>
-    </div>
+  <mat-tab label="Bikes">
+    <app-data-table
+      [dataSource]="bikesDS.data"
+      [displayedColumns]="['uniqueId','manufacturer','model','autonomy','purchasePrice','rented','hasMalfunctions']"
+      [columnLabels]="{
+        uniqueId: 'Unique ID',
+        manufacturer: 'Manufacturer',
+        model: 'Model',
+        autonomy: 'Autonomy',
+        purchasePrice: 'Price',
+        rented: 'Rented',
+        hasMalfunctions: 'Malfunctions'
+      }"
+      [currentPage]="currentBikePage"
+      [totalPages]="bikeTotalPages"
+      (previous)="paginatorBikes.previousPage()"
+      (next)="paginatorBikes.nextPage()"
+      (edit)="onEditBike($event)"
+      (delete)="deleteBike($event.id)">
+    </app-data-table>
   </mat-tab>
 
-  <!-- Scooters tab -->
-  <mat-tab label="Trotineti">
-    <h3>Lista trotineta</h3>
-    <table mat-table [dataSource]="scooters" class="mat-elevation-z8">
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let scooter">{{scooter.id}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="model">
-        <th mat-header-cell *matHeaderCellDef> Model </th>
-        <td mat-cell *matCellDef="let scooter">{{scooter.model}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Akcije </th>
-        <td mat-cell *matCellDef="let scooter">
-          <button mat-button color="primary">Uredi</button>
-          <button mat-button color="warn" (click)="deleteScooter(scooter.id)">Obriši</button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <!-- Forma za dodavanje trotineta -->
-    <div class="add-form">
-      <h3>Dodaj trotinet</h3>
-      <mat-form-field>
-        <mat-label>Model</mat-label>
-        <input matInput [(ngModel)]="newScooter.model">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Proizvođač</mat-label>
-        <input matInput [(ngModel)]="newScooter.manufacturer">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Cijena</mat-label>
-        <input matInput type="number" [(ngModel)]="newScooter.price">
-      </mat-form-field>
-      <button mat-raised-button color="primary" (click)="addScooter()">Dodaj</button>
-    </div>
-
-    <!-- CSV upload -->
-    <div class="upload-section">
-      <h3>Uvezi CSV</h3>
-      <input type="file" (change)="onFileSelected($event, 'scooters')" accept=".csv">
-      <button mat-raised-button color="accent" (click)="uploadCSV('scooters')">Upload</button>
-    </div>
+  <mat-tab label="Scooters">
+    <app-data-table
+      [dataSource]="scootersDS.data"
+      [displayedColumns]="['uniqueId','manufacturer','model','maxSpeed','purchasePrice','rented','hasMalfunctions']"
+      [columnLabels]="{
+        uniqueId: 'Unique ID',
+        manufacturer: 'Manufacturer',
+        model: 'Model',
+        maxSpeed: 'Max Speed',
+        purchasePrice: 'Price',
+        rented: 'Rented',
+        hasMalfunctions: 'Malfunctions'
+      }"
+      [currentPage]="currentScooterPage"
+      [totalPages]="scooterTotalPages"
+      (previous)="paginatorScooters.previousPage()"
+      (next)="paginatorScooters.nextPage()"
+      (edit)="onEditScooter($event)"
+      (delete)="deleteScooter($event.id)">
+    </app-data-table>
   </mat-tab>
 </mat-tab-group>
