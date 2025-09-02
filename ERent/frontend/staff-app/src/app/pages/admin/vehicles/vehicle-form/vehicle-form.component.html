@@ -58,52 +58,82 @@
 
       <div>
         <label class="field-label">Image</label>
-        <div
-          class="image-dropzone"
-          (dragover)="onDragOver($event)"
-          (dragleave)="onDragLeave($event)"
-          (drop)="onDrop($event)">
+        <div class="image-dropzone"
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave($event)"
+             (drop)="onDrop($event)">
           <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
           <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
-          <input
-            type="file"
-            class="file-input"
-            (change)="onFileSelected($event)"
-            accept="image/*" />
+          <input type="file"
+                 class="file-input"
+                 (change)="onFileSelected($event)"
+                 accept="image/*" />
         </div>
       </div>
     </div>
 
     <label class="field-label">Description</label>
     <mat-form-field class="full-width" appearance="outline">
-      <textarea
-        matInput
-        rows="3"
-        [(ngModel)]="vehicle.description"
-        placeholder="Description"></textarea>
+      <textarea matInput rows="3"
+                [(ngModel)]="vehicle.description"
+                placeholder="Description"></textarea>
     </mat-form-field>
   </ng-container>
 
   <ng-container *ngIf="data.type === 'bikes'">
-    <label class="field-label">Autonomy</label>
-    <mat-form-field class="full-width" appearance="outline">
-      <input
-        matInput
-        type="number"
-        [(ngModel)]="vehicle.autonomy"
-        placeholder="Autonomy" />
-    </mat-form-field>
+    <div class="form-row">
+      <div>
+        <label class="field-label">Autonomy</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput type="number"
+                 [(ngModel)]="vehicle.autonomy"
+                 placeholder="Autonomy" />
+        </mat-form-field>
+      </div>
+
+      <div>
+        <label class="field-label">Image</label>
+        <div class="image-dropzone"
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave($event)"
+             (drop)="onDrop($event)">
+          <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
+          <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
+          <input type="file"
+                 class="file-input"
+                 (change)="onFileSelected($event)"
+                 accept="image/*" />
+        </div>
+      </div>
+    </div>
   </ng-container>
 
   <ng-container *ngIf="data.type === 'scooters'">
-    <label class="field-label">Max speed</label>
-    <mat-form-field class="full-width" appearance="outline">
-      <input
-        matInput
-        type="number"
-        [(ngModel)]="vehicle.maxSpeed"
-        placeholder="Max Speed" />
-    </mat-form-field>
+    <div class="form-row">
+      <div>
+        <label class="field-label">Max speed</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput type="number"
+                 [(ngModel)]="vehicle.maxSpeed"
+                 placeholder="Max Speed" />
+        </mat-form-field>
+      </div>
+
+      <div>
+        <label class="field-label">Image</label>
+        <div class="image-dropzone"
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave($event)"
+             (drop)="onDrop($event)">
+          <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
+          <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
+          <input type="file"
+                 class="file-input"
+                 (change)="onFileSelected($event)"
+                 accept="image/*" />
+        </div>
+      </div>
+    </div>
   </ng-container>
 </div>
 

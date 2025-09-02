@@ -37,7 +37,7 @@ export class VehiclesService {
 
   createBike(bike: Bike, image?: File): Observable<Bike> {
     const formData = new FormData();
-    formData.append('car', new Blob([JSON.stringify(bike)], { type: 'application/json' }));
+    formData.append('bike', new Blob([JSON.stringify(bike)], { type: 'application/json' }));
     if (image) {
       formData.append('image', image);
     }
@@ -46,7 +46,7 @@ export class VehiclesService {
 
   createScooter(scooter: Scooter, image?: File): Observable<Scooter> {
     const formData = new FormData();
-    formData.append('car', new Blob([JSON.stringify(scooter)], { type: 'application/json' }));
+    formData.append('scooter', new Blob([JSON.stringify(scooter)], { type: 'application/json' }));
     if (image) {
       formData.append('image', image);
     }
