@@ -164,9 +164,29 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   }
 
   startCreate(type: 'cars' | 'bikes' | 'scooters') {
-    this.dialog.open(VehicleFormComponent, {
+    const dialogRef = this.dialog.open(VehicleFormComponent, {
       width: '500px',
       data: { type }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const { vehicle, image } = result;
+
+        if (type === 'cars') {
+          this.vehiclesService.createCar(vehicle, image).subscribe((car) => {
+            this.carsDS.data = [...this.carsDS.data, car];
+          });
+        } else if (type === 'bikes') {
+          this.vehiclesService.createBike(vehicle, image).subscribe((bike) => {
+            this.bikesDS.data = [...this.bikesDS.data, bike];
+          });
+        } else {
+          this.vehiclesService.createScooter(vehicle, image).subscribe((scooter) => {
+            this.scootersDS.data = [...this.scootersDS.data, scooter];
+          });
+        }
+      }
     });
   }
 

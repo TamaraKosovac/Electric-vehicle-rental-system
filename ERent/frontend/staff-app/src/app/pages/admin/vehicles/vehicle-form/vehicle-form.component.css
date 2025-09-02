@@ -24,6 +24,7 @@
   color: #374151;
   margin-bottom: 4px;
   display: block;
+  margin-left: 3px;
 }
 
 ::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
@@ -105,4 +106,26 @@
   inset: 0;
   opacity: 0;
   cursor: pointer;
+}
+
+::ng-deep .mat-mdc-select-trigger {
+  display: flex !important;
+  align-items: center !important;  
+  justify-content: space-between !important;
+  height: 100% !important;
+  min-height: 44px; 
+}
+
+::ng-deep .mat-mdc-select-placeholder,
+::ng-deep .mat-mdc-select-value {
+  display: flex;
+  align-items: center;  
+  color: #555;       
+  font-size: 16px;
+}
+
+::ng-deep .mat-mdc-select-arrow {
+  margin-right: 8px;
+  align-self: center !important;  
+  color: #555;  
 }
