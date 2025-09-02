@@ -5,14 +5,18 @@
     <div>
       <label class="field-label">ID</label>
       <mat-form-field class="full-width" appearance="outline">
-        <input matInput [(ngModel)]="vehicle.uniqueId" />
+        <input matInput [(ngModel)]="vehicle.uniqueId" placeholder="ID" />
       </mat-form-field>
     </div>
 
     <div>
       <label class="field-label">Manufacturer</label>
       <mat-form-field class="full-width" appearance="outline">
-        <input matInput [(ngModel)]="vehicle.manufacturer" />
+        <mat-select [(ngModel)]="vehicle.manufacturer" placeholder="Choose">
+          <mat-option *ngFor="let m of manufacturers" [value]="m">
+            {{ m.name }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
   </div>
@@ -21,14 +25,18 @@
     <div>
       <label class="field-label">Model</label>
       <mat-form-field class="full-width" appearance="outline">
-        <input matInput [(ngModel)]="vehicle.model" />
+        <input matInput [(ngModel)]="vehicle.model" placeholder="Model" />
       </mat-form-field>
     </div>
 
     <div>
       <label class="field-label">Purchase price</label>
       <mat-form-field class="full-width" appearance="outline">
-        <input matInput type="number" [(ngModel)]="vehicle.purchasePrice" />
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="vehicle.purchasePrice"
+          placeholder="Purchase price" />
       </mat-form-field>
     </div>
   </div>
@@ -37,27 +45,30 @@
     <div class="form-row">
       <div>
         <label class="field-label">Purchase date</label>
-<mat-form-field class="full-width" appearance="outline">
-  <input matInput [matDatepicker]="picker" [(ngModel)]="vehicle.purchaseDate" />
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
-
+        <mat-form-field class="full-width" appearance="outline">
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [(ngModel)]="vehicle.purchaseDate"
+            placeholder="Purchase date" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
       </div>
 
       <div>
         <label class="field-label">Image</label>
-        <div 
-          class="image-dropzone" 
-          (dragover)="onDragOver($event)" 
-          (dragleave)="onDragLeave($event)" 
+        <div
+          class="image-dropzone"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)"
           (drop)="onDrop($event)">
-          <p *ngIf="!vehicle.imagePath">Drag & drop image here or click to select</p>
-          <p *ngIf="vehicle.imagePath">Selected: {{ vehicle.imagePath.name }}</p>
-          <input 
-            type="file" 
-            class="file-input" 
-            (change)="onFileSelected($event)" 
+          <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
+          <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
+          <input
+            type="file"
+            class="file-input"
+            (change)="onFileSelected($event)"
             accept="image/*" />
         </div>
       </div>
@@ -65,21 +76,33 @@
 
     <label class="field-label">Description</label>
     <mat-form-field class="full-width" appearance="outline">
-      <textarea matInput rows="3" [(ngModel)]="vehicle.description"></textarea>
+      <textarea
+        matInput
+        rows="3"
+        [(ngModel)]="vehicle.description"
+        placeholder="Description"></textarea>
     </mat-form-field>
   </ng-container>
 
   <ng-container *ngIf="data.type === 'bikes'">
     <label class="field-label">Autonomy</label>
     <mat-form-field class="full-width" appearance="outline">
-      <input matInput type="number" [(ngModel)]="vehicle.autonomy" />
+      <input
+        matInput
+        type="number"
+        [(ngModel)]="vehicle.autonomy"
+        placeholder="Autonomy" />
     </mat-form-field>
   </ng-container>
 
   <ng-container *ngIf="data.type === 'scooters'">
-    <label class="field-label">Max Speed</label>
+    <label class="field-label">Max speed</label>
     <mat-form-field class="full-width" appearance="outline">
-      <input matInput type="number" [(ngModel)]="vehicle.maxSpeed" />
+      <input
+        matInput
+        type="number"
+        [(ngModel)]="vehicle.maxSpeed"
+        placeholder="Max Speed" />
     </mat-form-field>
   </ng-container>
 </div>

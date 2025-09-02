@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -7,6 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { Manufacturer } from '../../../../models/manufacturer.model';
+import { ManufacturersService } from '../../../../services/manufacturers.service';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -18,32 +21,42 @@ import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material
     MatInputModule,
     MatButtonModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSelectModule
   ],
-  providers: [provideNativeDateAdapter()],   
+  providers: [provideNativeDateAdapter()],
   templateUrl: './vehicle-form.component.html',
   styleUrls: ['./vehicle-form.component.css']
 })
-export class VehicleFormComponent {
-  vehicle: any = {
+export class VehicleFormComponent implements OnInit {
+  vehicle = {
     uniqueId: '',
-    manufacturer: '',
+    manufacturer: null as Manufacturer | null,
     model: '',
-    purchasePrice: 0,
-    imagePath: '',
-    rented: false,
-    hasMalfunctions: false,
-    purchaseDate: null
+    purchasePrice: null,
+    purchaseDate: null,
+    description: '',
+    autonomy: null,
+    maxSpeed: null
   };
 
+  selectedImage: File | null = null;
+  manufacturers: Manufacturer[] = [];
+
   constructor(
+    private manufacturersService: ManufacturersService,
     public dialogRef: MatDialogRef<VehicleFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { type: 'cars' | 'bikes' | 'scooters' }
   ) {}
 
+  ngOnInit(): void {
+    this.manufacturersService.getAll().subscribe((data: Manufacturer[]) => {
+      this.manufacturers = data;
+    });
+  }
+
   save() {
-    console.log('Saving', this.data.type, this.vehicle);
-    this.dialogRef.close(this.vehicle);
+    this.dialogRef.close({ vehicle: this.vehicle, image: this.selectedImage });
   }
 
   cancel() {
@@ -51,12 +64,12 @@ export class VehicleFormComponent {
   }
 
   onFileSelected(event: any) {
-      const file = event.target.files[0];
-      if (file) {
-        this.vehicle.imagePath = file.name;
-        console.log('Selected image:', file);
-      }
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImage = file;
+      console.log('Selected image:', file);
     }
+  }
 
   onDragOver(event: DragEvent) {
     event.preventDefault();
@@ -72,7 +85,7 @@ export class VehicleFormComponent {
     (event.currentTarget as HTMLElement).classList.remove('dragover');
     const file = event.dataTransfer?.files[0];
     if (file) {
-      this.vehicle.imagePath = file.name;
+      this.selectedImage = file;
       console.log('Dropped image:', file);
     }
   }
