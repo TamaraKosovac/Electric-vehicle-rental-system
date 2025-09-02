@@ -109,7 +109,7 @@ app-root, app-admin, .admin-layout {
 .snackbar-success {
   background-color: #4CA79C !important; 
   color: white !important;
-  font-weight: 200;
+  font-weight: 400;
   border-radius: 2px !important;
   margin-top: 10px;
 }
@@ -117,8 +117,7 @@ app-root, app-admin, .admin-layout {
 .snackbar-error {
   background-color: #ff6b6b !important; 
   color: white !important;
-  font-weight: 200;
+  font-weight: 400;
   border-radius: 2px !important;
   margin-top: 10px;
 }
-

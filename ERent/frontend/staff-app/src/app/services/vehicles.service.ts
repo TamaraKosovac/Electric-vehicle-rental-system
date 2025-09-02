@@ -18,10 +18,6 @@ export class VehiclesService {
     return this.http.get<Car[]>(`${this.baseUrl}/cars`);
   }
 
-  getCarById(id: number): Observable<Car> {
-    return this.http.get<Car>(`${this.baseUrl}/cars/${id}`);
-  }
-
   deleteCar(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/cars/${id}`);
   }
@@ -53,13 +49,31 @@ export class VehiclesService {
     return this.http.post<Scooter>(`${this.baseUrl}/scooters`, formData);
   }
 
-  updateCar(id: number, car: any, image?: File): Observable<Car> {
+  updateCar(id: number, car: Car, image?: File): Observable<Car> {
     const formData = new FormData();
     formData.append('car', new Blob([JSON.stringify(car)], { type: 'application/json' }));
     if (image) {
       formData.append('image', image);
     }
     return this.http.put<Car>(`${this.baseUrl}/cars/${id}`, formData);
+  }
+
+  updateBike(id: number, bike: Bike, image?: File): Observable<Bike> {
+    const formData = new FormData();
+    formData.append('bike', new Blob([JSON.stringify(bike)], { type: 'application/json' }));
+    if (image) {
+      formData.append('image', image);
+    }
+    return this.http.put<Bike>(`${this.baseUrl}/bikes/${id}`, formData);
+  }
+
+  updateScooter(id: number, scooter: Scooter, image?: File): Observable<Scooter> {
+    const formData = new FormData();
+    formData.append('scooter', new Blob([JSON.stringify(scooter)], { type: 'application/json' }));
+    if (image) {
+      formData.append('image', image);
+    }
+    return this.http.put<Scooter>(`${this.baseUrl}/scooters/${id}`, formData);
   }
 
   getBikes(): Observable<Bike[]> {
@@ -101,7 +115,18 @@ export class VehiclesService {
   }
 
   getVehicleById(type: 'cars' | 'bikes' | 'scooters', id: number): Observable<Car | Bike | Scooter> {
-  return this.http.get<Car | Bike | Scooter>(`${this.baseUrl}/${type}/${id}`);
-}
+    return this.http.get<Car | Bike | Scooter>(`${this.baseUrl}/${type}/${id}`);
+  }
 
+  getCarById(id: number): Observable<Car> {
+    return this.http.get<Car>(`${this.baseUrl}/cars/${id}`);
+  }
+
+  getBikeById(id: number): Observable<Bike> {
+    return this.http.get<Bike>(`${this.baseUrl}/bikes/${id}`);
+  }
+
+  getScooterById(id: number): Observable<Scooter> {
+    return this.http.get<Scooter>(`${this.baseUrl}/scooters/${id}`);
+  }
 }
