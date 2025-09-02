@@ -129,3 +129,11 @@
   align-self: center !important;  
   color: #555;  
 }
+
+.vehicle-dialog-title {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: #2e6f6a !important;
+  margin: 0 0 12px 0 !important;
+}
+
