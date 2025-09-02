@@ -7,6 +7,7 @@ import { ManufacturersService } from '../../../services/manufacturers.service';
 import { DataTableComponent } from '../../../shared/data-table/data-table.component';
 import { Manufacturer } from '../../../models/manufacturer.model';
 import { MatIconModule } from '@angular/material/icon';
+import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/minimal-paginator.component';
 
 @Component({
   selector: 'app-manufacturers',
@@ -17,7 +18,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     FormsModule,
     DataTableComponent,
-    MatIconModule
+    MatIconModule,
+    MinimalPaginatorComponent   
   ],
   templateUrl: './manufacturers.component.html',
   styleUrls: ['./manufacturers.component.css']
@@ -25,6 +27,10 @@ import { MatIconModule } from '@angular/material/icon';
 export class ManufacturersComponent implements OnInit {
   manufacturers: Manufacturer[] = [];
   filteredManufacturers: Manufacturer[] = [];
+
+  currentPage = 1;
+  totalPages = 1;
+  pageSize = 10;  
 
   newManufacturer: Manufacturer = { 
     id: 0, 
@@ -48,6 +54,7 @@ export class ManufacturersComponent implements OnInit {
     this.manufacturersService.getAll().subscribe(data => {
       this.manufacturers = data;
       this.filteredManufacturers = [...data]; 
+      this.updatePagination();
     });
   }
 
@@ -55,14 +62,36 @@ export class ManufacturersComponent implements OnInit {
     const value = (ev.target as HTMLInputElement).value.trim().toLowerCase();
     if (!value) {
       this.filteredManufacturers = [...this.manufacturers];
-      return;
+    } else {
+      this.filteredManufacturers = this.manufacturers.filter(m =>
+        m.name.toLowerCase().includes(value) ||
+        m.country?.toLowerCase().includes(value) ||
+        m.email?.toLowerCase().includes(value)
+      );
     }
+    this.updatePagination();
+  }
 
-    this.filteredManufacturers = this.manufacturers.filter(m =>
-      m.name.toLowerCase().includes(value) ||
-      m.country?.toLowerCase().includes(value) ||
-      m.email?.toLowerCase().includes(value)
-    );
+  updatePagination() {
+    this.totalPages = Math.ceil(this.filteredManufacturers.length / this.pageSize) || 1;
+    if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
+  }
+
+  get paginatedManufacturers() {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.filteredManufacturers.slice(start, start + this.pageSize);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
   }
 
   startCreate() {
@@ -92,6 +121,7 @@ export class ManufacturersComponent implements OnInit {
     this.manufacturersService.delete(id).subscribe(() => {
       this.manufacturers = this.manufacturers.filter(m => m.id !== id);
       this.filteredManufacturers = this.filteredManufacturers.filter(m => m.id !== id);
+      this.updatePagination();
     });
   }
 }

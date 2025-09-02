@@ -1,143 +1,187 @@
 <h2 mat-dialog-title>Add {{ data.type | titlecase }}</h2>
 
 <div mat-dialog-content class="form-container">
-  <div class="form-row">
-    <div>
-      <label class="field-label">ID</label>
-      <mat-form-field class="full-width" appearance="outline">
-        <input matInput [(ngModel)]="vehicle.uniqueId" placeholder="ID" />
-      </mat-form-field>
-    </div>
+  <form #vehicleForm="ngForm">
 
-    <div>
-      <label class="field-label">Manufacturer</label>
-      <mat-form-field class="full-width" appearance="outline">
-        <mat-select [(ngModel)]="vehicle.manufacturer" placeholder="Choose">
-          <mat-option *ngFor="let m of manufacturers" [value]="m">
-            {{ m.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div>
-      <label class="field-label">Model</label>
-      <mat-form-field class="full-width" appearance="outline">
-        <input matInput [(ngModel)]="vehicle.model" placeholder="Model" />
-      </mat-form-field>
-    </div>
-
-    <div>
-      <label class="field-label">Purchase price</label>
-      <mat-form-field class="full-width" appearance="outline">
-        <input
-          matInput
-          type="number"
-          [(ngModel)]="vehicle.purchasePrice"
-          placeholder="Purchase price" />
-      </mat-form-field>
-    </div>
-  </div>
-
-  <ng-container *ngIf="data.type === 'cars'">
     <div class="form-row">
       <div>
-        <label class="field-label">Purchase date</label>
+        <label class="field-label">ID</label>
         <mat-form-field class="full-width" appearance="outline">
-          <input
-            matInput
-            [matDatepicker]="picker"
-            [(ngModel)]="vehicle.purchaseDate"
-            placeholder="Purchase date" />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <input matInput name="uniqueId"
+                 [(ngModel)]="vehicle.uniqueId"
+                 placeholder="ID"
+                 required minlength="3"
+                 pattern="^[a-zA-Z0-9\-]+$" />
+          <mat-error *ngIf="vehicleForm.submitted && !vehicle.uniqueId">
+            ID is required
+          </mat-error>
+          <mat-error *ngIf="vehicleForm.submitted && vehicle.uniqueId?.length! < 3">
+            ID must be at least 3 characters
+          </mat-error>
         </mat-form-field>
       </div>
 
       <div>
-        <label class="field-label">Image</label>
-        <div class="image-dropzone"
-             (dragover)="onDragOver($event)"
-             (dragleave)="onDragLeave($event)"
-             (drop)="onDrop($event)">
-          <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
-          <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
-          <input type="file"
-                 class="file-input"
-                 (change)="onFileSelected($event)"
-                 accept="image/*" />
-        </div>
+        <label class="field-label">Manufacturer</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-select name="manufacturer"
+                      [(ngModel)]="vehicle.manufacturer"
+                      required
+                      placeholder="Choose">
+            <mat-option *ngFor="let m of manufacturers" [value]="m">
+              {{ m.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="vehicleForm.submitted && !vehicle.manufacturer">
+            Manufacturer is required
+          </mat-error>
+        </mat-form-field>
       </div>
     </div>
 
-    <label class="field-label">Description</label>
-    <mat-form-field class="full-width" appearance="outline">
-      <textarea matInput rows="3"
+    <div class="form-row">
+      <div>
+        <label class="field-label">Model</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput name="model"
+                 [(ngModel)]="vehicle.model"
+                 placeholder="Model"
+                 required minlength="2" />
+          <mat-error *ngIf="vehicleForm.submitted && !vehicle.model">
+            Model is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <label class="field-label">Purchase price</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput type="number" name="purchasePrice"
+                 [(ngModel)]="vehicle.purchasePrice"
+                 placeholder="Purchase price"
+                 required min="1" />
+          <mat-error *ngIf="vehicleForm.submitted && !vehicle.purchasePrice">
+            Purchase price is required
+          </mat-error>
+          <mat-error *ngIf="vehicle.purchasePrice != null && vehicle.purchasePrice <= 0">
+            Price must be greater than 0
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <ng-container *ngIf="data.type === 'cars'">
+      <div class="form-row">
+        <div>
+          <label class="field-label">Purchase date</label>
+          <mat-form-field class="full-width" appearance="outline">
+            <input matInput [matDatepicker]="picker" name="purchaseDate"
+                   [(ngModel)]="vehicle.purchaseDate"
+                   required
+                   placeholder="Purchase date" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-error *ngIf="vehicleForm.submitted && !vehicle.purchaseDate">
+            Purchase date is required
+          </mat-error>
+        </div>
+
+        <div>
+          <label class="field-label">Image</label>
+          <div class="image-dropzone"
+               (dragover)="onDragOver($event)"
+               (dragleave)="onDragLeave($event)"
+               (drop)="onDrop($event)">
+            <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
+            <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
+            <input type="file"
+                   class="file-input"
+                   (change)="onFileSelected($event)"
+                   accept="image/*" />
+          </div>
+        </div>
+      </div>
+
+      <label class="field-label">Description</label>
+      <mat-form-field class="full-width" appearance="outline">
+      <textarea matInput rows="3" name="description"
                 [(ngModel)]="vehicle.description"
                 placeholder="Description"></textarea>
-    </mat-form-field>
-  </ng-container>
+      </mat-form-field>
+    </ng-container>
 
-  <ng-container *ngIf="data.type === 'bikes'">
-    <div class="form-row">
-      <div>
-        <label class="field-label">Autonomy</label>
-        <mat-form-field class="full-width" appearance="outline">
-          <input matInput type="number"
-                 [(ngModel)]="vehicle.autonomy"
-                 placeholder="Autonomy" />
-        </mat-form-field>
-      </div>
+    <ng-container *ngIf="data.type === 'bikes'">
+      <div class="form-row">
+        <div>
+          <label class="field-label">Autonomy</label>
+          <mat-form-field class="full-width" appearance="outline">
+            <input matInput type="number" name="autonomy"
+                   [(ngModel)]="vehicle.autonomy"
+                   placeholder="Autonomy"
+                   required min="1" />
+            <mat-error *ngIf="vehicleForm.submitted && !vehicle.autonomy">
+              Autonomy is required
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-      <div>
-        <label class="field-label">Image</label>
-        <div class="image-dropzone"
-             (dragover)="onDragOver($event)"
-             (dragleave)="onDragLeave($event)"
-             (drop)="onDrop($event)">
-          <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
-          <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
-          <input type="file"
-                 class="file-input"
-                 (change)="onFileSelected($event)"
-                 accept="image/*" />
+        <div>
+          <label class="field-label">Image</label>
+          <div class="image-dropzone"
+               (dragover)="onDragOver($event)"
+               (dragleave)="onDragLeave($event)"
+               (drop)="onDrop($event)">
+            <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
+            <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
+            <input type="file"
+                   class="file-input"
+                   (change)="onFileSelected($event)"
+                   accept="image/*" />
+          </div>
         </div>
       </div>
-    </div>
-  </ng-container>
+    </ng-container>
 
-  <ng-container *ngIf="data.type === 'scooters'">
-    <div class="form-row">
-      <div>
-        <label class="field-label">Max speed</label>
-        <mat-form-field class="full-width" appearance="outline">
-          <input matInput type="number"
-                 [(ngModel)]="vehicle.maxSpeed"
-                 placeholder="Max Speed" />
-        </mat-form-field>
-      </div>
+    <ng-container *ngIf="data.type === 'scooters'">
+      <div class="form-row">
+        <div>
+          <label class="field-label">Max speed</label>
+          <mat-form-field class="full-width" appearance="outline">
+            <input matInput type="number" name="maxSpeed"
+                   [(ngModel)]="vehicle.maxSpeed"
+                   placeholder="Max Speed"
+                   required min="1" />
+            <mat-error *ngIf="vehicleForm.submitted && !vehicle.maxSpeed">
+              Max speed is required
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-      <div>
-        <label class="field-label">Image</label>
-        <div class="image-dropzone"
-             (dragover)="onDragOver($event)"
-             (dragleave)="onDragLeave($event)"
-             (drop)="onDrop($event)">
-          <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
-          <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
-          <input type="file"
-                 class="file-input"
-                 (change)="onFileSelected($event)"
-                 accept="image/*" />
+        <div>
+          <label class="field-label">Image</label>
+          <div class="image-dropzone"
+               (dragover)="onDragOver($event)"
+               (dragleave)="onDragLeave($event)"
+               (drop)="onDrop($event)">
+            <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
+            <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
+            <input type="file"
+                   class="file-input"
+                   (change)="onFileSelected($event)"
+                   accept="image/*" />
+          </div>
         </div>
       </div>
-    </div>
-  </ng-container>
+    </ng-container>
+  </form>
 </div>
 
 <div mat-dialog-actions class="dialog-actions">
   <button mat-stroked-button color="warn" (click)="cancel()">Cancel</button>
-  <button mat-raised-button color="primary" (click)="save()">Save</button>
+  <button mat-raised-button color="primary" 
+          [disabled]="!vehicleForm.valid" 
+          (click)="save()">
+    Save
+  </button>
 </div>

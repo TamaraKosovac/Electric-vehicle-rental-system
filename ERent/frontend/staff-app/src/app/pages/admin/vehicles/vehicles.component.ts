@@ -1,23 +1,24 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
 
 import { VehiclesService } from '../../../services/vehicles.service';
 import { Car } from '../../../models/car.model';
 import { Bike } from '../../../models/bike.model';
 import { Scooter } from '../../../models/scooter.model';
 import { DataTableComponent } from '../../../shared/data-table/data-table.component';
-
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
+import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/minimal-paginator.component';
 
 @Component({
   selector: 'app-vehicles',
@@ -33,20 +34,21 @@ import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
     MatIconModule,
     HttpClientModule,
     DataTableComponent,
-    MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule,
+    MinimalPaginatorComponent
   ],
   templateUrl: './vehicles.component.html',
   styleUrls: ['./vehicles.component.css']
 })
-export class VehiclesComponent implements OnInit, AfterViewInit {
+export class VehiclesComponent implements OnInit {
+  allCars: Car[] = [];
+  allBikes: Bike[] = [];
+  allScooters: Scooter[] = [];
+
   carsDS = new MatTableDataSource<Car>([]);
   bikesDS = new MatTableDataSource<Bike>([]);
   scootersDS = new MatTableDataSource<Scooter>([]);
-
-  @ViewChild('paginatorCars') paginatorCars!: MatPaginator;
-  @ViewChild('paginatorBikes') paginatorBikes!: MatPaginator;
-  @ViewChild('paginatorScooters') paginatorScooters!: MatPaginator;
 
   currentCarPage = 1;
   carTotalPages = 1;
@@ -56,6 +58,8 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
 
   currentScooterPage = 1;
   scooterTotalPages = 1;
+
+  pageSize = 10;
 
   selectedFiles: { [key: string]: File | null } = {
     cars: null,
@@ -68,130 +72,191 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private vehiclesService: VehiclesService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
     this.loadData();
-
-    this.carsDS.filterPredicate = (data: Car, filter: string) =>
-      (data.model ?? '').toLowerCase().includes(filter) ||
-      (data.manufacturer ?? '').toLowerCase().includes(filter) ||
-      (data.uniqueId ?? '').toLowerCase().includes(filter) ||
-      (data.description ?? '').toLowerCase().includes(filter);
-
-    this.bikesDS.filterPredicate = (data: Bike, filter: string) =>
-      (data.model ?? '').toLowerCase().includes(filter) ||
-      (data.manufacturer ?? '').toLowerCase().includes(filter) ||
-      (data.uniqueId ?? '').toLowerCase().includes(filter);
-
-    this.scootersDS.filterPredicate = (data: Scooter, filter: string) =>
-      (data.model ?? '').toLowerCase().includes(filter) ||
-      (data.manufacturer ?? '').toLowerCase().includes(filter) ||
-      (data.uniqueId ?? '').toLowerCase().includes(filter);
   }
 
-  ngAfterViewInit() {
-    queueMicrotask(() => {
-      if (this.paginatorCars) this.setupPaginator(this.carsDS, this.paginatorCars, 'car');
-      if (this.paginatorBikes) this.setupPaginator(this.bikesDS, this.paginatorBikes, 'bike');
-      if (this.paginatorScooters) this.setupPaginator(this.scootersDS, this.paginatorScooters, 'scooter');
-    });
+  private updateCarPage() {
+    const start = (this.currentCarPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.carsDS.data = this.allCars.slice(start, end);
+    this.carTotalPages = Math.ceil(this.allCars.length / this.pageSize) || 1;
   }
 
-  private setupPaginator(
-    ds: MatTableDataSource<any>,
-    paginator: MatPaginator | undefined,
-    type: 'car' | 'bike' | 'scooter'
-  ) {
-    if (!paginator) return; 
+  previousCarPage() {
+    if (this.currentCarPage > 1) {
+      this.currentCarPage--;
+      this.updateCarPage();
+    }
+  }
 
-    ds.paginator = paginator;
+  nextCarPage() {
+    if (this.currentCarPage < this.carTotalPages) {
+      this.currentCarPage++;
+      this.updateCarPage();
+    }
+  }
 
-    const update = () => {
-      const totalPages = Math.ceil(ds.data.length / paginator.pageSize || 1);
-      if (type === 'car') {
-        this.currentCarPage = paginator.pageIndex + 1;
-        this.carTotalPages = totalPages;
-      } else if (type === 'bike') {
-        this.currentBikePage = paginator.pageIndex + 1;
-        this.bikeTotalPages = totalPages;
-      } else {
-        this.currentScooterPage = paginator.pageIndex + 1;
-        this.scooterTotalPages = totalPages;
-      }
-    };
+  private updateBikePage() {
+    const start = (this.currentBikePage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.bikesDS.data = this.allBikes.slice(start, end);
+    this.bikeTotalPages = Math.ceil(this.allBikes.length / this.pageSize) || 1;
+  }
 
-    update();
-    paginator.page.subscribe(update);
+  previousBikePage() {
+    if (this.currentBikePage > 1) {
+      this.currentBikePage--;
+      this.updateBikePage();
+    }
+  }
+
+  nextBikePage() {
+    if (this.currentBikePage < this.bikeTotalPages) {
+      this.currentBikePage++;
+      this.updateBikePage();
+    }
+  }
+
+  private updateScooterPage() {
+    const start = (this.currentScooterPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.scootersDS.data = this.allScooters.slice(start, end);
+    this.scooterTotalPages = Math.ceil(this.allScooters.length / this.pageSize) || 1;
+  }
+
+  previousScooterPage() {
+    if (this.currentScooterPage > 1) {
+      this.currentScooterPage--;
+      this.updateScooterPage();
+    }
+  }
+
+  nextScooterPage() {
+    if (this.currentScooterPage < this.scooterTotalPages) {
+      this.currentScooterPage++;
+      this.updateScooterPage();
+    }
   }
 
   loadData() {
-    this.vehiclesService.getCars().subscribe(data => (this.carsDS.data = data));
-    this.vehiclesService.getBikes().subscribe(data => (this.bikesDS.data = data));
-    this.vehiclesService.getScooters().subscribe(data => (this.scootersDS.data = data));
-  }
+    this.vehiclesService.getCars().subscribe(data => {
+      this.allCars = data;
+      this.currentCarPage = 1;
+      this.updateCarPage();
+    });
 
-  onTabChange(event: any) {
-    if (event.index === 0) this.activeTab = 'cars';
-    if (event.index === 1) this.activeTab = 'bikes';
-    if (event.index === 2) this.activeTab = 'scooters';
+    this.vehiclesService.getBikes().subscribe(data => {
+      this.allBikes = data;
+      this.currentBikePage = 1;
+      this.updateBikePage();
+    });
+
+    this.vehiclesService.getScooters().subscribe(data => {
+      this.allScooters = data;
+      this.currentScooterPage = 1;
+      this.updateScooterPage();
+    });
   }
 
   applyFilter(ev: Event) {
     const value = (ev.target as HTMLInputElement).value.trim().toLowerCase();
-    if (this.activeTab === 'cars') this.carsDS.filter = value;
-    if (this.activeTab === 'bikes') this.bikesDS.filter = value;
-    if (this.activeTab === 'scooters') this.scootersDS.filter = value;
+
+    if (this.activeTab === 'cars') {
+      this.carsDS.data = this.allCars
+        .filter(c => (c.model ?? '').toLowerCase().includes(value))
+        .slice(0, this.pageSize);
+    }
+    if (this.activeTab === 'bikes') {
+      this.bikesDS.data = this.allBikes
+        .filter(b => (b.model ?? '').toLowerCase().includes(value))
+        .slice(0, this.pageSize);
+    }
+    if (this.activeTab === 'scooters') {
+      this.scootersDS.data = this.allScooters
+        .filter(s => (s.model ?? '').toLowerCase().includes(value))
+        .slice(0, this.pageSize);
+    }
   }
 
   deleteCar(id: number) {
     this.vehiclesService.deleteCar(id).subscribe(() => {
-      this.carsDS.data = this.carsDS.data.filter(c => c.id !== id);
+      this.allCars = this.allCars.filter(c => c.id !== id);
+      this.updateCarPage();
     });
   }
 
   deleteBike(id: number) {
     this.vehiclesService.deleteBike(id).subscribe(() => {
-      this.bikesDS.data = this.bikesDS.data.filter(b => b.id !== id);
+      this.allBikes = this.allBikes.filter(b => b.id !== id);
+      this.updateBikePage();
     });
   }
 
   deleteScooter(id: number) {
     this.vehiclesService.deleteScooter(id).subscribe(() => {
-      this.scootersDS.data = this.scootersDS.data.filter(s => s.id !== id);
+      this.allScooters = this.allScooters.filter(s => s.id !== id);
+      this.updateScooterPage();
     });
   }
 
   startCreate(type: 'cars' | 'bikes' | 'scooters') {
-  const dialogRef = this.dialog.open(VehicleFormComponent, {
-    width: '500px',
-    data: { type }
-  });
+    const dialogRef = this.dialog.open(VehicleFormComponent, {
+      width: '500px',
+      data: { type }
+    });
 
-  dialogRef.afterClosed().subscribe((result) => {
-    if (result) {
-      const { vehicle, image } = result;
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const { vehicle, image } = result;
 
-      if (type === 'cars') {
-        this.vehiclesService.createCar(vehicle, image).subscribe((car) => {
-          (car as any).hasMalfunctions = false; 
-          this.carsDS.data = [...this.carsDS.data, car];
-        });
-      } else if (type === 'bikes') {
-        this.vehiclesService.createBike(vehicle, image).subscribe((bike) => {
-          (bike as any).hasMalfunctions = false;
-          this.bikesDS.data = [...this.bikesDS.data, bike];
-        });
-      } else {
-        this.vehiclesService.createScooter(vehicle, image).subscribe((scooter) => {
-          (scooter as any).hasMalfunctions = false;
-          this.scootersDS.data = [...this.scootersDS.data, scooter];
+        let create$: Observable<Car | Bike | Scooter>;
+        if (type === 'cars') {
+          create$ = this.vehiclesService.createCar(vehicle, image);
+        } else if (type === 'bikes') {
+          create$ = this.vehiclesService.createBike(vehicle, image);
+        } else {
+          create$ = this.vehiclesService.createScooter(vehicle, image);
+        }
+
+        create$.subscribe({
+          next: (createdVehicle) => {
+            (createdVehicle as any).hasMalfunctions = false;
+
+            if (type === 'cars') {
+              this.allCars.push(createdVehicle as Car);
+              this.updateCarPage();
+            } else if (type === 'bikes') {
+              this.allBikes.push(createdVehicle as Bike);
+              this.updateBikePage();
+            } else {
+              this.allScooters.push(createdVehicle as Scooter);
+              this.updateScooterPage();
+            }
+
+            this.snackBar.open(`${type.slice(0, -1)} created successfully!`, '', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              panelClass: ['snackbar-success']
+            });
+          },
+          error: () => {
+            this.snackBar.open(`Failed to create ${type.slice(0, -1)}.`, '', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              panelClass: ['snackbar-error']
+            });
+          }
         });
       }
-    }
-  });
-}
+    });
+  }
 
   onFileSelected(event: any, type: 'cars' | 'bikes' | 'scooters') {
     this.selectedFiles[type] = event.target.files[0] ?? null;
@@ -206,15 +271,22 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onEditCar(car: Car) {
-    console.log('Edit car', car);
+   onEditCar(car: Car) {
+   console.log('Edit car:', car);
   }
 
   onEditBike(bike: Bike) {
-    console.log('Edit bike', bike);
+    console.log('Edit bike:', bike);
   }
 
   onEditScooter(scooter: Scooter) {
-    console.log('Edit scooter', scooter);
+    console.log('Edit scooter:', scooter);
+
   }
+  onTabChange(event: any) {
+    if (event.index === 0) this.activeTab = 'cars';
+    if (event.index === 1) this.activeTab = 'bikes';
+    if (event.index === 2) this.activeTab = 'scooters';
+  }
+
 }

@@ -105,3 +105,20 @@ app-root, app-admin, .admin-layout {
   display: none;
 }
 
+
+.snackbar-success {
+  background-color: #4CA79C !important; 
+  color: white !important;
+  font-weight: 200;
+  border-radius: 2px !important;
+  margin-top: 10px;
+}
+
+.snackbar-error {
+  background-color: #ff6b6b !important; 
+  color: white !important;
+  font-weight: 200;
+  border-radius: 2px !important;
+  margin-top: 10px;
+}
+

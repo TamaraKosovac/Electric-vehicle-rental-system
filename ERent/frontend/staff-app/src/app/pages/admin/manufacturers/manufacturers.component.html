@@ -13,7 +13,7 @@
 </div>
 
 <app-data-table
-  [dataSource]="filteredManufacturers"
+  [dataSource]="paginatedManufacturers"
   [displayedColumns]="['name','email','country','address','phone','fax']"
   [columnLabels]="{
     name: 'Name',
@@ -23,6 +23,17 @@
     fax: 'Fax',
     email: 'Email'
   }"
+  [showEdit]="true"
+  [showDelete]="true"
   (edit)="editManufacturer($event)"
   (delete)="deleteManufacturer($event.id)">
 </app-data-table>
+
+<div class="paginator-container">
+  <app-minimal-paginator
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (previous)="previousPage()"
+    (next)="nextPage()">
+  </app-minimal-paginator>
+</div>
