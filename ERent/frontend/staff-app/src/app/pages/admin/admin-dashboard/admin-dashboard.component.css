@@ -13,7 +13,7 @@ html, body {
 }
 
 .sidebar {
-  width: 250px;
+  width: 300px;
   background: rgba(255, 255, 255, 0.86);
   backdrop-filter: blur(10px);
   border: none;
@@ -66,7 +66,7 @@ html, body {
   gap: 10px;
   padding: 12px 14px;
   border-radius: 12px;
-  color: #0f172a;
+  color: #2e6f6a; /* 👉 ista boja kao naslov */
   font-size: 15px;
   font-weight: 500;
   text-decoration: none;
@@ -96,7 +96,7 @@ html, body {
   padding: 12px 14px;
   border-radius: 12px;
   text-decoration: none;
-  color: #0f172a;
+  color: #2e6f6a; /* 👉 ista boja kao naslov */
   font-size: 15px;
   font-weight: 500;
   transition: background 0.2s ease, color 0.2s ease;
