@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MinimalPaginatorComponent } from '../minimal-paginator/minimal-paginator.component';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -13,8 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
     CommonModule,
     MatTableModule,
     MatButtonModule,
-    MatIconModule,
-    MinimalPaginatorComponent
+    MatIconModule
   ],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.css']

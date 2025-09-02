@@ -25,11 +25,13 @@
 </div>
 
 <mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="onTabChange($event)">
+  <!-- Cars -->
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon class="tab-icon">directions_car</mat-icon>
       <span class="tab-label">Cars</span>
     </ng-template>
+
     <app-data-table
       [dataSource]="carsDS"
       [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','purchaseDate','rented','hasMalfunctions','description']"
@@ -43,20 +45,26 @@
         hasMalfunctions: 'Malfunctions',
         description: 'Description'
       }"
-      [currentPage]="currentCarPage"
-      [totalPages]="carTotalPages"
-      (previous)="paginatorCars.previousPage()"
-      (next)="paginatorCars.nextPage()"
       (edit)="onEditCar($event)"
       (delete)="deleteCar($event.id)">
     </app-data-table>
+
+    <!-- ✅ Custom paginator -->
+    <app-minimal-paginator
+      [currentPage]="currentCarPage"
+      [totalPages]="carTotalPages"
+      (previous)="previousCarPage()"
+      (next)="nextCarPage()">
+    </app-minimal-paginator>
   </mat-tab>
 
+  <!-- Bikes -->
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon class="tab-icon">pedal_bike</mat-icon>
       <span class="tab-label">Bikes</span>
     </ng-template>
+
     <app-data-table
       [dataSource]="bikesDS"
       [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','autonomy','rented','hasMalfunctions']"
@@ -69,20 +77,26 @@
         rented: 'Rented',
         hasMalfunctions: 'Malfunctions'
       }"
-      [currentPage]="currentBikePage"
-      [totalPages]="bikeTotalPages"
-      (previous)="paginatorBikes.previousPage()"
-      (next)="paginatorBikes.nextPage()"
       (edit)="onEditBike($event)"
       (delete)="deleteBike($event.id)">
     </app-data-table>
+
+    <!-- ✅ Custom paginator -->
+    <app-minimal-paginator
+      [currentPage]="currentBikePage"
+      [totalPages]="bikeTotalPages"
+      (previous)="previousBikePage()"
+      (next)="nextBikePage()">
+    </app-minimal-paginator>
   </mat-tab>
 
+  <!-- Scooters -->
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon class="tab-icon">electric_scooter</mat-icon>
       <span class="tab-label">Scooters</span>
     </ng-template>
+
     <app-data-table
       [dataSource]="scootersDS"
       [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','maxSpeed','rented','hasMalfunctions']"
@@ -95,12 +109,16 @@
         rented: 'Rented',
         hasMalfunctions: 'Malfunctions'
       }"
-      [currentPage]="currentScooterPage"
-      [totalPages]="scooterTotalPages"
-      (previous)="paginatorScooters.previousPage()"
-      (next)="paginatorScooters.nextPage()"
       (edit)="onEditScooter($event)"
       (delete)="deleteScooter($event.id)">
     </app-data-table>
+
+    <!-- ✅ Custom paginator -->
+    <app-minimal-paginator
+      [currentPage]="currentScooterPage"
+      [totalPages]="scooterTotalPages"
+      (previous)="previousScooterPage()"
+      (next)="nextScooterPage()">
+    </app-minimal-paginator>
   </mat-tab>
 </mat-tab-group>
