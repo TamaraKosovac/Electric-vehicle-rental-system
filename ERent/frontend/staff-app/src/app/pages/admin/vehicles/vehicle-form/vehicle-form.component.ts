@@ -8,8 +8,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+
 import { Manufacturer } from '../../../../models/manufacturer.model';
 import { ManufacturersService } from '../../../../services/manufacturers.service';
+import { Car } from '../../../../models/car.model';
+import { Bike } from '../../../../models/bike.model';
+import { Scooter } from '../../../../models/scooter.model';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -29,15 +33,15 @@ import { ManufacturersService } from '../../../../services/manufacturers.service
   styleUrls: ['./vehicle-form.component.css']
 })
 export class VehicleFormComponent implements OnInit {
-  vehicle = {
+  vehicle: Partial<Car & Bike & Scooter> = {
     uniqueId: '',
-    manufacturer: null as Manufacturer | null,
+    manufacturer: undefined,
     model: '',
-    purchasePrice: null,
-    purchaseDate: null,
+    purchasePrice: undefined,
+    purchaseDate: undefined,
     description: '',
-    autonomy: null,
-    maxSpeed: null,
+    autonomy: undefined,
+    maxSpeed: undefined,
     hasMalfunctions: false
   };
 
@@ -47,13 +51,21 @@ export class VehicleFormComponent implements OnInit {
   constructor(
     private manufacturersService: ManufacturersService,
     public dialogRef: MatDialogRef<VehicleFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { type: 'cars' | 'bikes' | 'scooters' }
+    @Inject(MAT_DIALOG_DATA) 
+    public data: { 
+      type: 'cars' | 'bikes' | 'scooters', 
+      vehicle?: Car | Bike | Scooter 
+    }
   ) {}
 
   ngOnInit(): void {
     this.manufacturersService.getAll().subscribe((data: Manufacturer[]) => {
       this.manufacturers = data;
     });
+
+    if (this.data.vehicle) {
+      this.vehicle = { ...this.data.vehicle };
+    }
   }
 
   save() {

@@ -187,6 +187,19 @@ export class VehiclesComponent implements OnInit {
     this.vehiclesService.deleteCar(id).subscribe(() => {
       this.allCars = this.allCars.filter(c => c.id !== id);
       this.updateCarPage();
+      this.snackBar.open('Car deleted successfully!', '', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['snackbar-success']
+      });
+    }, () => {
+      this.snackBar.open('Failed to delete car.', '', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['snackbar-error']
+      });
     });
   }
 
@@ -194,6 +207,19 @@ export class VehiclesComponent implements OnInit {
     this.vehiclesService.deleteBike(id).subscribe(() => {
       this.allBikes = this.allBikes.filter(b => b.id !== id);
       this.updateBikePage();
+      this.snackBar.open('Bike deleted successfully!', '', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['snackbar-success']
+      });
+    }, () => {
+      this.snackBar.open('Failed to delete bike.', '', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['snackbar-error']
+      });
     });
   }
 
@@ -201,8 +227,22 @@ export class VehiclesComponent implements OnInit {
     this.vehiclesService.deleteScooter(id).subscribe(() => {
       this.allScooters = this.allScooters.filter(s => s.id !== id);
       this.updateScooterPage();
+      this.snackBar.open('Scooter deleted successfully!', '', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['snackbar-success']
+      });
+    }, () => {
+      this.snackBar.open('Failed to delete scooter.', '', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['snackbar-error']
+      });
     });
   }
+
 
   startCreate(type: 'cars' | 'bikes' | 'scooters') {
     const dialogRef = this.dialog.open(VehicleFormComponent, {
@@ -271,18 +311,84 @@ export class VehiclesComponent implements OnInit {
     });
   }
 
-   onEditCar(car: Car) {
-   console.log('Edit car:', car);
+  onEditCar(car: Car) {
+    this.vehiclesService.getCarById(car.id).subscribe(fetchedCar => {
+      const dialogRef = this.dialog.open(VehicleFormComponent, {
+        width: '500px',
+        data: { type: 'cars', vehicle: fetchedCar }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          const { vehicle, image } = result as { vehicle: Car; image?: File };
+          this.vehiclesService.updateCar(car.id, vehicle, image).subscribe(updated => {
+            const idx = this.allCars.findIndex(c => c.id === updated.id);
+            if (idx !== -1) this.allCars[idx] = updated;
+            this.updateCarPage();
+            this.snackBar.open('Car updated successfully!', '', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-success']
+          });
+          });
+        }
+      });
+    });
   }
 
   onEditBike(bike: Bike) {
-    console.log('Edit bike:', bike);
+    this.vehiclesService.getBikeById(bike.id).subscribe(fetchedBike => {
+      const dialogRef = this.dialog.open(VehicleFormComponent, {
+        width: '500px',
+        data: { type: 'bikes', vehicle: fetchedBike }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          const { vehicle, image } = result as { vehicle: Bike; image?: File };
+          this.vehiclesService.updateBike(bike.id, vehicle, image).subscribe(updated => {
+            const idx = this.allBikes.findIndex(b => b.id === updated.id);
+            if (idx !== -1) this.allBikes[idx] = updated;
+            this.updateBikePage();
+            this.snackBar.open('Bike updated successfully!', '', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-success']
+          });
+          });
+        }
+      });
+    });
   }
 
   onEditScooter(scooter: Scooter) {
-    console.log('Edit scooter:', scooter);
+    this.vehiclesService.getScooterById(scooter.id).subscribe(fetchedScooter => {
+      const dialogRef = this.dialog.open(VehicleFormComponent, {
+        width: '500px',
+        data: { type: 'scooters', vehicle: fetchedScooter }
+      });
 
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          const { vehicle, image } = result as { vehicle: Scooter; image?: File };
+          this.vehiclesService.updateScooter(scooter.id, vehicle, image).subscribe(updated => {
+            const idx = this.allScooters.findIndex(s => s.id === updated.id);
+            if (idx !== -1) this.allScooters[idx] = updated;
+            this.updateScooterPage();
+            this.snackBar.open('Scooter updated successfully!', '', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-success']
+          });
+          });
+        }
+      });
+    });
   }
+
   onTabChange(event: any) {
     if (event.index === 0) this.activeTab = 'cars';
     if (event.index === 1) this.activeTab = 'bikes';
