@@ -13,6 +13,9 @@ import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/min
 import { Client } from '../../../models/client.model';
 import { Employee } from '../../../models/employee.model';
 import { EmployeeRole } from '../../../models/enums/employee-role.enum';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { UserFormComponent } from './user-form/user-form.component';
+
 
 @Component({
   selector: 'app-users',
@@ -56,7 +59,9 @@ export class UsersComponent implements OnInit {
 
   editingEmployee: Employee | null = null;
 
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService,
+    private dialog: MatDialog
+  ) {}
 
   activeTab: 'clients' | 'employees' = 'clients';
   activeTabIndex = 0;
@@ -138,21 +143,32 @@ export class UsersComponent implements OnInit {
   }
 
   addEmployee() {
-    this.usersService.createEmployee(this.newEmployee).subscribe(() => {
-      this.newEmployee = {
-        id: 0,
-        username: '',
-        password: '',
-        firstName: '',
-        lastName: '',
-        role: EmployeeRole.OPERATOR
-      };
-      this.loadEmployees();
+    const dialogRef = this.dialog.open(UserFormComponent, { width: '600px' });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (!result.id || result.id === 0) {
+          delete result.id;
+        }
+
+        this.usersService.createEmployee(result).subscribe(() => {
+          this.loadEmployees();
+        });
+      }
     });
   }
 
   editEmployee(e: Employee) {
-    this.editingEmployee = { ...e };
+    const dialogRef = this.dialog.open(UserFormComponent, {
+      width: '600px',
+      data: { employee: e }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.usersService.updateEmployee(e.id, result).subscribe(() => this.loadEmployees());
+      }
+    });
   }
 
   updateEmployee() {

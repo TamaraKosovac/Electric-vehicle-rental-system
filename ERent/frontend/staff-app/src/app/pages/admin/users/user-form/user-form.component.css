@@ -1,0 +1,165 @@
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row > div {
+  flex: 1;
+}
+
+.field-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 4px;
+  display: block;
+  margin-left: 3px;
+}
+
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+  width: 750px !important;
+  max-width: 90vw !important;
+  min-height: 350px !important;
+  max-height: 85vh !important;
+  overflow-y: auto !important;
+  padding: 10px;
+}
+
+::ng-deep .mat-mdc-dialog-title,
+h2[mat-dialog-title] {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  margin: 0 0 12px 0 !important;
+  color: #2e6f6a !important;
+}
+
+::ng-deep .mat-mdc-text-field--outlined .mdc-notched-outline__leading,
+::ng-deep .mat-mdc-text-field--outlined .mdc-notched-outline__trailing,
+::ng-deep .mat-mdc-text-field--outlined .mdc-notched-outline__notch {
+  border-color: #ccc !important;   
+}
+
+::ng-deep .mat-mdc-text-field--outlined.mdc-text-field--focused
+  .mdc-notched-outline__leading,
+::ng-deep .mat-mdc-text-field--outlined.mdc-text-field--focused
+  .mdc-notched-outline__trailing,
+::ng-deep .mat-mdc-text-field--outlined.mdc-text-field--focused
+  .mdc-notched-outline__notch {
+  border-color: #4CA79C !important;  
+}
+
+::ng-deep .mat-mdc-input-element {
+  caret-color: #4CA79C !important;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.dialog-actions button {
+  flex: 1;
+  height: 45px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 5px;
+}
+
+::ng-deep .mat-datepicker-content {
+  background: #fff !important;
+  border-radius: 6px !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12) !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 220px !important;  
+  padding: 4px !important;
+}
+
+::ng-deep .mat-datepicker-content .mat-calendar {
+  width: 220px !important;     
+  height: auto !important;
+  font-size: 13px !important;
+}
+
+::ng-deep .mat-calendar-body-cell {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+::ng-deep .cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.32) !important;
+}
+
+.image-dropzone {
+  border: 2px dashed #2e6f6a;
+  border-radius: 6px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #f9f9f9;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  position: relative;
+}
+
+.image-dropzone:hover {
+  background-color: #eefaf8;
+  border-color: #4CA79C;
+}
+
+.image-dropzone.dragover {
+  background-color: #d9f2ee;
+  border-color: #2e6f6a;
+}
+
+.file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+::ng-deep .mat-mdc-select-trigger {
+  display: flex !important;
+  align-items: center !important;  
+  justify-content: space-between !important;
+  height: 100% !important;
+  min-height: 44px; 
+}
+
+::ng-deep .mat-mdc-select-placeholder,
+::ng-deep .mat-mdc-select-value {
+  display: flex;
+  align-items: center;  
+  color: #555;       
+  font-size: 16px;
+}
+
+::ng-deep .mat-mdc-select-arrow {
+  margin-right: 8px;
+  align-self: center !important;  
+  color: #555;  
+}
+
+.vehicle-dialog-title {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: #2e6f6a !important;
+  margin: 0 0 12px 0 !important;
+}
