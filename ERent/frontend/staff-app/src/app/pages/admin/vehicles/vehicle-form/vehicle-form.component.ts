@@ -37,7 +37,8 @@ export class VehicleFormComponent implements OnInit {
     purchaseDate: null,
     description: '',
     autonomy: null,
-    maxSpeed: null
+    maxSpeed: null,
+    hasMalfunctions: false
   };
 
   selectedImage: File | null = null;

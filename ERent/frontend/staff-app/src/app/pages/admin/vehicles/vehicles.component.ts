@@ -164,31 +164,34 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   }
 
   startCreate(type: 'cars' | 'bikes' | 'scooters') {
-    const dialogRef = this.dialog.open(VehicleFormComponent, {
-      width: '500px',
-      data: { type }
-    });
+  const dialogRef = this.dialog.open(VehicleFormComponent, {
+    width: '500px',
+    data: { type }
+  });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        const { vehicle, image } = result;
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+      const { vehicle, image } = result;
 
-        if (type === 'cars') {
-          this.vehiclesService.createCar(vehicle, image).subscribe((car) => {
-            this.carsDS.data = [...this.carsDS.data, car];
-          });
-        } else if (type === 'bikes') {
-          this.vehiclesService.createBike(vehicle, image).subscribe((bike) => {
-            this.bikesDS.data = [...this.bikesDS.data, bike];
-          });
-        } else {
-          this.vehiclesService.createScooter(vehicle, image).subscribe((scooter) => {
-            this.scootersDS.data = [...this.scootersDS.data, scooter];
-          });
-        }
+      if (type === 'cars') {
+        this.vehiclesService.createCar(vehicle, image).subscribe((car) => {
+          (car as any).hasMalfunctions = false; 
+          this.carsDS.data = [...this.carsDS.data, car];
+        });
+      } else if (type === 'bikes') {
+        this.vehiclesService.createBike(vehicle, image).subscribe((bike) => {
+          (bike as any).hasMalfunctions = false;
+          this.bikesDS.data = [...this.bikesDS.data, bike];
+        });
+      } else {
+        this.vehiclesService.createScooter(vehicle, image).subscribe((scooter) => {
+          (scooter as any).hasMalfunctions = false;
+          this.scootersDS.data = [...this.scootersDS.data, scooter];
+        });
       }
-    });
-  }
+    }
+  });
+}
 
   onFileSelected(event: any, type: 'cars' | 'bikes' | 'scooters') {
     this.selectedFiles[type] = event.target.files[0] ?? null;
