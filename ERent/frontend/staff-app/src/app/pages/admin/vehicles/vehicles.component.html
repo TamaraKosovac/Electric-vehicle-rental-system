@@ -31,7 +31,7 @@
       <span class="tab-label">Cars</span>
     </ng-template>
     <app-data-table
-      [dataSource]="carsDS.data"
+      [dataSource]="carsDS"
       [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','purchaseDate','rented','hasMalfunctions','description']"
       [columnLabels]="{
         uniqueId: 'ID',
@@ -58,7 +58,7 @@
       <span class="tab-label">Bikes</span>
     </ng-template>
     <app-data-table
-      [dataSource]="bikesDS.data"
+      [dataSource]="bikesDS"
       [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','autonomy','rented','hasMalfunctions']"
       [columnLabels]="{
         uniqueId: 'ID',
@@ -84,7 +84,7 @@
       <span class="tab-label">Scooters</span>
     </ng-template>
     <app-data-table
-      [dataSource]="scootersDS.data"
+      [dataSource]="scootersDS"
       [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','maxSpeed','rented','hasMalfunctions']"
       [columnLabels]="{
         uniqueId: 'ID',

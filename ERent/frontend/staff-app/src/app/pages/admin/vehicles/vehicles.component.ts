@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { VehiclesService } from '../../../services/vehicles.service';
 import { Car } from '../../../models/car.model';
@@ -16,6 +17,7 @@ import { Bike } from '../../../models/bike.model';
 import { Scooter } from '../../../models/scooter.model';
 import { DataTableComponent } from '../../../shared/data-table/data-table.component';
 
+import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 
 @Component({
   selector: 'app-vehicles',
@@ -30,7 +32,9 @@ import { DataTableComponent } from '../../../shared/data-table/data-table.compon
     MatInputModule,
     MatIconModule,
     HttpClientModule,
-    DataTableComponent 
+    DataTableComponent,
+    MatPaginatorModule,
+    MatDialogModule
   ],
   templateUrl: './vehicles.component.html',
   styleUrls: ['./vehicles.component.css']
@@ -62,43 +66,64 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   activeTab: 'cars' | 'bikes' | 'scooters' = 'cars';
   activeTabIndex = 0;
 
-  constructor(private vehiclesService: VehiclesService) {}
+  constructor(
+    private vehiclesService: VehiclesService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.loadData();
 
-    this.carsDS.filterPredicate = (data, filter) =>
-      (data.model ?? '').toLowerCase().includes(filter);
+    this.carsDS.filterPredicate = (data: Car, filter: string) =>
+      (data.model ?? '').toLowerCase().includes(filter) ||
+      (data.manufacturer ?? '').toLowerCase().includes(filter) ||
+      (data.uniqueId ?? '').toLowerCase().includes(filter) ||
+      (data.description ?? '').toLowerCase().includes(filter);
 
-    this.bikesDS.filterPredicate = (data, filter) =>
-      (data.model ?? '').toLowerCase().includes(filter);
+    this.bikesDS.filterPredicate = (data: Bike, filter: string) =>
+      (data.model ?? '').toLowerCase().includes(filter) ||
+      (data.manufacturer ?? '').toLowerCase().includes(filter) ||
+      (data.uniqueId ?? '').toLowerCase().includes(filter);
 
-    this.scootersDS.filterPredicate = (data, filter) =>
-      (data.model ?? '').toLowerCase().includes(filter);
+    this.scootersDS.filterPredicate = (data: Scooter, filter: string) =>
+      (data.model ?? '').toLowerCase().includes(filter) ||
+      (data.manufacturer ?? '').toLowerCase().includes(filter) ||
+      (data.uniqueId ?? '').toLowerCase().includes(filter);
   }
 
   ngAfterViewInit() {
-    this.setupPaginator(this.carsDS, this.paginatorCars, 'car');
-    this.setupPaginator(this.bikesDS, this.paginatorBikes, 'bike');
-    this.setupPaginator(this.scootersDS, this.paginatorScooters, 'scooter');
+    queueMicrotask(() => {
+      if (this.paginatorCars) this.setupPaginator(this.carsDS, this.paginatorCars, 'car');
+      if (this.paginatorBikes) this.setupPaginator(this.bikesDS, this.paginatorBikes, 'bike');
+      if (this.paginatorScooters) this.setupPaginator(this.scootersDS, this.paginatorScooters, 'scooter');
+    });
   }
 
-  private setupPaginator(ds: MatTableDataSource<any>, paginator: MatPaginator, type: 'car' | 'bike' | 'scooter') {
+  private setupPaginator(
+    ds: MatTableDataSource<any>,
+    paginator: MatPaginator | undefined,
+    type: 'car' | 'bike' | 'scooter'
+  ) {
+    if (!paginator) return; 
+
     ds.paginator = paginator;
-    paginator.page.subscribe(() => {
+
+    const update = () => {
+      const totalPages = Math.ceil(ds.data.length / paginator.pageSize || 1);
       if (type === 'car') {
         this.currentCarPage = paginator.pageIndex + 1;
-        this.carTotalPages = Math.ceil(ds.data.length / paginator.pageSize);
-      }
-      if (type === 'bike') {
+        this.carTotalPages = totalPages;
+      } else if (type === 'bike') {
         this.currentBikePage = paginator.pageIndex + 1;
-        this.bikeTotalPages = Math.ceil(ds.data.length / paginator.pageSize);
-      }
-      if (type === 'scooter') {
+        this.bikeTotalPages = totalPages;
+      } else {
         this.currentScooterPage = paginator.pageIndex + 1;
-        this.scooterTotalPages = Math.ceil(ds.data.length / paginator.pageSize);
+        this.scooterTotalPages = totalPages;
       }
-    });
+    };
+
+    update();
+    paginator.page.subscribe(update);
   }
 
   loadData() {
@@ -139,7 +164,10 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   }
 
   startCreate(type: 'cars' | 'bikes' | 'scooters') {
-    console.log('Start create for', type);
+    this.dialog.open(VehicleFormComponent, {
+      width: '500px',
+      data: { type }
+    });
   }
 
   onFileSelected(event: any, type: 'cars' | 'bikes' | 'scooters') {
@@ -156,14 +184,14 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   }
 
   onEditCar(car: Car) {
-  console.log('Edit car', car);
-}
+    console.log('Edit car', car);
+  }
 
-onEditBike(bike: Bike) {
-  console.log('Edit bike', bike);
-}
+  onEditBike(bike: Bike) {
+    console.log('Edit bike', bike);
+  }
 
-onEditScooter(scooter: Scooter) {
-  console.log('Edit scooter', scooter);
-}
+  onEditScooter(scooter: Scooter) {
+    console.log('Edit scooter', scooter);
+  }
 }

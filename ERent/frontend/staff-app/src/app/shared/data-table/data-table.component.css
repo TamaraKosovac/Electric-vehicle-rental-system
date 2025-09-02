@@ -85,3 +85,10 @@
 ::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline {
   border-color: #2e6f6a !important;
 }
+
+.no-data-cell {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 16px;
+}

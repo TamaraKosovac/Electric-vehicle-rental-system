@@ -8,7 +8,6 @@ import { DataTableComponent } from '../../../shared/data-table/data-table.compon
 import { Manufacturer } from '../../../models/manufacturer.model';
 import { MatIconModule } from '@angular/material/icon';
 
-
 @Component({
   selector: 'app-manufacturers',
   standalone: true,
@@ -48,12 +47,17 @@ export class ManufacturersComponent implements OnInit {
   loadManufacturers() {
     this.manufacturersService.getAll().subscribe(data => {
       this.manufacturers = data;
-      this.filteredManufacturers = [...data]; // inicijalno prikaži sve
+      this.filteredManufacturers = [...data]; 
     });
   }
 
   applyFilter(ev: Event) {
     const value = (ev.target as HTMLInputElement).value.trim().toLowerCase();
+    if (!value) {
+      this.filteredManufacturers = [...this.manufacturers];
+      return;
+    }
+
     this.filteredManufacturers = this.manufacturers.filter(m =>
       m.name.toLowerCase().includes(value) ||
       m.country?.toLowerCase().includes(value) ||
@@ -62,9 +66,7 @@ export class ManufacturersComponent implements OnInit {
   }
 
   startCreate() {
-    // Za sada samo fokus na formu
     console.log('Start create manufacturer');
-    // Možeš dodati scroll ili otvoriti modal
   }
 
   addManufacturer() {

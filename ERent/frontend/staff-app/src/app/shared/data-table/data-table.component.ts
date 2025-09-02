@@ -4,6 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MinimalPaginatorComponent } from '../minimal-paginator/minimal-paginator.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-data-table',
@@ -19,7 +20,7 @@ import { MinimalPaginatorComponent } from '../minimal-paginator/minimal-paginato
   styleUrls: ['./data-table.component.css']
 })
 export class DataTableComponent {
-  @Input() dataSource: any[] = [];
+  @Input() dataSource: any[] | MatTableDataSource<any> = [];
   @Input() displayedColumns: string[] = [];
   @Input() columnLabels: { [key: string]: string } = {};
   @Input() currentPage = 1;

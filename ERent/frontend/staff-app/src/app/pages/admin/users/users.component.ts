@@ -30,7 +30,9 @@ import { EmployeeRole } from '../../../models/enums/employee-role.enum';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  // 👇 koristi modele umesto any
+  allClients: Client[] = [];
+  allEmployees: Employee[] = [];
+
   clients: Client[] = [];
   employees: Employee[] = [];
 
@@ -71,11 +73,11 @@ export class UsersComponent implements OnInit {
 
   loadClients() {
     this.usersService.getClients().subscribe(data => {
-      this.clients = data.map(c => ({
+      this.allClients = data.map(c => ({
         ...c,
         fullName: `${c.firstName} ${c.lastName}`
       }));
-      this.clientTotalPages = 1;
+      this.clients = [...this.allClients];
     });
   }
 
@@ -89,11 +91,11 @@ export class UsersComponent implements OnInit {
 
   loadEmployees() {
     this.usersService.getEmployees().subscribe(data => {
-      this.employees = data.map(e => ({
+      this.allEmployees = data.map(e => ({
         ...e,
         fullName: `${e.firstName} ${e.lastName}`
       }));
-      this.employeeTotalPages = 1;
+      this.employees = [...this.allEmployees];
     });
   }
 
@@ -125,21 +127,32 @@ export class UsersComponent implements OnInit {
 
   deleteEmployee(id: number) {
     this.usersService.deleteEmployee(id).subscribe(() => {
-      this.employees = this.employees.filter(e => e.id !== id);
+      this.allEmployees = this.allEmployees.filter(e => e.id !== id);
+      this.employees = [...this.allEmployees];
     });
   }
 
   applyFilter(event: Event, type: 'clients' | 'employees') {
     const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
+
     if (type === 'clients') {
-      this.clients = this.clients.filter(c =>
-        c.username.toLowerCase().includes(value) || c.email.toLowerCase().includes(value)
-      );
+      this.clients = value
+        ? this.allClients.filter(c =>
+            c.username.toLowerCase().includes(value) ||
+            c.email.toLowerCase().includes(value) ||
+            `${c.firstName} ${c.lastName}`.toLowerCase().includes(value)
+          )
+        : [...this.allClients];
     }
+
     if (type === 'employees') {
-      this.employees = this.employees.filter(e =>
-        e.username.toLowerCase().includes(value) || e.role.toLowerCase().includes(value)
-      );
+      this.employees = value
+        ? this.allEmployees.filter(e =>
+            e.username.toLowerCase().includes(value) ||
+            e.role.toLowerCase().includes(value) ||
+            `${e.firstName} ${e.lastName}`.toLowerCase().includes(value)
+          )
+        : [...this.allEmployees];
     }
   }
 }

@@ -13,8 +13,8 @@
 </div>
 
 <app-data-table
-  [dataSource]="manufacturers"
-  [displayedColumns]="['name','country','address','phone','email','fax']"
+  [dataSource]="filteredManufacturers"
+  [displayedColumns]="['name','email','country','address','phone','fax']"
   [columnLabels]="{
     name: 'Name',
     country: 'Country',

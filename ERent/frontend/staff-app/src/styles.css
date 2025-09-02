@@ -55,13 +55,9 @@ app-root, app-admin, .admin-layout {
   color: #4CA79C !important;
 }
 
-a, .mat-mdc-button {
-  color: #4CA79C !important;
-}
-
 .full-width .mat-mdc-text-field-wrapper {
   background: #f5f7f8;
-  border: 1px solid transparent;
+  border: 1px solid #ccc; 
   border-radius: 10px;
   transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
   overflow: hidden;
@@ -100,5 +96,12 @@ a, .mat-mdc-button {
   border-color: #ff6b6b;
   box-shadow: 0 0 0 4px rgba(255,107,107,0.12);
   background: #fff;
+}
+
+.full-width .mdc-notched-outline,
+.full-width .mdc-notched-outline__leading,
+.full-width .mdc-notched-outline__notch,
+.full-width .mdc-notched-outline__trailing {
+  display: none;
 }
 
