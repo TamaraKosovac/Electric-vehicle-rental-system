@@ -19,6 +19,8 @@ import { Scooter } from '../../../models/scooter.model';
 import { DataTableComponent } from '../../../shared/data-table/data-table.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/minimal-paginator.component';
+import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-vehicles',
@@ -36,7 +38,8 @@ import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/min
     DataTableComponent,
     MatDialogModule,
     MatSnackBarModule,
-    MinimalPaginatorComponent
+    MinimalPaginatorComponent,
+    RouterModule
   ],
   templateUrl: './vehicles.component.html',
   styleUrls: ['./vehicles.component.css']
@@ -73,7 +76,8 @@ export class VehiclesComponent implements OnInit {
   constructor(
     private vehiclesService: VehiclesService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -395,4 +399,7 @@ export class VehiclesComponent implements OnInit {
     if (event.index === 2) this.activeTab = 'scooters';
   }
 
+  onInfo(type: 'cars' | 'bikes' | 'scooters', id: number) {
+    this.router.navigate(['/admin/vehicles', type, id]);
+  }
 }

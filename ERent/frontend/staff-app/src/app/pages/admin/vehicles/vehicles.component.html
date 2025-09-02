@@ -25,7 +25,6 @@
 </div>
 
 <mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="onTabChange($event)">
-  <!-- Cars -->
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon class="tab-icon">directions_car</mat-icon>
@@ -34,7 +33,11 @@
 
     <app-data-table
       [dataSource]="carsDS"
-      [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','purchaseDate','rented','hasMalfunctions','description']"
+      [displayedColumns]="[
+        'uniqueId','manufacturer','model',
+        'purchasePrice','purchaseDate',
+        'rented','hasMalfunctions','description'
+      ]"
       [columnLabels]="{
         uniqueId: 'ID',
         manufacturer: 'Manufacturer',
@@ -45,11 +48,14 @@
         hasMalfunctions: 'Malfunctions',
         description: 'Description'
       }"
+      [showInfo]="true"
+      [showEdit]="true"
+      [showDelete]="true"
+      (info)="onInfo('cars', $event.id)"
       (edit)="onEditCar($event)"
       (delete)="deleteCar($event.id)">
     </app-data-table>
 
-    <!-- ✅ Custom paginator -->
     <app-minimal-paginator
       [currentPage]="currentCarPage"
       [totalPages]="carTotalPages"
@@ -58,7 +64,6 @@
     </app-minimal-paginator>
   </mat-tab>
 
-  <!-- Bikes -->
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon class="tab-icon">pedal_bike</mat-icon>
@@ -67,7 +72,11 @@
 
     <app-data-table
       [dataSource]="bikesDS"
-      [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','autonomy','rented','hasMalfunctions']"
+      [displayedColumns]="[
+        'uniqueId','manufacturer','model',
+        'purchasePrice','autonomy',
+        'rented','hasMalfunctions'
+      ]"
       [columnLabels]="{
         uniqueId: 'ID',
         manufacturer: 'Manufacturer',
@@ -77,11 +86,14 @@
         rented: 'Rented',
         hasMalfunctions: 'Malfunctions'
       }"
+      [showInfo]="true"
+      [showEdit]="true"
+      [showDelete]="true"
+      (info)="onInfo('bikes', $event.id)"
       (edit)="onEditBike($event)"
       (delete)="deleteBike($event.id)">
     </app-data-table>
 
-    <!-- ✅ Custom paginator -->
     <app-minimal-paginator
       [currentPage]="currentBikePage"
       [totalPages]="bikeTotalPages"
@@ -90,7 +102,6 @@
     </app-minimal-paginator>
   </mat-tab>
 
-  <!-- Scooters -->
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon class="tab-icon">electric_scooter</mat-icon>
@@ -99,7 +110,11 @@
 
     <app-data-table
       [dataSource]="scootersDS"
-      [displayedColumns]="['uniqueId','manufacturer','model','purchasePrice','maxSpeed','rented','hasMalfunctions']"
+      [displayedColumns]="[
+        'uniqueId','manufacturer','model',
+        'purchasePrice','maxSpeed',
+        'rented','hasMalfunctions'
+      ]"
       [columnLabels]="{
         uniqueId: 'ID',
         manufacturer: 'Manufacturer',
@@ -109,11 +124,14 @@
         rented: 'Rented',
         hasMalfunctions: 'Malfunctions'
       }"
+      [showInfo]="true"
+      [showEdit]="true"
+      [showDelete]="true"
+      (info)="onInfo('scooters', $event.id)"
       (edit)="onEditScooter($event)"
       (delete)="deleteScooter($event.id)">
     </app-data-table>
 
-    <!-- ✅ Custom paginator -->
     <app-minimal-paginator
       [currentPage]="currentScooterPage"
       [totalPages]="scooterTotalPages"

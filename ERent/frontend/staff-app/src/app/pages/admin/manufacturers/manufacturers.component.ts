@@ -8,18 +8,21 @@ import { DataTableComponent } from '../../../shared/data-table/data-table.compon
 import { Manufacturer } from '../../../models/manufacturer.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/minimal-paginator.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ManufacturerFormComponent } from './manufacturer-form/manufacturer-form.component';
 
 @Component({
   selector: 'app-manufacturers',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MatButtonModule,
     MatInputModule,
-    FormsModule,
-    DataTableComponent,
     MatIconModule,
-    MinimalPaginatorComponent   
+    MatDialogModule,
+    DataTableComponent,
+    MinimalPaginatorComponent
   ],
   templateUrl: './manufacturers.component.html',
   styleUrls: ['./manufacturers.component.css']
@@ -30,21 +33,12 @@ export class ManufacturersComponent implements OnInit {
 
   currentPage = 1;
   totalPages = 1;
-  pageSize = 10;  
+  pageSize = 10;
 
-  newManufacturer: Manufacturer = { 
-    id: 0, 
-    name: '', 
-    country: '', 
-    address: '', 
-    phone: '', 
-    fax: '', 
-    email: '' 
-  };
-
-  editing: Manufacturer | null = null;
-
-  constructor(private manufacturersService: ManufacturersService) {}
+  constructor(
+    private manufacturersService: ManufacturersService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.loadManufacturers();
@@ -53,22 +47,20 @@ export class ManufacturersComponent implements OnInit {
   loadManufacturers() {
     this.manufacturersService.getAll().subscribe(data => {
       this.manufacturers = data;
-      this.filteredManufacturers = [...data]; 
+      this.filteredManufacturers = [...data];
       this.updatePagination();
     });
   }
 
   applyFilter(ev: Event) {
     const value = (ev.target as HTMLInputElement).value.trim().toLowerCase();
-    if (!value) {
-      this.filteredManufacturers = [...this.manufacturers];
-    } else {
-      this.filteredManufacturers = this.manufacturers.filter(m =>
-        m.name.toLowerCase().includes(value) ||
-        m.country?.toLowerCase().includes(value) ||
-        m.email?.toLowerCase().includes(value)
-      );
-    }
+    this.filteredManufacturers = !value
+      ? [...this.manufacturers]
+      : this.manufacturers.filter(m =>
+          m.name.toLowerCase().includes(value) ||
+          m.country?.toLowerCase().includes(value) ||
+          m.email?.toLowerCase().includes(value)
+        );
     this.updatePagination();
   }
 
@@ -82,46 +74,52 @@ export class ManufacturersComponent implements OnInit {
     return this.filteredManufacturers.slice(start, start + this.pageSize);
   }
 
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  }
-
   previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
+    if (this.currentPage > 1) this.currentPage--;
   }
 
+  nextPage() {
+    if (this.currentPage < this.totalPages) this.currentPage++;
+  }
+
+  // ✅ Dodavanje novog
   startCreate() {
-    console.log('Start create manufacturer');
-  }
+    const dialogRef = this.dialog.open(ManufacturerFormComponent, { width: '600px' });
 
-  addManufacturer() {
-    this.manufacturersService.create(this.newManufacturer).subscribe(() => {
-      this.newManufacturer = { id: 0, name: '', country: '', address: '', phone: '', fax: '', email: '' };
-      this.loadManufacturers();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // izbaci id ako postoji (backend ga sam kreira)
+        const { id, ...payload } = result;
+        this.manufacturersService.create(payload as Manufacturer).subscribe({
+          next: () => this.loadManufacturers(),
+          error: err => console.error('Error creating manufacturer:', err)
+        });
+      }
     });
   }
 
+  // ✅ Editovanje
   editManufacturer(m: Manufacturer) {
-    this.editing = { ...m };
-  }
+    const dialogRef = this.dialog.open(ManufacturerFormComponent, {
+      width: '600px',
+      data: { manufacturer: m }
+    });
 
-  updateManufacturer() {
-    if (!this.editing) return;
-    this.manufacturersService.update(this.editing.id, this.editing).subscribe(() => {
-      this.editing = null;
-      this.loadManufacturers();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.manufacturersService.update(m.id, result).subscribe({
+          next: () => this.loadManufacturers(),
+          error: err => console.error('Error updating manufacturer:', err)
+        });
+      }
     });
   }
 
+  // ✅ Brisanje
   deleteManufacturer(id: number) {
-    this.manufacturersService.delete(id).subscribe(() => {
-      this.manufacturers = this.manufacturers.filter(m => m.id !== id);
-      this.filteredManufacturers = this.filteredManufacturers.filter(m => m.id !== id);
-      this.updatePagination();
+    this.manufacturersService.delete(id).subscribe({
+      next: () => this.loadManufacturers(),
+      error: err => console.error('Error deleting manufacturer:', err)
     });
   }
 }

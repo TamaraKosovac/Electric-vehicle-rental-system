@@ -1,0 +1,105 @@
+<h2 mat-dialog-title>
+  {{ data?.manufacturer ? 'Edit Manufacturer' : 'Add Manufacturer' }}
+</h2>
+
+<div mat-dialog-content class="form-container">
+  <form #manufacturerForm="ngForm">
+
+    <div class="form-row">
+      <div>
+        <label class="field-label">Name</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput name="name"
+                 [(ngModel)]="manufacturer.name"
+                 placeholder="Name"
+                 required minlength="2" />
+          <mat-error *ngIf="manufacturerForm.submitted && !manufacturer.name">
+            Name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <label class="field-label">Country</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput name="country"
+                 [(ngModel)]="manufacturer.country"
+                 placeholder="Country"
+                 required minlength="2" />
+          <mat-error *ngIf="manufacturerForm.submitted && !manufacturer.country">
+            Country is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="field-label">Address</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput name="address"
+                 [(ngModel)]="manufacturer.address"
+                 placeholder="Address"
+                 required minlength="5" />
+          <mat-error *ngIf="manufacturerForm.submitted && !manufacturer.address">
+            Address is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <label class="field-label">Phone</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput name="phone"
+                 [(ngModel)]="manufacturer.phone"
+                 placeholder="Phone"
+                 required
+                 pattern="^[0-9\\-\\+\\s\\(\\)]{6,}$" />
+          <mat-error *ngIf="manufacturerForm.submitted && !manufacturer.phone">
+            Phone is required
+          </mat-error>
+          <mat-error *ngIf="manufacturerForm.submitted && manufacturer.phone && manufacturer.phone.length < 6">
+            Phone must be at least 6 digits
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="field-label">Fax</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput name="fax"
+                 [(ngModel)]="manufacturer.fax"
+                 placeholder="Fax" />
+        </mat-form-field>
+      </div>
+
+      <div>
+        <label class="field-label">Email</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput type="email" name="email"
+                 [(ngModel)]="manufacturer.email"
+                 placeholder="Email"
+                 required email />
+          <mat-error *ngIf="manufacturerForm.submitted && !manufacturer.email">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="manufacturerForm.submitted && manufacturer.email && !manufacturer.email.includes('@')">
+            Invalid email format
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-stroked-button color="warn" (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary"
+          [disabled]="!manufacturerForm.valid"
+          (click)="save()">
+    Save
+  </button>
+</div>
