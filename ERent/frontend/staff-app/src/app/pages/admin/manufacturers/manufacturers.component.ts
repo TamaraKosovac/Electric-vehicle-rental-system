@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/minimal-paginator.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ManufacturerFormComponent } from './manufacturer-form/manufacturer-form.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-manufacturers',
@@ -21,6 +22,7 @@ import { ManufacturerFormComponent } from './manufacturer-form/manufacturer-form
     MatInputModule,
     MatIconModule,
     MatDialogModule,
+    MatSnackBarModule,
     DataTableComponent,
     MinimalPaginatorComponent
   ],
@@ -37,7 +39,8 @@ export class ManufacturersComponent implements OnInit {
 
   constructor(
     private manufacturersService: ManufacturersService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -82,23 +85,35 @@ export class ManufacturersComponent implements OnInit {
     if (this.currentPage < this.totalPages) this.currentPage++;
   }
 
-  // ✅ Dodavanje novog
   startCreate() {
     const dialogRef = this.dialog.open(ManufacturerFormComponent, { width: '600px' });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // izbaci id ako postoji (backend ga sam kreira)
         const { id, ...payload } = result;
         this.manufacturersService.create(payload as Manufacturer).subscribe({
-          next: () => this.loadManufacturers(),
-          error: err => console.error('Error creating manufacturer:', err)
+          next: () => {
+            this.loadManufacturers();
+            this.snackBar.open('Manufacturer created successfully!', '', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              panelClass: ['snackbar-success']
+            });
+          },
+          error: () => {
+            this.snackBar.open('Failed to create manufacturer.', '', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              panelClass: ['snackbar-error']
+            });
+          }
         });
       }
     });
   }
 
-  // ✅ Editovanje
   editManufacturer(m: Manufacturer) {
     const dialogRef = this.dialog.open(ManufacturerFormComponent, {
       width: '600px',
@@ -108,18 +123,47 @@ export class ManufacturersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.manufacturersService.update(m.id, result).subscribe({
-          next: () => this.loadManufacturers(),
-          error: err => console.error('Error updating manufacturer:', err)
+          next: () => {
+            this.loadManufacturers();
+            this.snackBar.open('Manufacturer updated successfully!', '', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              panelClass: ['snackbar-success']
+            });
+          },
+          error: () => {
+            this.snackBar.open('Failed to update manufacturer.', '', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              panelClass: ['snackbar-error']
+            });
+          }
         });
       }
     });
   }
 
-  // ✅ Brisanje
   deleteManufacturer(id: number) {
     this.manufacturersService.delete(id).subscribe({
-      next: () => this.loadManufacturers(),
-      error: err => console.error('Error deleting manufacturer:', err)
+      next: () => {
+        this.loadManufacturers();
+        this.snackBar.open('Manufacturer deleted successfully!', '', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success']
+        });
+      },
+      error: () => {
+        this.snackBar.open('Failed to delete manufacturer.', '', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error']
+        });
+      }
     });
   }
 }

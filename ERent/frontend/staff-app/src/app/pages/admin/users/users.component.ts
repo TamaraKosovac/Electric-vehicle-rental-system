@@ -15,6 +15,7 @@ import { Employee } from '../../../models/employee.model';
 import { EmployeeRole } from '../../../models/enums/employee-role.enum';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UserFormComponent } from './user-form/user-form.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -28,7 +29,8 @@ import { UserFormComponent } from './user-form/user-form.component';
     FormsModule,
     DataTableComponent,
     MatIconModule,
-    MinimalPaginatorComponent
+    MinimalPaginatorComponent,
+    MatSnackBarModule
   ],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
@@ -60,7 +62,8 @@ export class UsersComponent implements OnInit {
   editingEmployee: Employee | null = null;
 
   constructor(private usersService: UsersService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   activeTab: 'clients' | 'employees' = 'clients';
@@ -151,8 +154,24 @@ export class UsersComponent implements OnInit {
           delete result.id;
         }
 
-        this.usersService.createEmployee(result).subscribe(() => {
-          this.loadEmployees();
+        this.usersService.createEmployee(result).subscribe({
+          next: () => {
+            this.loadEmployees();
+            this.snackBar.open('Employee created successfully!', '', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              panelClass: ['snackbar-success']
+            });
+          },
+          error: () => {
+            this.snackBar.open('Failed to create employee.', '', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              panelClass: ['snackbar-error']
+            });
+          }
         });
       }
     });
@@ -166,23 +185,49 @@ export class UsersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.usersService.updateEmployee(e.id, result).subscribe(() => this.loadEmployees());
+        this.usersService.updateEmployee(e.id, result).subscribe({
+          next: () => {
+            this.loadEmployees();
+            this.snackBar.open('Employee updated successfully!', '', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              panelClass: ['snackbar-success']
+            });
+          },
+          error: () => {
+            this.snackBar.open('Failed to update employee.', '', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              panelClass: ['snackbar-error']
+            });
+          }
+        });
       }
     });
   }
 
-  updateEmployee() {
-    if (!this.editingEmployee) return;
-    this.usersService.updateEmployee(this.editingEmployee.id, this.editingEmployee).subscribe(() => {
-      this.editingEmployee = null;
-      this.loadEmployees();
-    });
-  }
-
   deleteEmployee(id: number) {
-    this.usersService.deleteEmployee(id).subscribe(() => {
-      this.allEmployees = this.allEmployees.filter(e => e.id !== id);
-      this.setEmployeePage(this.currentEmployeePage);
+    this.usersService.deleteEmployee(id).subscribe({
+      next: () => {
+        this.allEmployees = this.allEmployees.filter(e => e.id !== id);
+        this.setEmployeePage(this.currentEmployeePage);
+        this.snackBar.open('Employee deleted successfully!', '', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success']
+        });
+      },
+      error: () => {
+        this.snackBar.open('Failed to delete employee.', '', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error']
+        });
+      }
     });
   }
 

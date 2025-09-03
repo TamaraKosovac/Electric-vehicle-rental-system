@@ -92,10 +92,11 @@ export class VehiclesService {
     return this.http.delete<void>(`${this.baseUrl}/scooters/${id}`);
   }
 
-  uploadCsv(file: File, type: string): Observable<void> {
+  uploadCsv(file: File): Observable<void> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post<void>(`${this.baseUrl}/${type}/upload-csv`, formData);
+    
+    return this.http.post<void>(`${this.baseUrl}/vehicles/upload-csv`, formData);
   }
 
   getMalfunctions(type: 'cars' | 'bikes' | 'scooters', vehicleId: number): Observable<Malfunction[]> {

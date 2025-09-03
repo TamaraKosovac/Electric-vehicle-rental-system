@@ -302,16 +302,28 @@ export class VehiclesComponent implements OnInit {
     });
   }
 
-  onFileSelected(event: any, type: 'cars' | 'bikes' | 'scooters') {
-    this.selectedFiles[type] = event.target.files[0] ?? null;
-  }
-
-  uploadCSV(type: 'cars' | 'bikes' | 'scooters') {
-    const file = this.selectedFiles[type];
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
     if (!file) return;
-    this.vehiclesService.uploadCsv(file, type).subscribe(() => {
-      this.loadData();
-      this.selectedFiles[type] = null;
+
+    this.vehiclesService.uploadCsv(file).subscribe({
+      next: () => {
+        this.loadData(); 
+        this.snackBar.open('CSV uploaded successfully!', '', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success']
+        });
+      },
+      error: () => {
+        this.snackBar.open('Failed to upload CSV.', '', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error']
+        });
+      }
     });
   }
 

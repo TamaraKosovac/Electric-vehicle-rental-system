@@ -66,6 +66,7 @@
       }"
       [currentPage]="currentEmployeePage"
       [totalPages]="employeeTotalPages"
+      [showInfo]="false"
       (edit)="editEmployee($event)"
       (delete)="deleteEmployee($event.id)">
     </app-data-table>
@@ -76,17 +77,5 @@
       (previous)="previousEmployeePage()"
       (next)="nextEmployeePage()">
     </app-minimal-paginator>
-
-    <div *ngIf="editingEmployee" class="edit-form">
-      <h3>Edit Employee</h3>
-      <form (ngSubmit)="updateEmployee()">
-        <input matInput placeholder="Username" [(ngModel)]="editingEmployee.username" name="username" required>
-        <input matInput placeholder="First Name" [(ngModel)]="editingEmployee.firstName" name="firstName" required>
-        <input matInput placeholder="Last Name" [(ngModel)]="editingEmployee.lastName" name="lastName" required>
-        <input matInput placeholder="Role" [(ngModel)]="editingEmployee.role" name="role" required>
-        <button mat-raised-button color="primary" type="submit">Save</button>
-        <button mat-button type="button" (click)="editingEmployee=null">Cancel</button>
-      </form>
-    </div>
   </mat-tab>
 </mat-tab-group>
