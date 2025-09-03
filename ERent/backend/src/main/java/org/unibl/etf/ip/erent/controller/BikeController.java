@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.unibl.etf.ip.erent.dto.BikeDTO;
+import org.unibl.etf.ip.erent.dto.BikeDetailsDTO;
 import org.unibl.etf.ip.erent.model.Bike;
 import org.unibl.etf.ip.erent.service.BikeService;
 
@@ -24,8 +25,8 @@ public class BikeController {
     }
 
     @GetMapping("/{id}")
-    public Bike getById(@PathVariable Long id) {
-        return bikeService.findById(id);
+    public BikeDetailsDTO getById(@PathVariable Long id) {
+        return bikeService.findDetailsById(id);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

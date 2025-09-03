@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.unibl.etf.ip.erent.dto.BikeDTO;
+import org.unibl.etf.ip.erent.dto.BikeDetailsDTO;
+import org.unibl.etf.ip.erent.dto.MalfunctionDTO;
 import org.unibl.etf.ip.erent.model.Bike;
 import org.unibl.etf.ip.erent.repository.BikeRepository;
 
@@ -68,5 +70,34 @@ public class BikeService {
 
     public void delete(Long id) {
         bikeRepository.deleteById(id);
+    }
+
+    public BikeDetailsDTO findDetailsById(Long id) {
+        Bike bike = bikeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Bike not found"));
+
+        BikeDetailsDTO dto = new BikeDetailsDTO();
+        dto.setUniqueId(bike.getUniqueId());
+        dto.setManufacturer(bike.getManufacturer());
+        dto.setModel(bike.getModel());
+        dto.setPurchasePrice(bike.getPurchasePrice());
+        dto.setImagePath(bike.getImagePath());
+        dto.setRented(bike.isRented());
+        dto.setAutonomy(bike.getAutonomy());
+
+        dto.setMalfunctions(
+                bike.getMalfunctions().stream()
+                        .map(m -> {
+                            MalfunctionDTO mDto = new MalfunctionDTO();
+                            mDto.setId(m.getId());
+                            mDto.setDescription(m.getDescription());
+                            mDto.setDateTime(m.getDateTime());
+                            mDto.setVehicleId(bike.getId());
+                            return mDto;
+                        })
+                        .toList()
+        );
+
+        return dto;
     }
 }

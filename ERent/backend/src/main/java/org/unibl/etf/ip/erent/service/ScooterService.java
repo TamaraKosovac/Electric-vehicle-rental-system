@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.unibl.etf.ip.erent.dto.MalfunctionDTO;
 import org.unibl.etf.ip.erent.dto.ScooterDTO;
+import org.unibl.etf.ip.erent.dto.ScooterDetailsDTO;
 import org.unibl.etf.ip.erent.model.Scooter;
 import org.unibl.etf.ip.erent.repository.ScooterRepository;
 
@@ -68,5 +70,34 @@ public class ScooterService {
 
     public void delete(Long id) {
         scooterRepository.deleteById(id);
+    }
+
+    public ScooterDetailsDTO findDetailsById(Long id) {
+        Scooter scooter = scooterRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Scooter not found"));
+
+        ScooterDetailsDTO dto = new ScooterDetailsDTO();
+        dto.setUniqueId(scooter.getUniqueId());
+        dto.setManufacturer(scooter.getManufacturer());
+        dto.setModel(scooter.getModel());
+        dto.setPurchasePrice(scooter.getPurchasePrice());
+        dto.setImagePath(scooter.getImagePath());
+        dto.setRented(scooter.isRented());
+        dto.setMaxSpeed(scooter.getMaxSpeed());
+
+        dto.setMalfunctions(
+                scooter.getMalfunctions().stream()
+                        .map(m -> {
+                            MalfunctionDTO mDto = new MalfunctionDTO();
+                            mDto.setId(m.getId());
+                            mDto.setDescription(m.getDescription());
+                            mDto.setDateTime(m.getDateTime());
+                            mDto.setVehicleId(scooter.getId());
+                            return mDto;
+                        })
+                        .toList()
+        );
+
+        return dto;
     }
 }
