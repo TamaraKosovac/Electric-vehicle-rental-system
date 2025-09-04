@@ -23,7 +23,7 @@
       </div>
 
       <div *ngIf="car">
-        <mat-icon>event</mat-icon> {{ car.purchaseDate }}
+        <mat-icon>event</mat-icon> {{ car.purchaseDate | date:'dd-MM-yyyy' }}
       </div>
       <div *ngIf="car">
         <mat-icon>description</mat-icon> {{ car.description }}
@@ -45,13 +45,13 @@
     <mat-icon matPrefix>search</mat-icon>
     <input
       matInput
-      (keyup)="activeTabIndex === 0 ? applyMalfunctionFilter($event) : applyRentalFilter($event)"
+      (keyup)="onSearch($event)"
       placeholder="Search..."
     />
   </mat-form-field>
 
   <div class="actions" *ngIf="activeTabIndex === 0">
-    <button mat-raised-button color="primary"
+    <button mat-raised-button color="primary" (click)="openAddMalfunctionDialog()"
       class="mat-mdc-raised-button mat-primary mdc-button ...">
       <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
       <mat-icon class="mat-icon">add</mat-icon>
@@ -69,22 +69,18 @@
 
     <div class="tab-content">
       <app-data-table
-        *ngIf="malfunctions.length > 0"
         [dataSource]="malfunctions"
         [displayedColumns]="['description','dateTime']"
         [columnLabels]="{
           description: 'Description',
-          dateTime: 'Date/Time'
+          dateTime: 'Date and time'
         }"
         [showDelete]="true"
         [showEdit]="true"
+        [showInfo]="false"
         (edit)="onEditMalfunction($event)"
         (delete)="deleteMalfunction($event.id)">
       </app-data-table>
-
-      <div *ngIf="malfunctions.length === 0">
-        <p class="empty-message">No results to display</p>
-      </div>
     </div>
   </mat-tab>
 
@@ -96,7 +92,6 @@
 
     <div class="tab-content">
       <app-data-table
-        *ngIf="rentals.length > 0"
         [dataSource]="rentals"
         [displayedColumns]="['startDateTime','endDateTime','price']"
         [columnLabels]="{
@@ -108,10 +103,6 @@
         [showEdit]="false"
         [showDelete]="false">
       </app-data-table>
-
-      <div *ngIf="rentals.length === 0">
-        <p class="empty-message">No results to display</p>
-      </div>
     </div>
   </mat-tab>
 </mat-tab-group>

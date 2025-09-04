@@ -1,0 +1,82 @@
+<h2 mat-dialog-title>
+  {{ data?.malfunction ? 'Edit Malfunction' : 'Add Malfunction' }}
+</h2>
+
+<div mat-dialog-content class="form-container">
+  <form #malfunctionForm="ngForm">
+
+    <div class="form-row">
+      <div>
+        <label class="field-label">Date</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input
+            matInput
+            [matDatepicker]="picker"
+            name="date"
+            [(ngModel)]="malfunction.date"
+            placeholder="Select"
+            required
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="malfunctionForm.submitted && !malfunction.date">
+            Date is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <label class="field-label">Time</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input
+            matInput
+            type="text"
+            name="time"
+            [(ngModel)]="malfunction.time"
+            placeholder="Time (hh:mm)"
+            pattern="^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+            required
+          />
+          <mat-icon matSuffix>access_time</mat-icon>
+          <mat-error *ngIf="malfunctionForm.submitted && !malfunction.time">
+            Time is required
+          </mat-error>
+          <mat-error *ngIf="malfunctionForm.submitted && malfunction.time && !malfunctionForm.controls['time']?.valid">
+            Time must be in format HH:mm
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="field-label">Description</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <textarea
+            matInput
+            rows="3"
+            name="description"
+            [(ngModel)]="malfunction.description"
+            placeholder="Description"
+            required
+          ></textarea>
+          <mat-error *ngIf="malfunctionForm.submitted && !malfunction.description">
+            Description is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-stroked-button color="warn" (click)="cancel()">Cancel</button>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!malfunctionForm.valid"
+    (click)="save()"
+  >
+    Save
+  </button>
+</div>

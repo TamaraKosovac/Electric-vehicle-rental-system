@@ -1,6 +1,9 @@
 export interface Malfunction {
   id: number;
   description: string;
-  dateTime: string; 
-  vehicle?: any; 
+  dateTime: string;
+  vehicleId: number;
+
+  date?: Date;
+  time?: string;
 }
