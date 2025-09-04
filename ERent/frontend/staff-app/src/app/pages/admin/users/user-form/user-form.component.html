@@ -27,12 +27,26 @@
                  name="password"
                  [(ngModel)]="employee.password"
                  placeholder="Password"
-                 required minlength="6" />
+                 required minlength="8" />
           <mat-error *ngIf="employeeForm.submitted && !employee.password">
             Password is required
           </mat-error>
           <mat-error *ngIf="employeeForm.submitted && employee.password?.length! < 6">
-            Password must be at least 6 characters
+            Password must be at least 8 characters
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+        <div *ngIf="data?.employee">
+        <label class="field-label">Password</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput type="password"
+                name="newPassword"
+                [(ngModel)]="employee.password"
+                placeholder="Password"
+                minlength="8" />
+          <mat-error *ngIf="employeeForm.submitted && employee.password && employee.password.length < 6">
+            Password must be at least 8 characters
           </mat-error>
         </mat-form-field>
       </div>
