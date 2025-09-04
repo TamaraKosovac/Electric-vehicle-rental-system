@@ -114,10 +114,6 @@ export class VehiclesService {
     return this.http.delete<void>(`${this.baseUrl}/${type}/malfunctions/${id}`);
   }
 
-  getRentals(type: 'cars' | 'bikes' | 'scooters', vehicleId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/${type}/${vehicleId}/rentals`);
-  }
-
   getCarById(id: number): Observable<CarDetails> {
     return this.http.get<CarDetails>(`${this.baseUrl}/cars/${id}`);
   }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class MalfunctionDTO {
     private Long id;
     private String description;
-    @JsonFormat(pattern = "dd-MM-yyyy  HH:mm")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime dateTime;
     private Long vehicleId;
 }

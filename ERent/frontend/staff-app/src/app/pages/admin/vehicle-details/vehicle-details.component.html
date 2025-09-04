@@ -98,18 +98,34 @@
     </ng-template>
 
     <div class="tab-content">
-      <app-data-table
-        [dataSource]="rentals.slice((currentRentalPage-1)*pageSize, currentRentalPage*pageSize)"
-        [displayedColumns]="['startDateTime','endDateTime','price']"
-        [columnLabels]="{
-          startDateTime: 'Start',
-          endDateTime: 'End',
-          price: 'Price (KM)'
-        }"
-        [showInfo]="false"
-        [showEdit]="false"
-        [showDelete]="false">
-      </app-data-table>
+    <app-data-table
+      [dataSource]="rentals.slice((currentRentalPage-1)*pageSize, currentRentalPage*pageSize)"
+      [displayedColumns]="[
+        'client',
+        'startDateTime',
+        'endDateTime',
+        'duration',
+        'price',
+        'startLatitude',
+        'startLongitude',
+        'endLatitude',
+        'endLongitude'
+      ]"
+      [columnLabels]="{
+        client: 'Client',
+        startDateTime: 'Start time',
+        endDateTime: 'End time',
+        duration: 'Duration (h)',
+        price: 'Price (KM)',
+        startLatitude: 'Start latitude',
+        startLongitude: 'Start longitude',
+        endLatitude: 'End latitude',
+        endLongitude: 'End longitude'
+      }"
+      [showInfo]="false"
+      [showEdit]="false"
+      [showDelete]="false">
+    </app-data-table>
 
       <app-minimal-paginator
         [currentPage]="currentRentalPage"
