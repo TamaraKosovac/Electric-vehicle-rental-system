@@ -24,8 +24,8 @@ public class MalfunctionController {
     }
 
     @GetMapping("/{id}")
-    public Malfunction getById(@PathVariable Long id) {
-        return service.findById(id);
+    public MalfunctionDTO getById(@PathVariable Long id) {
+        return service.findDtoById(id);
     }
 
     @GetMapping("/vehicle/{vehicleId}")

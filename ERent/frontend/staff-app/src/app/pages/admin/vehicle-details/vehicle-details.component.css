@@ -121,13 +121,6 @@ h3 {
   border-width: 3px !important; 
 }
 
-.empty-message {
-  text-align: center;
-  font-style: italic;
-  color: #666;
-  margin: 12px 0;
-}
-
 .toolbar-card {
   display: flex;
   align-items: center;

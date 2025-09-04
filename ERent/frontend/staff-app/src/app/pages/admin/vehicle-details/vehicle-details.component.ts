@@ -12,13 +12,20 @@ import { DataTableComponent } from '../../../shared/data-table/data-table.compon
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';   
 import { MatInputModule } from '@angular/material/input';  
+import { MatDialog } from '@angular/material/dialog';
+import { MalfunctionFormComponent } from './malfunction-form/malfunction-form.component';
 
 @Component({
   selector: 'app-vehicle-details',
   standalone: true,
-  imports: [CommonModule, MatIconModule, DataTableComponent, MatTabsModule,
-    MatFormFieldModule,   
-    MatInputModule, ],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    DataTableComponent,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule
+  ],
   templateUrl: './vehicle-details.component.html',
   styleUrls: ['./vehicle-details.component.css']
 })
@@ -35,7 +42,8 @@ export class VehicleDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private vehiclesService: VehiclesService
+    private vehiclesService: VehiclesService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -57,16 +65,19 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   openAddMalfunctionDialog() {
-    const desc = prompt('Enter malfunction description:');
-    if (desc && desc.trim()) {
-      this.addMalfunction(desc.trim());
-    }
-  }
+    const dialogRef = this.dialog.open(MalfunctionFormComponent, {
+      width: '500px',
+      data: {}
+    });
 
-  addMalfunction(desc: string) {
-    if (!desc.trim()) return;
-    this.vehiclesService.addMalfunction(this.vehicleType, this.vehicleId, { description: desc } as Malfunction)
-      .subscribe(newM => this.malfunctions.push(newM));
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        result.vehicleId = this.vehicleId;
+        this.vehiclesService
+          .addMalfunction(this.vehicleType, this.vehicleId, result)
+          .subscribe(newM => this.malfunctions.push(newM));
+      }
+    });
   }
 
   onEditMalfunction(malfunction: Malfunction) {
@@ -83,40 +94,41 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   get car(): CarDetails | null {
-    return this.vehicleType === 'cars'
-      ? (this.vehicle as CarDetails)
-      : null;
+    return this.vehicleType === 'cars' ? (this.vehicle as CarDetails) : null;
   }
 
   get bike(): BikeDetails | null {
-    return this.vehicleType === 'bikes'
-      ? (this.vehicle as BikeDetails)
-      : null;
+    return this.vehicleType === 'bikes' ? (this.vehicle as BikeDetails) : null;
   }
 
   get scooter(): ScooterDetails | null {
-    return this.vehicleType === 'scooters'
-      ? (this.vehicle as ScooterDetails)
-      : null;
+    return this.vehicleType === 'scooters' ? (this.vehicle as ScooterDetails) : null;
   }
 
   getImageUrl(path: string): string {
     return `http://localhost:8080${path}`;
   }
 
-  applyMalfunctionFilter(event: Event) {
-  const value = (event.target as HTMLInputElement).value.toLowerCase().trim();
-  this.malfunctions = this.vehicle.malfunctions
-    .filter(m => m.description.toLowerCase().includes(value));
-}
+  applyMalfunctionFilter(event: KeyboardEvent) {
+    const value = (event.target as HTMLInputElement).value.toLowerCase().trim();
+    this.malfunctions = (this.vehicle.malfunctions || [])
+      .filter(m => m.description.toLowerCase().includes(value));
+  }
 
-applyRentalFilter(event: Event) {
-  const value = (event.target as HTMLInputElement).value.toLowerCase().trim();
-  this.rentals = this.rentals.filter(r =>
-    r.price.toString().includes(value) ||
-    r.startDateTime.toLowerCase().includes(value) ||
-    r.endDateTime.toLowerCase().includes(value)
-  );
-}
+  applyRentalFilter(event: KeyboardEvent) {
+    const value = (event.target as HTMLInputElement).value.toLowerCase().trim();
+    this.rentals = this.rentals.filter(r =>
+      r.price.toString().includes(value) ||
+      r.startDateTime.toLowerCase().includes(value) ||
+      r.endDateTime.toLowerCase().includes(value)
+    );
+  }
 
+  onSearch(event: KeyboardEvent) {
+    if (this.activeTabIndex === 0) {
+      this.applyMalfunctionFilter(event);
+    } else {
+      this.applyRentalFilter(event);
+    }
+  }
 }
