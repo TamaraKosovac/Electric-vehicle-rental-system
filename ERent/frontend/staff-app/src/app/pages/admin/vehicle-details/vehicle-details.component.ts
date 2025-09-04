@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';  
 import { MatDialog } from '@angular/material/dialog';
 import { MalfunctionFormComponent } from './malfunction-form/malfunction-form.component';
+import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/minimal-paginator.component';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -24,7 +25,8 @@ import { MalfunctionFormComponent } from './malfunction-form/malfunction-form.co
     DataTableComponent,
     MatTabsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MinimalPaginatorComponent
   ],
   templateUrl: './vehicle-details.component.html',
   styleUrls: ['./vehicle-details.component.css']
@@ -37,6 +39,13 @@ export class VehicleDetailsComponent implements OnInit {
 
   malfunctions: Malfunction[] = [];
   rentals: any[] = []; 
+
+  pageSize = 5;
+  currentMalfunctionPage = 1;
+  malfunctionTotalPages = 1;
+
+  currentRentalPage = 1;
+  rentalTotalPages = 1;
 
   activeTabIndex = 0;
 
@@ -54,14 +63,60 @@ export class VehicleDetailsComponent implements OnInit {
       .subscribe(v => {
         this.vehicle = v;
         this.malfunctions = v.malfunctions || []; 
+        this.updateMalfunctionPage();
       });
 
     this.vehiclesService.getRentals(this.vehicleType, this.vehicleId)
-      .subscribe(r => this.rentals = r);
+      .subscribe(r => {
+        this.rentals = r;
+        this.updateRentalPage();
+      });
   }
 
   onTabChange(event: any) {
     this.activeTabIndex = event.index;
+  }
+
+  private updateMalfunctionPage() {
+    const start = (this.currentMalfunctionPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.malfunctions = [...this.malfunctions]; 
+    this.malfunctionTotalPages = Math.ceil(this.malfunctions.length / this.pageSize) || 1;
+  }
+
+  previousMalfunctionPage() {
+    if (this.currentMalfunctionPage > 1) {
+      this.currentMalfunctionPage--;
+      this.updateMalfunctionPage();
+    }
+  }
+
+  nextMalfunctionPage() {
+    if (this.currentMalfunctionPage < this.malfunctionTotalPages) {
+      this.currentMalfunctionPage++;
+      this.updateMalfunctionPage();
+    }
+  }
+
+  private updateRentalPage() {
+    const start = (this.currentRentalPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.rentals = [...this.rentals]; 
+    this.rentalTotalPages = Math.ceil(this.rentals.length / this.pageSize) || 1;
+  }
+
+  previousRentalPage() {
+    if (this.currentRentalPage > 1) {
+      this.currentRentalPage--;
+      this.updateRentalPage();
+    }
+  }
+
+  nextRentalPage() {
+    if (this.currentRentalPage < this.rentalTotalPages) {
+      this.currentRentalPage++;
+      this.updateRentalPage();
+    }
   }
 
   openAddMalfunctionDialog() {
@@ -75,7 +130,10 @@ export class VehicleDetailsComponent implements OnInit {
         result.vehicleId = this.vehicleId;
         this.vehiclesService
           .addMalfunction(this.vehicleType, this.vehicleId, result)
-          .subscribe(newM => this.malfunctions.push(newM));
+          .subscribe(newM => {
+            this.malfunctions.push(newM);
+            this.updateMalfunctionPage();
+          });
       }
     });
   }
@@ -90,6 +148,7 @@ export class VehicleDetailsComponent implements OnInit {
   deleteMalfunction(id: number) {
     this.vehiclesService.deleteMalfunction(this.vehicleType, id).subscribe(() => {
       this.malfunctions = this.malfunctions.filter(m => m.id !== id);
+      this.updateMalfunctionPage();
     });
   }
 
@@ -113,6 +172,8 @@ export class VehicleDetailsComponent implements OnInit {
     const value = (event.target as HTMLInputElement).value.toLowerCase().trim();
     this.malfunctions = (this.vehicle.malfunctions || [])
       .filter(m => m.description.toLowerCase().includes(value));
+    this.currentMalfunctionPage = 1;
+    this.updateMalfunctionPage();
   }
 
   applyRentalFilter(event: KeyboardEvent) {
@@ -122,6 +183,8 @@ export class VehicleDetailsComponent implements OnInit {
       r.startDateTime.toLowerCase().includes(value) ||
       r.endDateTime.toLowerCase().includes(value)
     );
+    this.currentRentalPage = 1;
+    this.updateRentalPage();
   }
 
   onSearch(event: KeyboardEvent) {
