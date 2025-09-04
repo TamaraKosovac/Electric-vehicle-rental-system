@@ -7,8 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 
-import { Employee } from '../../../../models/employee.model';
-import { EmployeeRole } from '../../../../models/enums/employee-role.enum';
+import { Employee } from '../../../models/employee.model';
+import { EmployeeRole } from '../../../models/enums/employee-role.enum';
 
 @Component({
   selector: 'app-user-form',

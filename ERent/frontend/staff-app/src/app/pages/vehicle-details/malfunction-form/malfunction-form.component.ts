@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Malfunction } from '../../../../models/malfunction.model';
+import { Malfunction } from '../../../models/malfunction.model';
 
 @Component({
   selector: 'app-malfunction-form',

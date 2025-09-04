@@ -15,4 +15,8 @@ export class RentalsService {
   getRentalsByVehicleId(vehicleId: number): Observable<RentalDetails[]> {
     return this.http.get<RentalDetails[]>(`${this.baseUrl}/vehicle/${vehicleId}`);
   }
+
+    getAll(): Observable<RentalDetails[]> {
+    return this.http.get<RentalDetails[]>(this.baseUrl);
+  }
 }

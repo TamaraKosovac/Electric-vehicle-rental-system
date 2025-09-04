@@ -1,24 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { VehiclesService } from '../../../services/vehicles.service';
+import { VehiclesService } from '../../services/vehicles.service';
 
-import { CarDetails } from '../../../models/car-details.model';
-import { BikeDetails } from '../../../models/bike-details.model';
-import { ScooterDetails } from '../../../models/scooter-details.model';
-import { Malfunction } from '../../../models/malfunction.model';
+import { CarDetails } from '../../models/car-details.model';
+import { BikeDetails } from '../../models/bike-details.model';
+import { ScooterDetails } from '../../models/scooter-details.model';
+import { Malfunction } from '../../models/malfunction.model';
 import { MatIconModule } from '@angular/material/icon';
-import { DataTableComponent } from '../../../shared/data-table/data-table.component';
+import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';   
 import { MatInputModule } from '@angular/material/input';  
 import { MatDialog } from '@angular/material/dialog';
 import { MalfunctionFormComponent } from './malfunction-form/malfunction-form.component';
-import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/minimal-paginator.component';
-import { MalfunctionsService } from '../../../services/malfunctions.service';
+import { MinimalPaginatorComponent } from '../../shared/minimal-paginator/minimal-paginator.component';
+import { MalfunctionsService } from '../../services/malfunctions.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { RentalsService } from '../../../services/rentals.service';
-import { RentalDetails } from '../../../models/rental-details.model';
+import { RentalsService } from '../../services/rentals.service';
 
 
 @Component({

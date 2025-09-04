@@ -9,11 +9,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 
-import { Manufacturer } from '../../../../models/manufacturer.model';
-import { ManufacturersService } from '../../../../services/manufacturers.service';
-import { Car } from '../../../../models/car.model';
-import { Bike } from '../../../../models/bike.model';
-import { Scooter } from '../../../../models/scooter.model';
+import { Manufacturer } from '../../../models/manufacturer.model';
+import { ManufacturersService } from '../../../services/manufacturers.service';
+import { Car } from '../../../models/car.model';
+import { Bike } from '../../../models/bike.model';
+import { Scooter } from '../../../models/scooter.model';
 
 @Component({
   selector: 'app-vehicle-form',

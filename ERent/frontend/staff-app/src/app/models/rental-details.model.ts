@@ -9,4 +9,7 @@ export interface RentalDetails {
   price: number;
   clientFirstName: string;
   clientLastName: string;
+  manufacturerName: string;
+  vehicleModel: string;
+  client: string; 
 }

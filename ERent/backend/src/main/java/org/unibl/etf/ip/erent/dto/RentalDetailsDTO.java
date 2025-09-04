@@ -19,4 +19,6 @@ public class RentalDetailsDTO {
     private Double price;
     private String clientFirstName;
     private String clientLastName;
+    private String manufacturerName;
+    private String vehicleModel;
 }

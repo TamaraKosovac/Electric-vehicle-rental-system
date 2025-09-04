@@ -5,14 +5,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 
-import { UsersService } from '../../../services/users.service';
-import { DataTableComponent } from '../../../shared/data-table/data-table.component';
+import { UsersService } from '../../services/users.service';
+import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { MatIconModule } from '@angular/material/icon';
-import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/minimal-paginator.component';
+import { MinimalPaginatorComponent } from '../../shared/minimal-paginator/minimal-paginator.component';
 
-import { Client } from '../../../models/client.model';
-import { Employee } from '../../../models/employee.model';
-import { EmployeeRole } from '../../../models/enums/employee-role.enum';
+import { Client } from '../../models/client.model';
+import { Employee } from '../../models/employee.model';
+import { EmployeeRole } from '../../models/enums/employee-role.enum';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UserFormComponent } from './user-form/user-form.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
