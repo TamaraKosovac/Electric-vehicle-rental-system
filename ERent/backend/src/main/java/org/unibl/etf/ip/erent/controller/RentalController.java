@@ -3,6 +3,7 @@ package org.unibl.etf.ip.erent.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.ip.erent.dto.RentalDTO;
+import org.unibl.etf.ip.erent.dto.RentalDetailsDTO;
 import org.unibl.etf.ip.erent.model.Rental;
 import org.unibl.etf.ip.erent.service.RentalService;
 
@@ -38,5 +39,10 @@ public class RentalController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         rentalService.delete(id);
+    }
+
+    @GetMapping("/vehicle/{vehicleId}")
+    public List<RentalDetailsDTO> getRentalsByVehicle(@PathVariable Long vehicleId) {
+        return rentalService.findByVehicleId(vehicleId);
     }
 }

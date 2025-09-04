@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.unibl.etf.ip.erent.dto.RentalDTO;
+import org.unibl.etf.ip.erent.dto.RentalDetailsDTO;
 import org.unibl.etf.ip.erent.model.Client;
 import org.unibl.etf.ip.erent.model.Rental;
 import org.unibl.etf.ip.erent.model.Vehicle;
@@ -79,5 +80,27 @@ public class RentalService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Rental not found");
         }
         rentalRepository.deleteById(id);
+    }
+
+    public List<RentalDetailsDTO> findByVehicleId(Long vehicleId) {
+        Vehicle vehicle = vehicleRepository.findById(vehicleId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehicle not found"));
+
+        List<Rental> rentals = rentalRepository.findByVehicle(vehicle);
+
+        return rentals.stream().map(rental -> {
+            RentalDetailsDTO dto = new RentalDetailsDTO();
+            dto.setStartDateTime(rental.getStartDateTime());
+            dto.setEndDateTime(rental.getEndDateTime());
+            dto.setDuration(rental.getDuration());
+            dto.setStartLatitude(rental.getStartLatitude());
+            dto.setStartLongitude(rental.getStartLongitude());
+            dto.setEndLatitude(rental.getEndLatitude());
+            dto.setEndLongitude(rental.getEndLongitude());
+            dto.setPrice(rental.getPrice());
+            dto.setClientFirstName(rental.getClient().getFirstName());
+            dto.setClientLastName(rental.getClient().getLastName());
+            return dto;
+        }).toList();
     }
 }

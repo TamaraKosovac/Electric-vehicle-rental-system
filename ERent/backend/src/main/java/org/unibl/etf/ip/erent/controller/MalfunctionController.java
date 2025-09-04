@@ -19,8 +19,8 @@ public class MalfunctionController {
     private final VehicleRepository vehicleRepository;
 
     @GetMapping
-    public List<Malfunction> getAll() {
-        return service.findAll();
+    public List<MalfunctionDTO> getAll() {
+        return service.findAllDtos();
     }
 
     @GetMapping("/{id}")
@@ -34,7 +34,7 @@ public class MalfunctionController {
     }
 
     @PostMapping
-    public Malfunction create(@RequestBody MalfunctionDTO dto) {
+    public MalfunctionDTO create(@RequestBody MalfunctionDTO dto) {
         Vehicle vehicle = vehicleRepository.findById(dto.getVehicleId())
                 .orElseThrow(() -> new RuntimeException("Vehicle not found"));
 
@@ -46,9 +46,8 @@ public class MalfunctionController {
         return service.save(malfunction);
     }
 
-
     @PutMapping("/{id}")
-    public Malfunction update(@PathVariable Long id, @RequestBody MalfunctionDTO dto) {
+    public MalfunctionDTO update(@PathVariable Long id, @RequestBody MalfunctionDTO dto) {
         Vehicle vehicle = vehicleRepository.findById(dto.getVehicleId())
                 .orElseThrow(() -> new RuntimeException("Vehicle not found"));
 
@@ -59,7 +58,6 @@ public class MalfunctionController {
 
         return service.save(malfunction);
     }
-
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

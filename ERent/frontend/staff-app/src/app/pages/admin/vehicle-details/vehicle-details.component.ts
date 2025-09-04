@@ -15,6 +15,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
 import { MalfunctionFormComponent } from './malfunction-form/malfunction-form.component';
 import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/minimal-paginator.component';
+import { MalfunctionsService } from '../../../services/malfunctions.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { RentalsService } from '../../../services/rentals.service';
+import { RentalDetails } from '../../../models/rental-details.model';
+
 
 @Component({
   selector: 'app-vehicle-details',
@@ -26,7 +31,8 @@ import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/min
     MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
-    MinimalPaginatorComponent
+    MinimalPaginatorComponent,
+    MatSnackBarModule   
   ],
   templateUrl: './vehicle-details.component.html',
   styleUrls: ['./vehicle-details.component.css']
@@ -52,7 +58,10 @@ export class VehicleDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private vehiclesService: VehiclesService,
-    private dialog: MatDialog
+    private malfunctionsService: MalfunctionsService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private rentalsService: RentalsService, 
   ) {}
 
   ngOnInit(): void {
@@ -66,11 +75,14 @@ export class VehicleDetailsComponent implements OnInit {
         this.updateMalfunctionPage();
       });
 
-    this.vehiclesService.getRentals(this.vehicleType, this.vehicleId)
-      .subscribe(r => {
-        this.rentals = r;
-        this.updateRentalPage();
-      });
+      this.rentalsService.getRentalsByVehicleId(this.vehicleId)
+        .subscribe(r => {
+          this.rentals = r.map(item => ({
+            ...item,
+            client: item.clientFirstName + ' ' + item.clientLastName
+          }));
+          this.updateRentalPage();
+        });
   }
 
   onTabChange(event: any) {
@@ -78,9 +90,6 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   private updateMalfunctionPage() {
-    const start = (this.currentMalfunctionPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    this.malfunctions = [...this.malfunctions]; 
     this.malfunctionTotalPages = Math.ceil(this.malfunctions.length / this.pageSize) || 1;
   }
 
@@ -99,9 +108,6 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   private updateRentalPage() {
-    const start = (this.currentRentalPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    this.rentals = [...this.rentals]; 
     this.rentalTotalPages = Math.ceil(this.rentals.length / this.pageSize) || 1;
   }
 
@@ -122,33 +128,96 @@ export class VehicleDetailsComponent implements OnInit {
   openAddMalfunctionDialog() {
     const dialogRef = this.dialog.open(MalfunctionFormComponent, {
       width: '500px',
-      data: {}
+      data: { vehicleId: this.vehicleId }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        result.vehicleId = this.vehicleId;
-        this.vehiclesService
-          .addMalfunction(this.vehicleType, this.vehicleId, result)
-          .subscribe(newM => {
-            this.malfunctions.push(newM);
-            this.updateMalfunctionPage();
+        this.malfunctionsService
+          .create(result)
+          .subscribe({
+            next: (newM) => {
+              this.malfunctions.push(newM);
+              this.updateMalfunctionPage();
+
+              this.snackBar.open('Malfunction added successfully!', '', {
+                duration: 3000,
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+                panelClass: ['snackbar-success']
+              });
+            },
+            error: () => {
+              this.snackBar.open('Failed to add malfunction.', '', {
+                duration: 3000,
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+                panelClass: ['snackbar-error']
+              });
+            }
           });
       }
     });
   }
 
-  onEditMalfunction(malfunction: Malfunction) {
-    const newDesc = prompt('Edit malfunction description:', malfunction.description);
-    if (newDesc && newDesc.trim()) {
-      malfunction.description = newDesc.trim();
-    }
+  deleteMalfunction(id: number) {
+    this.malfunctionsService.delete(id).subscribe({
+      next: () => {
+        this.malfunctions = this.malfunctions.filter(m => m.id !== id);
+        this.updateMalfunctionPage();
+
+        this.snackBar.open('Malfunction deleted successfully!', '', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success']
+        });
+      },
+      error: () => {
+        this.snackBar.open('Failed to delete malfunction.', '', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error']
+        });
+      }
+    });
   }
 
-  deleteMalfunction(id: number) {
-    this.vehiclesService.deleteMalfunction(this.vehicleType, id).subscribe(() => {
-      this.malfunctions = this.malfunctions.filter(m => m.id !== id);
-      this.updateMalfunctionPage();
+  onEditMalfunction(malfunction: Malfunction) {
+    const dialogRef = this.dialog.open(MalfunctionFormComponent, {
+      width: '500px',
+      data: { malfunction }   
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.malfunctionsService
+          .update(malfunction.id, result)   
+          .subscribe({
+            next: (updatedM) => {
+              const idx = this.malfunctions.findIndex(m => m.id === updatedM.id);
+              if (idx !== -1) this.malfunctions[idx] = updatedM;
+
+              this.updateMalfunctionPage();
+
+              this.snackBar.open('Malfunction updated successfully!', '', {
+                duration: 3000,
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+                panelClass: ['snackbar-success']
+              });
+            },
+            error: () => {
+              this.snackBar.open('Failed to update malfunction.', '', {
+                duration: 3000,
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+                panelClass: ['snackbar-error']
+              });
+            }
+          });
+      }
     });
   }
 
