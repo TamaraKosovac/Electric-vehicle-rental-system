@@ -69,7 +69,7 @@
 
     <div class="tab-content">
       <app-data-table
-        [dataSource]="malfunctions"
+        [dataSource]="malfunctions.slice((currentMalfunctionPage-1)*pageSize, currentMalfunctionPage*pageSize)"
         [displayedColumns]="['description','dateTime']"
         [columnLabels]="{
           description: 'Description',
@@ -81,6 +81,13 @@
         (edit)="onEditMalfunction($event)"
         (delete)="deleteMalfunction($event.id)">
       </app-data-table>
+
+      <app-minimal-paginator
+        [currentPage]="currentMalfunctionPage"
+        [totalPages]="malfunctionTotalPages"
+        (previous)="previousMalfunctionPage()"
+        (next)="nextMalfunctionPage()">
+      </app-minimal-paginator>
     </div>
   </mat-tab>
 
@@ -92,7 +99,7 @@
 
     <div class="tab-content">
       <app-data-table
-        [dataSource]="rentals"
+        [dataSource]="rentals.slice((currentRentalPage-1)*pageSize, currentRentalPage*pageSize)"
         [displayedColumns]="['startDateTime','endDateTime','price']"
         [columnLabels]="{
           startDateTime: 'Start',
@@ -103,6 +110,14 @@
         [showEdit]="false"
         [showDelete]="false">
       </app-data-table>
+
+      <app-minimal-paginator
+        [currentPage]="currentRentalPage"
+        [totalPages]="rentalTotalPages"
+        (previous)="previousRentalPage()"
+        (next)="nextRentalPage()">
+      </app-minimal-paginator>
     </div>
   </mat-tab>
 </mat-tab-group>
+
