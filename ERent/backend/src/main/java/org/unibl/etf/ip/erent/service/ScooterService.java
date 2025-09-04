@@ -59,7 +59,7 @@ public class ScooterService {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            scooter.setImagePath("uploads/" + fileName);
+            scooter.setImagePath("/" + fileName);
         }
         return scooterRepository.save(scooter);
     }

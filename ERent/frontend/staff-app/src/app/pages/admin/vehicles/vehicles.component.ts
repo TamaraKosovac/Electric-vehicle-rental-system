@@ -269,6 +269,7 @@ export class VehiclesComponent implements OnInit {
 
         create$.subscribe({
           next: (createdVehicle) => {
+            this.loadData();
             (createdVehicle as any).hasMalfunctions = false;
 
             if (type === 'cars') {

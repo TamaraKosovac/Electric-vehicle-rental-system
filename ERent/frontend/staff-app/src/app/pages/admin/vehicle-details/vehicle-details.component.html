@@ -1,29 +1,117 @@
-<h2>Vehicle Details</h2>
+<div *ngIf="vehicle" class="vehicle-card">
+  <div class="vehicle-image">
+    <img *ngIf="vehicle.imagePath" [src]="getImageUrl(vehicle.imagePath)" />
+  </div>
 
-<div *ngIf="vehicle">
-  <p><b>Model:</b> {{ vehicle.model }}</p>
-  <p><b>Manufacturer:</b> {{ vehicle.manufacturer }}</p>
-  <p><b>Purchase Price:</b> {{ vehicle.purchasePrice }}</p>
-  <p><b>Rented:</b> {{ vehicle.rented ? 'Yes' : 'No' }}</p>
-  <img *ngIf="vehicle.imagePath" [src]="vehicle.imagePath" width="200" />
+  <div class="vehicle-info">
+    <div class="info-grid">
+      <div>
+        <mat-icon *ngIf="vehicleType === 'cars'">directions_car</mat-icon>
+        <mat-icon *ngIf="vehicleType === 'bikes'">pedal_bike</mat-icon>
+        <mat-icon *ngIf="vehicleType === 'scooters'">electric_scooter</mat-icon>
+        {{ vehicle.model }}
+      </div>
+      <div>
+        <mat-icon>engineering</mat-icon> {{ vehicle.manufacturer.name }}
+      </div>
+      <div>
+        <mat-icon>euro</mat-icon> {{ vehicle.purchasePrice }} €
+      </div>
+      <div>
+        <mat-icon>{{ vehicle.rented ? 'highlight_off' : 'verified' }}</mat-icon>
+        {{ vehicle.rented ? 'Rented' : 'Available' }}
+      </div>
+
+      <div *ngIf="car">
+        <mat-icon>event</mat-icon> {{ car.purchaseDate }}
+      </div>
+      <div *ngIf="car">
+        <mat-icon>description</mat-icon> {{ car.description }}
+      </div>
+
+      <div *ngIf="bike">
+        <mat-icon>battery_charging_full</mat-icon> {{ bike.autonomy }} km
+      </div>
+
+      <div *ngIf="scooter">
+        <mat-icon>speed</mat-icon> {{ scooter.maxSpeed }} km/h
+      </div>
+    </div>
+  </div>
 </div>
 
-<h3>Malfunctions</h3>
-<input #malfDesc placeholder="New malfunction" />
-<button (click)="addMalfunction(malfDesc.value); malfDesc.value = ''">
-  Add
-</button>
+<div class="toolbar-card">
+  <mat-form-field appearance="outline" class="search-field small">
+    <mat-icon matPrefix>search</mat-icon>
+    <input
+      matInput
+      (keyup)="activeTabIndex === 0 ? applyMalfunctionFilter($event) : applyRentalFilter($event)"
+      placeholder="Search..."
+    />
+  </mat-form-field>
 
-<ul>
-  <li *ngFor="let m of malfunctions">
-    {{ m.description }} ({{ m.dateTime }})
-    <button (click)="deleteMalfunction(m.id)">Delete</button>
-  </li>
-</ul>
+  <div class="actions" *ngIf="activeTabIndex === 0">
+    <button mat-raised-button color="primary"
+      class="mat-mdc-raised-button mat-primary mdc-button ...">
+      <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
+      <mat-icon class="mat-icon">add</mat-icon>
+      <span class="mdc-button__label">Add malfunction</span>
+    </button>
+  </div>
+</div>
 
-<h3>Rentals</h3>
-<ul>
-  <li *ngFor="let r of rentals">
-    From {{ r.startDateTime }} to {{ r.endDateTime }} – {{ r.price }} KM
-  </li>
-</ul>
+<mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="onTabChange($event)">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon malf-icon">build</mat-icon>
+      <span class="tab-label">Malfunctions</span>
+    </ng-template>
+
+    <div class="tab-content">
+      <app-data-table
+        *ngIf="malfunctions.length > 0"
+        [dataSource]="malfunctions"
+        [displayedColumns]="['description','dateTime']"
+        [columnLabels]="{
+          description: 'Description',
+          dateTime: 'Date/Time'
+        }"
+        [showDelete]="true"
+        [showEdit]="true"
+        (edit)="onEditMalfunction($event)"
+        (delete)="deleteMalfunction($event.id)">
+      </app-data-table>
+
+      <div *ngIf="malfunctions.length === 0">
+        <p class="empty-message">No results to display</p>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon rental-icon">event</mat-icon>
+      <span class="tab-label">Rentals</span>
+    </ng-template>
+
+    <div class="tab-content">
+      <app-data-table
+        *ngIf="rentals.length > 0"
+        [dataSource]="rentals"
+        [displayedColumns]="['startDateTime','endDateTime','price']"
+        [columnLabels]="{
+          startDateTime: 'Start',
+          endDateTime: 'End',
+          price: 'Price (KM)'
+        }"
+        [showInfo]="false"
+        [showEdit]="false"
+        [showDelete]="false">
+      </app-data-table>
+
+      <div *ngIf="rentals.length === 0">
+        <p class="empty-message">No results to display</p>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
