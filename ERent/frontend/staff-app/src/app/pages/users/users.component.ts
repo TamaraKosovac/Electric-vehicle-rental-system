@@ -16,6 +16,7 @@ import { EmployeeRole } from '../../models/enums/employee-role.enum';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UserFormComponent } from './user-form/user-form.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -60,10 +61,12 @@ export class UsersComponent implements OnInit {
   };
 
   editingEmployee: Employee | null = null;
+  userRole: string | null = null;
 
   constructor(private usersService: UsersService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) {}
 
   activeTab: 'clients' | 'employees' = 'clients';
@@ -75,8 +78,13 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    const user = this.authService.getUser();
+    this.userRole = user?.role?.toLowerCase() || null;
+
     this.loadClients();
-    this.loadEmployees();
+    if (this.userRole === 'admin' || this.userRole === 'manager') {
+      this.loadEmployees();
+    }
   }
 
   loadClients() {
