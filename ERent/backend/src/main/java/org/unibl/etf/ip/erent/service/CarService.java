@@ -60,7 +60,7 @@ public class CarService {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            car.setImagePath("uploads/" + fileName);
+            car.setImagePath("/" + fileName);
         }
         return carRepository.save(car);
     }

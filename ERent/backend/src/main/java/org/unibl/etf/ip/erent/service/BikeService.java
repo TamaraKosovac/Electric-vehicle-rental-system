@@ -59,7 +59,7 @@ public class BikeService {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            bike.setImagePath("uploads/" + fileName);
+            bike.setImagePath("/" + fileName);
         }
         return bikeRepository.save(bike);
     }

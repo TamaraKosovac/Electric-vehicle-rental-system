@@ -5,6 +5,9 @@ import { Car } from '../models/car.model';
 import { Bike } from '../models/bike.model';
 import { Scooter } from '../models/scooter.model';
 import { Malfunction } from '../models/malfunction.model';
+import { CarDetails } from '../models/car-details.model';
+import { BikeDetails } from '../models/bike-details.model';
+import { ScooterDetails } from '../models/scooter-details.model';
 
 @Injectable({
   providedIn: 'root'
@@ -115,19 +118,24 @@ export class VehiclesService {
     return this.http.get<any[]>(`${this.baseUrl}/${type}/${vehicleId}/rentals`);
   }
 
-  getVehicleById(type: 'cars' | 'bikes' | 'scooters', id: number): Observable<Car | Bike | Scooter> {
-    return this.http.get<Car | Bike | Scooter>(`${this.baseUrl}/${type}/${id}`);
+  getCarById(id: number): Observable<CarDetails> {
+    return this.http.get<CarDetails>(`${this.baseUrl}/cars/${id}`);
   }
 
-  getCarById(id: number): Observable<Car> {
-    return this.http.get<Car>(`${this.baseUrl}/cars/${id}`);
+  getBikeById(id: number): Observable<BikeDetails> {
+    return this.http.get<BikeDetails>(`${this.baseUrl}/bikes/${id}`);
   }
 
-  getBikeById(id: number): Observable<Bike> {
-    return this.http.get<Bike>(`${this.baseUrl}/bikes/${id}`);
+  getScooterById(id: number): Observable<ScooterDetails> {
+    return this.http.get<ScooterDetails>(`${this.baseUrl}/scooters/${id}`);
   }
 
-  getScooterById(id: number): Observable<Scooter> {
-    return this.http.get<Scooter>(`${this.baseUrl}/scooters/${id}`);
+  getVehicleById(
+    type: 'cars' | 'bikes' | 'scooters',
+    id: number
+  ): Observable<CarDetails | BikeDetails | ScooterDetails> {
+    return this.http.get<CarDetails | BikeDetails | ScooterDetails>(
+      `${this.baseUrl}/${type}/${id}`
+    );
   }
 }
