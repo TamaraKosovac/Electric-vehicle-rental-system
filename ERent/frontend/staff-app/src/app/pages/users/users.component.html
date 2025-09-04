@@ -8,15 +8,46 @@
     />
   </mat-form-field>
 
-<div class="actions" *ngIf="activeTab === 'employees'">
-  <button mat-raised-button color="primary" (click)="addEmployee()">
-    <mat-icon>add</mat-icon>
-    Add employee
-  </button>
-</div>
+  <div class="actions" *ngIf="activeTab === 'employees' && (userRole === 'admin' || userRole === 'manager')">
+    <button mat-raised-button color="primary" (click)="addEmployee()">
+      <mat-icon>add</mat-icon>
+      Add employee
+    </button>
+  </div>
 </div>
 
-<mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="onTabChange($event)">
+<div *ngIf="userRole === 'operator'">
+  <app-data-table
+    [dataSource]="clients"
+    [displayedColumns]="['avatar','fullName','username','email','documentNumber','phone']"
+    [columnLabels]="{
+      avatar: 'Avatar',
+      fullName: 'Full Name',
+      username: 'Username',
+      email: 'Email',
+      documentNumber: 'ID Number',
+      phone: 'Phone'
+    }"
+    [currentPage]="currentClientPage"
+    [totalPages]="clientTotalPages"
+    [showBlockUnblock]="true"
+    [showInfo]="false"
+    [showEdit]="false"
+    [showDelete]="false"
+    (blockUnblock)="blockUnblockClient($event)">
+  </app-data-table>
+
+  <app-minimal-paginator
+    [currentPage]="currentClientPage"
+    [totalPages]="clientTotalPages"
+    (previous)="previousClientPage()"
+    (next)="nextClientPage()">
+  </app-minimal-paginator>
+</div>
+
+<mat-tab-group *ngIf="userRole === 'admin' || userRole === 'manager'"
+               [(selectedIndex)]="activeTabIndex"
+               (selectedTabChange)="onTabChange($event)">
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon class="tab-icon">people</mat-icon>

@@ -217,3 +217,16 @@ html, body {
   color: #2e6f6a;
   letter-spacing: 0.2px;
 }
+
+.page-container,
+.map-wrapper,
+#map {
+  height: 100%;
+  min-height: 100%;
+}
+
+#map {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
