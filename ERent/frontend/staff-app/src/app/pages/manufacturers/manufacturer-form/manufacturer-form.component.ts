@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { Manufacturer } from '../../../../models/manufacturer.model';
+import { Manufacturer } from '../../../models/manufacturer.model';
 
 @Component({
   selector: 'app-manufacturer-form',

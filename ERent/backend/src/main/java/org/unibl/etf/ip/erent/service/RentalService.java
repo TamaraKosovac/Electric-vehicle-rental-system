@@ -23,9 +23,6 @@ public class RentalService {
     private final VehicleRepository vehicleRepository;
     private final ClientRepository clientRepository;
 
-    public List<Rental> findAll() {
-        return rentalRepository.findAll();
-    }
 
     public Rental findById(Long id) {
         return rentalRepository.findById(id)
@@ -100,7 +97,31 @@ public class RentalService {
             dto.setPrice(rental.getPrice());
             dto.setClientFirstName(rental.getClient().getFirstName());
             dto.setClientLastName(rental.getClient().getLastName());
+            dto.setManufacturerName(rental.getVehicle().getManufacturer().getName());
+            dto.setVehicleModel(rental.getVehicle().getModel());
             return dto;
         }).toList();
+    }
+
+    public List<RentalDetailsDTO> findAllDto() {
+        return rentalRepository.findAll()
+                .stream()
+                .map(rental -> {
+                    RentalDetailsDTO dto = new RentalDetailsDTO();
+                    dto.setStartDateTime(rental.getStartDateTime());
+                    dto.setEndDateTime(rental.getEndDateTime());
+                    dto.setDuration(rental.getDuration());
+                    dto.setStartLatitude(rental.getStartLatitude());
+                    dto.setStartLongitude(rental.getStartLongitude());
+                    dto.setEndLatitude(rental.getEndLatitude());
+                    dto.setEndLongitude(rental.getEndLongitude());
+                    dto.setPrice(rental.getPrice());
+                    dto.setClientFirstName(rental.getClient().getFirstName());
+                    dto.setClientLastName(rental.getClient().getLastName());
+                    dto.setManufacturerName(rental.getVehicle().getManufacturer().getName());
+                    dto.setVehicleModel(rental.getVehicle().getModel());
+                    return dto;
+                })
+                .toList();
     }
 }

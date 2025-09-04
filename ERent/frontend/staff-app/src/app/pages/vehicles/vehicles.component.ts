@@ -12,13 +12,13 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 
-import { VehiclesService } from '../../../services/vehicles.service';
-import { Car } from '../../../models/car.model';
-import { Bike } from '../../../models/bike.model';
-import { Scooter } from '../../../models/scooter.model';
-import { DataTableComponent } from '../../../shared/data-table/data-table.component';
+import { VehiclesService } from '../../services/vehicles.service';
+import { Car } from '../../models/car.model';
+import { Bike } from '../../models/bike.model';
+import { Scooter } from '../../models/scooter.model';
+import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
-import { MinimalPaginatorComponent } from '../../../shared/minimal-paginator/minimal-paginator.component';
+import { MinimalPaginatorComponent } from '../../shared/minimal-paginator/minimal-paginator.component';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 
@@ -413,6 +413,6 @@ export class VehiclesComponent implements OnInit {
   }
 
   onInfo(type: 'cars' | 'bikes' | 'scooters', id: number) {
-    this.router.navigate(['/admin/vehicles', type, id]);
+    this.router.navigate(['/dashboard/vehicles', type, id]);
   }
 }

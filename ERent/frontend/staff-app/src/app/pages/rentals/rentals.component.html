@@ -1,0 +1,48 @@
+<div class="toolbar-card">
+  <mat-form-field appearance="outline" class="search-field small">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search rentals..." />
+  </mat-form-field>
+</div>
+
+<app-data-table
+  [dataSource]="paginatedRentals"
+  [displayedColumns]="[
+    'client',
+    'manufacturerName',
+    'vehicleModel',
+    'startDateTime',
+    'endDateTime',
+    'duration',
+    'price',
+    'startLatitude',
+    'startLongitude',
+    'endLatitude',
+    'endLongitude'
+  ]"
+  [columnLabels]="{
+    client: 'Client',
+    manufacturerName: 'Manufacturer',
+    vehicleModel: 'Model',
+    startDateTime: 'Start time',
+    endDateTime: 'End time',
+    duration: 'Duration(h)',
+    price: 'Price(KM)',
+    startLatitude: 'Start latitude',
+    startLongitude: 'Start longitude',
+    endLatitude: 'End latitude',
+    endLongitude: 'End longitude'
+  }"
+  [showInfo]="false"
+  [showEdit]="false"
+  [showDelete]="false">
+</app-data-table>
+
+<div class="paginator-container">
+  <app-minimal-paginator
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (previous)="previousPage()"
+    (next)="nextPage()">
+  </app-minimal-paginator>
+</div>

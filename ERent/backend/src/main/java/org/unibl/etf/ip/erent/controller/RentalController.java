@@ -17,8 +17,8 @@ public class RentalController {
     private final RentalService rentalService;
 
     @GetMapping
-    public List<Rental> findAll() {
-        return rentalService.findAll();
+    public List<RentalDetailsDTO> findAll() {
+        return rentalService.findAllDto();
     }
 
     @GetMapping("/{id}")
