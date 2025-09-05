@@ -21,4 +21,6 @@ public class RentalDetailsDTO {
     private String clientLastName;
     private String manufacturerName;
     private String vehicleModel;
+    private Long vehicleId;
+    private String imagePath;
 }

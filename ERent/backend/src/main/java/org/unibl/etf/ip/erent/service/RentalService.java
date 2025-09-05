@@ -123,6 +123,8 @@ public class RentalService {
                     dto.setClientLastName(rental.getClient().getLastName());
                     dto.setManufacturerName(rental.getVehicle().getManufacturer().getName());
                     dto.setVehicleModel(rental.getVehicle().getModel());
+                    dto.setVehicleId(rental.getVehicle().getId());
+                    dto.setImagePath(rental.getVehicle().getImagePath());
                     return dto;
                 })
                 .toList();
