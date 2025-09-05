@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.unibl.etf.ip.erent.dto.DailyRevenueDTO;
 import org.unibl.etf.ip.erent.dto.RentalDTO;
 import org.unibl.etf.ip.erent.dto.RentalDetailsDTO;
 import org.unibl.etf.ip.erent.model.Client;
@@ -13,7 +14,9 @@ import org.unibl.etf.ip.erent.repository.ClientRepository;
 import org.unibl.etf.ip.erent.repository.RentalRepository;
 import org.unibl.etf.ip.erent.repository.VehicleRepository;
 
+import java.time.YearMonth;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -122,6 +125,25 @@ public class RentalService {
                     dto.setVehicleModel(rental.getVehicle().getModel());
                     return dto;
                 })
+                .toList();
+    }
+
+    public List<DailyRevenueDTO> getDailyRevenue(int year, int month) {
+        YearMonth ym = YearMonth.of(year, month);
+
+        return rentalRepository.findAll().stream()
+                .filter(r -> r.getEndDateTime() != null)
+                .filter(r -> {
+                    YearMonth rentalMonth = YearMonth.from(r.getEndDateTime());
+                    return rentalMonth.equals(ym);
+                })
+                .collect(Collectors.groupingBy(
+                        r -> r.getEndDateTime().toLocalDate(),
+                        Collectors.summingDouble(Rental::getPrice)
+                ))
+                .entrySet().stream()
+                .map(e -> new DailyRevenueDTO(e.getKey(), e.getValue()))
+                .sorted((a, b) -> a.getDate().compareTo(b.getDate()))
                 .toList();
     }
 }

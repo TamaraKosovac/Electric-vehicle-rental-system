@@ -1,0 +1,96 @@
+::ng-deep .mat-mdc-tab .mat-mdc-tab-labels {
+  color: #2e6f6a !important;
+}
+
+.tab-icon {
+  font-size: 20px;
+  margin-right: 6px;
+  margin-top: 5px;
+  color: #2e6f6a !important;
+}
+
+.tab-label {
+  color: #2e6f6a !important;
+  font-weight: 500;
+}
+
+.chart-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 16px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  margin: 60px auto 20px;
+}
+
+.chart-container canvas {
+  max-height: 300px; 
+}
+::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline {
+  border-color: #2e6f6a !important; 
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #2e6f6a !important;
+  font-weight: 500;
+}
+
+.full-width {
+  width: 200px;
+  margin-bottom: 16px;
+}
+
+.field-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2e6f6a;
+  margin-bottom: 6px;
+  display: block;
+  margin-left: 5px;
+}
+
+::ng-deep .mat-calendar-body-cell-content:hover {
+  background-color: #eefaf8 !important;
+  color: #2e6f6a !important;
+}
+
+::ng-deep .mat-calendar-body-selected {
+  background-color: #4CA79C !important;
+  color: #fff !important;
+}
+
+::ng-deep .mat-calendar-body-today {
+  border: 1px solid #2e6f6a !important;
+}
+
+::ng-deep .mat-mdc-select-value {
+  margin-top: 8px;
+  color: #6b7280 !important; 
+}
+
+::ng-deep .mat-mdc-select-placeholder {
+  color: #6b7280 !important; 
+  opacity: 1 !important;
+  text-align: center;
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-select-panel {
+  background-color: #fff !important;
+}
+
+::ng-deep .mat-mdc-option {
+  justify-content: center !important;
+  text-align: center !important;
+  color: #1f2937 !important;
+}
+
+::ng-deep .mat-mdc-select-arrow {
+  color: #6b7280 !important;      
+  font-size: 20px !important;    
+  margin-right: 4px;              
+  display: flex;
+  margin-top: 12px;
+}
+

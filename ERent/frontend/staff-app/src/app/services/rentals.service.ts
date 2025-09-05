@@ -19,4 +19,10 @@ export class RentalsService {
     getAll(): Observable<RentalDetails[]> {
     return this.http.get<RentalDetails[]>(this.baseUrl);
   }
+
+  getDailyRevenue(year: number, month: number) {
+    return this.http.get<{ date: string, totalRevenue: number }[]>(
+      `${this.baseUrl}/daily-revenue?year=${year}&month=${month}`
+    );
+  }
 }
