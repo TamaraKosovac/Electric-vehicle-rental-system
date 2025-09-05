@@ -136,3 +136,10 @@
   color: #2e6f6a !important;
   margin: 0 0 12px 0 !important;
 }
+
+::ng-deep .mat-mdc-select-panel {
+  background-color: #fff !important;
+  color: #1f2937 !important;       
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+  border-radius: 6px;              
+}
