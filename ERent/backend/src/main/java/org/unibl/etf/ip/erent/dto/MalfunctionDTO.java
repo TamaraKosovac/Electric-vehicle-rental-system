@@ -12,4 +12,6 @@ public class MalfunctionDTO {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime dateTime;
     private Long vehicleId;
+    private String manufacturerName;
+    private String vehicleModel;
 }

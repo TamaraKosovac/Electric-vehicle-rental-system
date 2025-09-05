@@ -1,0 +1,42 @@
+<div class="toolbar-card">
+  <mat-form-field appearance="outline" class="search-field small">
+    <mat-icon matPrefix>search</mat-icon>
+    <input
+      matInput
+      (keyup)="onSearch($event)"
+      placeholder="Search..."
+    />
+  </mat-form-field>
+
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="openAddMalfunctionDialog()"
+      class="mat-mdc-raised-button mat-primary mdc-button ...">
+      <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
+      <mat-icon class="mat-icon">add</mat-icon>
+      <span class="mdc-button__label">Add malfunction</span>
+    </button>
+  </div>
+</div>
+
+<div class="tab-content">
+  <app-data-table
+    [dataSource]="malfunctions.slice((currentPage-1)*pageSize, currentPage*pageSize)"
+    [displayedColumns]="['manufacturerName','vehicleModel','description','dateTime']"
+    [columnLabels]="{
+      manufacturerName: 'Manufacturer',
+      vehicleModel: 'Model',
+      description: 'Description',
+      dateTime: 'Date and time'
+    }"
+    [showDelete]="false"
+    [showEdit]="false"
+    [showInfo]="false">
+  </app-data-table>
+
+  <app-minimal-paginator
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (previous)="previousPage()"
+    (next)="nextPage()">
+  </app-minimal-paginator>
+</div>
