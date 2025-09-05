@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.unibl.etf.ip.erent.dto.VehicleDTO;
 import org.unibl.etf.ip.erent.model.*;
 import org.unibl.etf.ip.erent.repository.ManufacturerRepository;
 import org.unibl.etf.ip.erent.repository.VehicleRepository;
@@ -23,8 +24,19 @@ public class VehicleService {
     private final VehicleRepository vehicleRepository;
     private final ManufacturerRepository manufacturerRepository;
 
-    public List<Vehicle> findAll() {
-        return vehicleRepository.findAll();
+    public List<VehicleDTO> findAll() {
+        return vehicleRepository.findAll()
+                .stream()
+                .map(vehicle -> new VehicleDTO(
+                        vehicle.getId(),
+                        vehicle.getUniqueId(),
+                        vehicle.getModel(),
+                        vehicle.getManufacturer().getName(),
+                        vehicle.getPurchasePrice(),
+                        !vehicle.getMalfunctions().isEmpty(),
+                        vehicle.isRented()
+                ))
+                .toList();
     }
 
     public Vehicle findById(Long id) {

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.unibl.etf.ip.erent.dto.VehicleDTO;
 import org.unibl.etf.ip.erent.model.Vehicle;
 import org.unibl.etf.ip.erent.service.VehicleService;
 
@@ -23,7 +24,7 @@ public class VehicleController {
     private final VehicleService vehicleService;
 
     @GetMapping
-    public List<Vehicle> getAllVehicles() {
+    public List<VehicleDTO> getAllVehicles() {
         return vehicleService.findAll();
     }
 

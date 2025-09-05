@@ -8,6 +8,7 @@ import { Malfunction } from '../models/malfunction.model';
 import { CarDetails } from '../models/car-details.model';
 import { BikeDetails } from '../models/bike-details.model';
 import { ScooterDetails } from '../models/scooter-details.model';
+import { Vehicle } from '../models/vehicle.model';
 
 @Injectable({
   providedIn: 'root'
@@ -133,5 +134,9 @@ export class VehiclesService {
     return this.http.get<CarDetails | BikeDetails | ScooterDetails>(
       `${this.baseUrl}/${type}/${id}`
     );
+  }
+
+  getAllVehicles(): Observable<Vehicle[]> {
+    return this.http.get<Vehicle[]>(`${this.baseUrl}/vehicles`);
   }
 }

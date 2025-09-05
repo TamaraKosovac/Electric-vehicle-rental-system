@@ -1,8 +1,7 @@
 .dlg {
   padding: 28px 32px 24px;
-  width: 460px;
+  width: 400px;
   min-height: 160px; 
-  border-radius: 30px;
 }
 
 .dlg-header {
@@ -44,7 +43,7 @@
 }
 
 .dlg-actions button {
-  min-width: 90px;
+  min-width: 130px;
   border-radius: 5px !important;
   padding: 8px 20px;
   font-size: 15px;
