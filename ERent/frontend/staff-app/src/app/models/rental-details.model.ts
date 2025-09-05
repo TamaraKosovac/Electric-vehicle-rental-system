@@ -12,4 +12,6 @@ export interface RentalDetails {
   manufacturerName: string;
   vehicleModel: string;
   client: string; 
+  vehicleId: number;
+  imagePath: string;
 }
