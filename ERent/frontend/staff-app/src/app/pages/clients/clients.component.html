@@ -1,0 +1,37 @@
+<div class="toolbar-card">
+  <mat-form-field appearance="outline" class="search-field small">
+    <mat-icon matPrefix>search</mat-icon>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Search..."
+    />
+  </mat-form-field>
+</div>
+
+<app-data-table
+  [dataSource]="clients"
+  [displayedColumns]="['avatar','fullName','username','email','documentNumber','phone']"
+  [columnLabels]="{
+    avatar: 'Avatar',
+    fullName: 'Full Name',
+    username: 'Username',
+    email: 'Email',
+    documentNumber: 'ID Number',
+    phone: 'Phone'
+  }"
+  [currentPage]="currentClientPage"
+  [totalPages]="clientTotalPages"
+  [showBlockUnblock]="true"
+  [showInfo]="false"
+  [showEdit]="false"
+  [showDelete]="false"
+  (blockUnblock)="blockUnblockClient($event)">
+</app-data-table>
+
+<app-minimal-paginator
+  [currentPage]="currentClientPage"
+  [totalPages]="clientTotalPages"
+  (previous)="previousClientPage()"
+  (next)="nextClientPage()">
+</app-minimal-paginator>
