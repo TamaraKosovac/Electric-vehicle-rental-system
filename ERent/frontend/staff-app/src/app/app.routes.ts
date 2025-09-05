@@ -32,7 +32,8 @@ export const routes: Routes = [
       { path: 'malfunctions', loadComponent: () => import('./pages/malfunctions/malfunctions.component').then(m => m.MalfunctionsComponent), data: { title: 'Malfunctions management', roles: ['operator','manager'] } },
 
       // samo manager
-      // { path: 'reports', loadComponent: () => import('./pages/reports/reports.component').then(m => m.ReportsComponent), data: { title: 'Reports', roles: ['manager'] } },
+      { path: 'statistics', loadComponent: () => import('./pages/statistics/statistics.component').then(m => m.StatisticsComponent), data: { title: 'Statistics management', roles: ['manager'] } },
+      { path: 'rental-prices', loadComponent: () => import('./pages/rental-prices/rental-prices.component').then(m => m.RentalPricesComponent), data: { title: 'Rental prices management', roles: ['manager'] } },
     ]
   },
 
