@@ -142,4 +142,11 @@
   color: #1f2937 !important;       
   box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
   border-radius: 6px;              
+}::ng-deep .mat-datepicker-toggle-default-icon {
+  color: #6b7280 !important;
 }
+
+::ng-deep .mat-mdc-select-arrow {
+  color: #6b7280 !important;      
+}
+
