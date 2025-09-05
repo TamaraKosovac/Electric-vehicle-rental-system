@@ -26,4 +26,8 @@ export class MalfunctionsService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  getAll(): Observable<Malfunction[]> {
+    return this.http.get<Malfunction[]>(this.apiUrl);
+  }
 }

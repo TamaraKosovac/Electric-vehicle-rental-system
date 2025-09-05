@@ -48,7 +48,16 @@ public class MalfunctionService {
         dto.setId(malfunction.getId());
         dto.setDescription(malfunction.getDescription());
         dto.setDateTime(malfunction.getDateTime());
-        dto.setVehicleId(malfunction.getVehicle().getId());
+
+        if (malfunction.getVehicle() != null) {
+            dto.setVehicleId(malfunction.getVehicle().getId());
+            dto.setVehicleModel(malfunction.getVehicle().getModel());
+
+            if (malfunction.getVehicle().getManufacturer() != null) {
+                dto.setManufacturerName(malfunction.getVehicle().getManufacturer().getName());
+            }
+        }
+
         return dto;
     }
 

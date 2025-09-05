@@ -3,6 +3,8 @@ export interface Malfunction {
   description: string;
   dateTime: string;
   vehicleId: number;
+  manufacturerName?: string;
+  vehicleModel?: string;
 
   date?: Date;
   time?: string;

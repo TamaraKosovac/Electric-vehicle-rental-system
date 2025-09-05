@@ -29,7 +29,7 @@ export const routes: Routes = [
       { path: 'rentals', loadComponent: () => import('./pages/rentals/rentals.component').then(m => m.RentalsComponent), data: { title: 'Rentals management', roles: ['operator','manager'] } },
       { path: 'rentals-map', loadComponent: () => import('./pages/rentals-map/rentals-map.component').then(m => m.RentalsMapComponent), data: { title: 'Rentals management', roles: ['operator','manager'] } },
       { path: 'clients', loadComponent: () => import('./pages/users/users.component').then(m => m.UsersComponent), data: { title: 'Clients management', roles: ['operator','manager'] } },
-      // { path: 'malfunctions', loadComponent: () => import('./pages/malfunctions/malfunctions.component').then(m => m.MalfunctionsComponent), data: { title: 'Malfunctions', roles: ['operator','manager'] } },
+      { path: 'malfunctions', loadComponent: () => import('./pages/malfunctions/malfunctions.component').then(m => m.MalfunctionsComponent), data: { title: 'Malfunctions management', roles: ['operator','manager'] } },
 
       // samo manager
       // { path: 'reports', loadComponent: () => import('./pages/reports/reports.component').then(m => m.ReportsComponent), data: { title: 'Reports', roles: ['manager'] } },

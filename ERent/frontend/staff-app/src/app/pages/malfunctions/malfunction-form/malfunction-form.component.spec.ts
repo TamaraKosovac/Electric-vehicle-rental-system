@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardComponent } from './dashboard.component';
+import { MalfunctionFormComponent } from './malfunction-form.component';
 
-describe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+describe('MalfunctionFormComponent', () => {
+  let component: MalfunctionFormComponent;
+  let fixture: ComponentFixture<MalfunctionFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DashboardComponent]
+      imports: [MalfunctionFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DashboardComponent);
+    fixture = TestBed.createComponent(MalfunctionFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
