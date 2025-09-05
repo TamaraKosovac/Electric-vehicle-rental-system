@@ -1,5 +1,3 @@
-import { Malfunction } from './malfunction.model';
-
 export interface Vehicle {
   id: number;
   uniqueId: string;

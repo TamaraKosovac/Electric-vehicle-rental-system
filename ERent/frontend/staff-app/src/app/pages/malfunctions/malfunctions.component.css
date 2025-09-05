@@ -126,3 +126,24 @@
   background-color: #1D4E4A !important;
 }
 
+::ng-deep .mat-mdc-select-trigger {
+  display: flex !important;
+  align-items: center !important;  
+  justify-content: space-between !important;
+  height: 100% !important;
+  min-height: 44px; 
+}
+
+::ng-deep .mat-mdc-select-placeholder,
+::ng-deep .mat-mdc-select-value {
+  display: flex;
+  align-items: center;  
+  color: #6b7280;       
+  font-size: 16px;
+}
+
+::ng-deep .mat-mdc-select-arrow {
+  margin-right: 8px;
+  align-self: center !important;  
+  color: #6b7280;  
+}

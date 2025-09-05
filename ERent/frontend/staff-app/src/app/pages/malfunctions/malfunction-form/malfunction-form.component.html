@@ -7,6 +7,25 @@
 
     <div class="form-row">
       <div>
+        <label class="field-label">Vehicle</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-select
+            name="vehicleId"
+            [(ngModel)]="malfunction.vehicleId"
+            placeholder="Select vehicle"
+            required
+          >
+            <mat-option *ngFor="let v of vehicles" [value]="v.id">
+              {{ v.manufacturer }} {{ v.model }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="malfunctionForm.submitted && !malfunction.vehicleId">
+            Vehicle is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
         <label class="field-label">Date</label>
         <mat-form-field class="full-width" appearance="outline">
           <input
@@ -24,7 +43,9 @@
           </mat-error>
         </mat-form-field>
       </div>
+    </div>
 
+    <div class="form-row">
       <div>
         <label class="field-label">Time</label>
         <mat-form-field class="full-width" appearance="outline">
@@ -46,9 +67,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-    </div>
 
-    <div class="form-row">
       <div>
         <label class="field-label">Description</label>
         <mat-form-field class="full-width" appearance="outline">
@@ -69,9 +88,7 @@
 
     <div mat-dialog-actions class="dialog-actions">
       <button mat-stroked-button color="warn" (click)="cancel()">Cancel</button>
-      <button mat-raised-button color="primary" type="submit">
-        Save
-      </button>
+      <button mat-raised-button color="primary" type="submit">Save</button>
     </div>
   </form>
 </div>

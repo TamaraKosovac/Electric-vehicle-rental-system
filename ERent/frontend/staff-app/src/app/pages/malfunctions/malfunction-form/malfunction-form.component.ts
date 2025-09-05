@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -8,7 +8,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 import { Malfunction } from '../../../models/malfunction.model';
+import { VehiclesService } from '../../../services/vehicles.service';
+import { Vehicle } from '../../../models/vehicle.model';
 
 @Component({
   selector: 'app-malfunction-form',
@@ -21,13 +24,14 @@ import { Malfunction } from '../../../models/malfunction.model';
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './malfunction-form.component.html',
   styleUrls: ['./malfunction-form.component.css']
 })
-export class MalfunctionFormComponent {
+export class MalfunctionFormComponent implements OnInit {
   malfunction: Malfunction = {
     id: 0,
     description: '',
@@ -37,7 +41,10 @@ export class MalfunctionFormComponent {
     time: ''
   };
 
+  vehicles: Vehicle[] = [];
+
   constructor(
+    private vehiclesService: VehiclesService,
     public dialogRef: MatDialogRef<MalfunctionFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data?: { malfunction?: Malfunction; vehicleId?: number }
   ) {
@@ -55,6 +62,12 @@ export class MalfunctionFormComponent {
     } else if (data?.vehicleId) {
       this.malfunction.vehicleId = data.vehicleId;
     }
+  }
+
+  ngOnInit(): void {
+    this.vehiclesService.getAllVehicles().subscribe((data) => {
+      this.vehicles = data;
+    });
   }
 
   save(form: NgForm) {

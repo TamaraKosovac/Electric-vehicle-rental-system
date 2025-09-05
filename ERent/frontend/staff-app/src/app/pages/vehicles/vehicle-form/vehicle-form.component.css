@@ -120,14 +120,14 @@
 ::ng-deep .mat-mdc-select-value {
   display: flex;
   align-items: center;  
-  color: #555;       
+  color: #6b7280;       
   font-size: 16px;
 }
 
 ::ng-deep .mat-mdc-select-arrow {
   margin-right: 8px;
   align-self: center !important;  
-  color: #555;  
+  color: #6b7280;  
 }
 
 .vehicle-dialog-title {
