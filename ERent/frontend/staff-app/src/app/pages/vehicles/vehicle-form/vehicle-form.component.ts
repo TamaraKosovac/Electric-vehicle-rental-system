@@ -46,6 +46,7 @@ export class VehicleFormComponent implements OnInit {
   };
 
   selectedImage: File | null = null;
+  selectedImagePreview: string | null = null;
   manufacturers: Manufacturer[] = [];
 
   constructor(
@@ -80,7 +81,27 @@ export class VehicleFormComponent implements OnInit {
     const file = event.target.files[0];
     if (file) {
       this.selectedImage = file;
-      console.log('Selected image:', file);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.selectedImagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    (event.currentTarget as HTMLElement).classList.remove('dragover');
+    const file = event.dataTransfer?.files[0];
+    if (file) {
+      this.selectedImage = file;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.selectedImagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(file);
     }
   }
 
@@ -91,15 +112,5 @@ export class VehicleFormComponent implements OnInit {
 
   onDragLeave(event: DragEvent) {
     (event.currentTarget as HTMLElement).classList.remove('dragover');
-  }
-
-  onDrop(event: DragEvent) {
-    event.preventDefault();
-    (event.currentTarget as HTMLElement).classList.remove('dragover');
-    const file = event.dataTransfer?.files[0];
-    if (file) {
-      this.selectedImage = file;
-      console.log('Dropped image:', file);
-    }
   }
 }

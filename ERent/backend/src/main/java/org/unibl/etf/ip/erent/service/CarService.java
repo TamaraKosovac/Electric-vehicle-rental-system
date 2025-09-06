@@ -109,4 +109,39 @@ public class CarService {
 
         return dto;
     }
+
+    public Car update(Long id, Car updated, MultipartFile image) throws IOException {
+        Car existing = carRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        existing.setUniqueId(updated.getUniqueId());
+        existing.setModel(updated.getModel());
+        existing.setManufacturer(updated.getManufacturer());
+        existing.setPurchasePrice(updated.getPurchasePrice());
+        existing.setPurchaseDate(updated.getPurchaseDate());
+        existing.setDescription(updated.getDescription());
+        existing.setRented(updated.isRented());
+        existing.setCurrentLatitude(updated.getCurrentLatitude());
+        existing.setCurrentLongitude(updated.getCurrentLongitude());
+
+        if (image != null && !image.isEmpty()) {
+            String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            existing.setImagePath("/" + fileName);
+        }
+
+        if (existing.getCurrentLatitude() == null || existing.getCurrentLongitude() == null) {
+            existing.setCurrentLatitude(44.7722);
+            existing.setCurrentLongitude(17.1910);
+        }
+
+        return carRepository.save(existing);
+    }
+
 }

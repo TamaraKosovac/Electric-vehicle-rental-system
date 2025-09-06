@@ -90,20 +90,35 @@
           </mat-error>
         </div>
 
-        <div>
-          <label class="field-label">Image</label>
-          <div class="image-dropzone"
-               (dragover)="onDragOver($event)"
-               (dragleave)="onDragLeave($event)"
-               (drop)="onDrop($event)">
-            <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
-            <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
-            <input type="file"
-                   class="file-input"
-                   (change)="onFileSelected($event)"
-                   accept="image/*" />
-          </div>
-        </div>
+<div>
+  <label class="field-label">Image</label>
+
+  <!-- ako postoji slika u bazi i još nije izabrana nova -->
+  <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
+    <img [src]="'http://localhost:8080' + vehicle.imagePath"
+         alt="Vehicle image"
+         style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+  </div>
+
+  <!-- ako je izabrana nova slika -->
+  <div class="image-preview" *ngIf="selectedImage">
+    <img [src]="selectedImagePreview"
+         alt="New vehicle image"
+         style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+  </div>
+
+  <div class="image-dropzone"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)"
+          (drop)="onDrop($event)">
+        <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
+        <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
+        <input type="file"
+              class="file-input"
+              (change)="onFileSelected($event)"
+              accept="image/*" />
+      </div>
+    </div>
       </div>
 
       <label class="field-label">Description</label>
