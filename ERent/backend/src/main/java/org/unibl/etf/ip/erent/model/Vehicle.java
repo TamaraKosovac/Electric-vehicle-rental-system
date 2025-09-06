@@ -23,6 +23,8 @@ public abstract class Vehicle {
     private Double purchasePrice;
     private String imagePath;
     private boolean rented = false;
+    private Double currentLatitude;
+    private Double currentLongitude;
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Malfunction> malfunctions = new ArrayList<>();
 }

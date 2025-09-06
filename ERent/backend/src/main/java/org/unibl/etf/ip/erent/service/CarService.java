@@ -40,7 +40,9 @@ public class CarService {
                         car.getPurchaseDate(),
                         !car.getMalfunctions().isEmpty(),
                         car.isRented(),
-                        car.getDescription()
+                        car.getDescription(),
+                        car.getCurrentLatitude(),
+                        car.getCurrentLongitude()
                 ))
                 .toList();
     }
@@ -62,10 +64,10 @@ public class CarService {
 
             car.setImagePath("/" + fileName);
         }
-        return carRepository.save(car);
-    }
-
-    public Car save(Car car) {
+        if (car.getCurrentLatitude() == null || car.getCurrentLongitude() == null) {
+            car.setCurrentLatitude(44.7722);
+            car.setCurrentLongitude(17.1910);
+        }
         return carRepository.save(car);
     }
 
@@ -85,6 +87,8 @@ public class CarService {
         dto.setImagePath(car.getImagePath());
         dto.setRented(car.isRented());
         dto.setDescription(car.getDescription());
+        dto.setCurrentLatitude(car.getCurrentLatitude());
+        dto.setCurrentLongitude(car.getCurrentLongitude());
 
         if (car.getPurchaseDate() != null) {
             dto.setPurchaseDate(car.getPurchaseDate().toString());

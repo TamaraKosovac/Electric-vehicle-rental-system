@@ -283,7 +283,10 @@ export class VehiclesComponent implements OnInit {
               this.updateScooterPage();
             }
 
-            this.snackBar.open(`${type.slice(0, -1)} created successfully!`, '', {
+              const singular = type.slice(0, -1);
+              const capitalized = singular.charAt(0).toUpperCase() + singular.slice(1);
+
+              this.snackBar.open(`${capitalized} created successfully!`, '', {
               duration: 3000,
               horizontalPosition: 'end',
               verticalPosition: 'top',

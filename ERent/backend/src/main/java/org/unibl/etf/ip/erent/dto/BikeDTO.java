@@ -10,8 +10,8 @@ public class BikeDTO extends VehicleDTO {
     private Integer autonomy;
 
     public BikeDTO(Long id, String uniqueId, String model, String manufacturer,Integer autonomy,
-                   Double purchasePrice, boolean hasMalfunctions, boolean rented) {
-        super(id, uniqueId, model, manufacturer, purchasePrice, hasMalfunctions, rented);
+                   Double purchasePrice, boolean hasMalfunctions, boolean rented, Double currentLatitude, Double currentLongitude) {
+        super(id, uniqueId, model, manufacturer, purchasePrice, hasMalfunctions, rented, currentLatitude, currentLongitude);
         this.autonomy = autonomy;
     }
 }

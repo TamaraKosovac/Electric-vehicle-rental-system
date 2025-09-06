@@ -7,4 +7,6 @@ export interface Vehicle {
   imagePath: string;
   rented: boolean;
   hasMalfunctions: boolean;  
+  currentLatitude: number;
+  currentLongitude: number;
 }

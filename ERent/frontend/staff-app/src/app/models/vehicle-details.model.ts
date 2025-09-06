@@ -9,5 +9,7 @@ export interface VehicleDetails {
   purchasePrice: number;
   imagePath: string;
   rented: boolean;
+  currentLatitude: number;
+  currentLongitude: number;
   malfunctions: Malfunction[];
 }

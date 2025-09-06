@@ -11,8 +11,8 @@ public class ScooterDTO extends VehicleDTO {
 
     public ScooterDTO(Long id, String uniqueId, String model, String manufacturer,
                       Integer maxSpeed, Double purchasePrice,
-                      boolean hasMalfunctions, boolean rented) {
-        super(id, uniqueId, model, manufacturer, purchasePrice, hasMalfunctions, rented);
+                      boolean hasMalfunctions, boolean rented, Double  currentLatitude, Double currentLongitude) {
+        super(id, uniqueId, model, manufacturer, purchasePrice, hasMalfunctions, rented, currentLatitude, currentLongitude);
         this.maxSpeed = maxSpeed;
     }
 }

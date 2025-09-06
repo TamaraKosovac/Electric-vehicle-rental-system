@@ -39,7 +39,9 @@ public class BikeService {
                         bike.getAutonomy(),
                         bike.getPurchasePrice(),
                         !bike.getMalfunctions().isEmpty(),
-                        bike.isRented()
+                        bike.isRented(),
+                        bike.getCurrentLatitude(),
+                        bike.getCurrentLongitude()
                 ))
                 .toList();
     }
@@ -61,10 +63,10 @@ public class BikeService {
 
             bike.setImagePath("/" + fileName);
         }
-        return bikeRepository.save(bike);
-    }
-
-    public Bike save(Bike bike) {
+        if (bike.getCurrentLatitude() == null || bike.getCurrentLongitude() == null) {
+            bike.setCurrentLatitude(44.7722);
+            bike.setCurrentLongitude(17.1910);
+        }
         return bikeRepository.save(bike);
     }
 
@@ -84,6 +86,8 @@ public class BikeService {
         dto.setImagePath(bike.getImagePath());
         dto.setRented(bike.isRented());
         dto.setAutonomy(bike.getAutonomy());
+        dto.setCurrentLatitude(bike.getCurrentLatitude());
+        dto.setCurrentLongitude(bike.getCurrentLongitude());
 
         dto.setMalfunctions(
                 bike.getMalfunctions().stream()
