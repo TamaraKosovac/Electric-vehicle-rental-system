@@ -25,4 +25,8 @@ export class RentalsService {
       `${this.baseUrl}/daily-revenue?year=${year}&month=${month}`
     );
   }
+
+  getRevenueByVehicleType(): Observable<{ label: string, value: number }[]> {
+    return this.http.get<{ label: string, value: number }[]>(`${this.baseUrl}/revenue-by-vehicle-type`);
+  }
 }

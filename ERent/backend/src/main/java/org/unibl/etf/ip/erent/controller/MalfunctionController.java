@@ -2,6 +2,7 @@ package org.unibl.etf.ip.erent.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.unibl.etf.ip.erent.dto.ChartDataDTO;
 import org.unibl.etf.ip.erent.dto.MalfunctionDTO;
 import org.unibl.etf.ip.erent.model.Malfunction;
 import org.unibl.etf.ip.erent.model.Vehicle;
@@ -62,5 +63,10 @@ public class MalfunctionController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);
+    }
+
+    @GetMapping("/by-vehicle-type")
+    public List<ChartDataDTO> getCountsByVehicleType() {
+        return service.countByVehicleType();
     }
 }

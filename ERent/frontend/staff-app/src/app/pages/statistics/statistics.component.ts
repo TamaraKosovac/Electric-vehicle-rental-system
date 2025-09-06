@@ -3,16 +3,13 @@ import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { BaseChartDirective } from 'ng2-charts';
-import { Chart, registerables, ChartData, ChartOptions } from 'chart.js';
-
-// ➕ Dodano za formu i dropdown
+import { Chart, registerables, ChartData, ChartOptions, ChartDataset } from 'chart.js';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
-
-// ➕ Dodan servis
 import { RentalsService } from '../../services/rentals.service';
+import { MalfunctionsService } from '../../services/malfunctions.service';
 
 Chart.register(...registerables);
 
@@ -54,23 +51,22 @@ export class StatisticsComponent implements OnInit {
   dailyRevenueData: ChartData<'line'> = { labels: [], datasets: [] };
   dailyRevenueOptions: ChartOptions<'line'> = { responsive: true };
 
-  malfunctionsData = {
-    labels: ['Cars', 'Bikes', 'Scooters'],
-    datasets: [{ label: 'Malfunctions', data: [5, 3, 7] }]
-  };
+  malfunctionsData: ChartData<'bar'> = { labels: [], datasets: [] };
 
-  revenueByVehicleTypeData = {
-    labels: ['Cars', 'Bikes', 'Scooters'],
-    datasets: [{ label: 'Revenue (€)', data: [1200, 800, 950] }]
-  };
+  revenueByVehicleTypeData: ChartData<'pie'> = { labels: [], datasets: [] };
 
-  constructor(private rentalsService: RentalsService) {}
+  constructor(
+    private rentalsService: RentalsService,
+    private malfunctionsService: MalfunctionsService
+  ) {}
 
   ngOnInit(): void {
     const today = new Date();
     this.selectedYear = today.getFullYear();
     this.selectedMonth = today.getMonth() + 1;
     this.loadDailyRevenue();
+    this.loadMalfunctions();
+    this.loadRevenueByVehicleType();
   }
 
   loadDailyRevenue(): void {
@@ -88,13 +84,46 @@ export class StatisticsComponent implements OnInit {
         ),
         datasets: [
           {
-            label: 'Revenue (€)',
+            label: 'Revenue (KM)',
             data: sorted.map(d => d.totalRevenue),
-            borderColor: '#2e6f6a',
             backgroundColor: 'rgba(46,111,106,0.2)',
-            fill: true,
-            tension: 0.3
+            borderColor: '#2e6f6a', 
+            borderWidth: 0.5
           }
+        ]
+      };
+    });
+  }
+
+  loadMalfunctions(): void {
+    this.malfunctionsService.getMalfunctionsByVehicleType().subscribe(data => {
+      this.malfunctionsData = {
+        labels: data.map(d => d.label),
+        datasets: [
+          {
+            label: 'Malfunctions',
+            data: data.map(d => d.value),
+            backgroundColor: 'rgba(46,111,106,0.2)', 
+            borderColor: '#2e6f6a', 
+            borderWidth: 0.5
+          } as ChartDataset<'bar'>
+        ]
+      };
+    });
+  }
+
+  loadRevenueByVehicleType(): void {
+    this.rentalsService.getRevenueByVehicleType().subscribe(data => {
+      this.revenueByVehicleTypeData = {
+        labels: data.map(d => d.label),
+        datasets: [
+          {
+            label: 'Revenue (KM)',
+            data: data.map(d => d.value),
+            backgroundColor: 'rgba(46,111,106,0.2)', 
+            borderColor: '#2e6f6a', 
+            borderWidth: 0.5
+          } as ChartDataset<'pie'>
         ]
       };
     });

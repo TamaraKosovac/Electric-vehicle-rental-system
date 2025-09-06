@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.unibl.etf.ip.erent.dto.ChartDataDTO;
 import org.unibl.etf.ip.erent.dto.DailyRevenueDTO;
 import org.unibl.etf.ip.erent.dto.RentalDTO;
 import org.unibl.etf.ip.erent.dto.RentalDetailsDTO;
@@ -16,6 +17,7 @@ import org.unibl.etf.ip.erent.repository.VehicleRepository;
 
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -146,6 +148,21 @@ public class RentalService {
                 .entrySet().stream()
                 .map(e -> new DailyRevenueDTO(e.getKey(), e.getValue()))
                 .sorted((a, b) -> a.getDate().compareTo(b.getDate()))
+                .toList();
+    }
+
+    public List<ChartDataDTO> getTotalRevenueByVehicleType() {
+        List<Rental> rentals = rentalRepository.findAll();
+
+        Map<String, Double> grouped = rentals.stream()
+                .filter(r -> r.getVehicle() != null && r.getPrice() != null)
+                .collect(Collectors.groupingBy(
+                        r -> r.getVehicle().getClass().getSimpleName(), // "Car", "Bike", "Scooter"
+                        Collectors.summingDouble(Rental::getPrice)
+                ));
+
+        return grouped.entrySet().stream()
+                .map(e -> new ChartDataDTO(e.getKey(), e.getValue()))
                 .toList();
     }
 }

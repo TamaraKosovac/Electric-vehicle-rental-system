@@ -2,6 +2,7 @@ package org.unibl.etf.ip.erent.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.unibl.etf.ip.erent.dto.ChartDataDTO;
 import org.unibl.etf.ip.erent.dto.DailyRevenueDTO;
 import org.unibl.etf.ip.erent.dto.RentalDTO;
 import org.unibl.etf.ip.erent.dto.RentalDetailsDTO;
@@ -54,4 +55,8 @@ public class RentalController {
         return rentalService.getDailyRevenue(year, month);
     }
 
+    @GetMapping("/revenue-by-vehicle-type")
+    public List<ChartDataDTO> getRevenueByVehicleType() {
+        return rentalService.getTotalRevenueByVehicleType();
+    }
 }
