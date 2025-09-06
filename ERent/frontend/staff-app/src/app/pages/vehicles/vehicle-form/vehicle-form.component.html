@@ -29,6 +29,7 @@
         <mat-form-field class="full-width" appearance="outline">
           <mat-select name="manufacturer"
                       [(ngModel)]="vehicle.manufacturer"
+                      [compareWith]="compareManufacturer"
                       required
                       placeholder="Choose">
             <mat-option *ngFor="let m of manufacturers" [value]="m">
@@ -93,14 +94,12 @@
 <div>
   <label class="field-label">Image</label>
 
-  <!-- ako postoji slika u bazi i još nije izabrana nova -->
   <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
     <img [src]="'http://localhost:8080' + vehicle.imagePath"
          alt="Vehicle image"
          style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
   </div>
 
-  <!-- ako je izabrana nova slika -->
   <div class="image-preview" *ngIf="selectedImage">
     <img [src]="selectedImagePreview"
          alt="New vehicle image"
@@ -146,6 +145,16 @@
 
         <div>
           <label class="field-label">Image</label>
+          <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
+            <img [src]="'http://localhost:8080' + vehicle.imagePath"
+                alt="Vehicle image"
+                style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+          </div>
+          <div class="image-preview" *ngIf="selectedImage">
+            <img [src]="selectedImagePreview"
+                alt="New vehicle image"
+                style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+          </div>
           <div class="image-dropzone"
                (dragover)="onDragOver($event)"
                (dragleave)="onDragLeave($event)"
@@ -178,6 +187,16 @@
 
         <div>
           <label class="field-label">Image</label>
+            <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
+              <img [src]="'http://localhost:8080' + vehicle.imagePath"
+                  alt="Vehicle image"
+                  style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+            </div>
+            <div class="image-preview" *ngIf="selectedImage">
+              <img [src]="selectedImagePreview"
+                  alt="New vehicle image"
+                  style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+            </div>
           <div class="image-dropzone"
                (dragover)="onDragOver($event)"
                (dragleave)="onDragLeave($event)"
