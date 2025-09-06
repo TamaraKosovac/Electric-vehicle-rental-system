@@ -34,7 +34,9 @@ public class VehicleService {
                         vehicle.getManufacturer().getName(),
                         vehicle.getPurchasePrice(),
                         !vehicle.getMalfunctions().isEmpty(),
-                        vehicle.isRented()
+                        vehicle.isRented(),
+                        vehicle.getCurrentLatitude(),
+                        vehicle.getCurrentLongitude()
                 ))
                 .toList();
     }
@@ -147,6 +149,14 @@ public class VehicleService {
                         malfunction.setVehicle(vehicle);
                         vehicle.getMalfunctions().add(malfunction);
                     }
+                }
+
+                if (row.length > 18 && !row[18].isBlank() && row.length > 19 && !row[19].isBlank()) {
+                    vehicle.setCurrentLatitude(Double.parseDouble(clean(row[18])));
+                    vehicle.setCurrentLongitude(Double.parseDouble(clean(row[19])));
+                } else {
+                    vehicle.setCurrentLatitude(44.7722);
+                    vehicle.setCurrentLongitude(17.1910);
                 }
 
                 vehicleRepository.save(vehicle);

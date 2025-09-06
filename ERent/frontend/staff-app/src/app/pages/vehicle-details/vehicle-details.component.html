@@ -9,10 +9,7 @@
         <mat-icon *ngIf="vehicleType === 'cars'">directions_car</mat-icon>
         <mat-icon *ngIf="vehicleType === 'bikes'">pedal_bike</mat-icon>
         <mat-icon *ngIf="vehicleType === 'scooters'">electric_scooter</mat-icon>
-        {{ vehicle.model }}
-      </div>
-      <div>
-        <mat-icon>engineering</mat-icon> {{ vehicle.manufacturer.name }}
+        {{ vehicle.manufacturer.name }} {{ vehicle.model }}
       </div>
       <div>
         <mat-icon>euro</mat-icon> {{ vehicle.purchasePrice }} €
@@ -20,6 +17,11 @@
       <div>
         <mat-icon>{{ vehicle.rented ? 'highlight_off' : 'verified' }}</mat-icon>
         {{ vehicle.rented ? 'Rented' : 'Available' }}
+      </div>
+
+      <div>
+        <mat-icon>location_on</mat-icon>
+        {{ vehicle.currentLatitude }}, {{ vehicle.currentLongitude }}
       </div>
 
       <div *ngIf="car">

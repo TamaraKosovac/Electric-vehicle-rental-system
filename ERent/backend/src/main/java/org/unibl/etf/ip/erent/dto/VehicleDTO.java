@@ -15,4 +15,6 @@ public class VehicleDTO {
     private Double purchasePrice;
     private boolean hasMalfunctions;
     private boolean rented;
+    private Double currentLatitude;
+    private Double currentLongitude;
 }

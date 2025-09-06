@@ -13,5 +13,7 @@ public class VehicleDetailsDTO {
     private Double purchasePrice;
     private String imagePath;
     private boolean rented;
+    private Double currentLatitude;
+    private Double currentLongitude;
     private List<MalfunctionDTO> malfunctions;
 }

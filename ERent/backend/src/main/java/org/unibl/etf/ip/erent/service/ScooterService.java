@@ -39,7 +39,9 @@ public class ScooterService {
                         scooter.getMaxSpeed(),
                         scooter.getPurchasePrice(),
                         !scooter.getMalfunctions().isEmpty(),
-                        scooter.isRented()
+                        scooter.isRented(),
+                        scooter.getCurrentLatitude(),
+                        scooter.getCurrentLongitude()
                 ))
                 .toList();
     }
@@ -61,10 +63,10 @@ public class ScooterService {
 
             scooter.setImagePath("/" + fileName);
         }
-        return scooterRepository.save(scooter);
-    }
-
-    public Scooter save(Scooter scooter) {
+        if (scooter.getCurrentLatitude() == null || scooter.getCurrentLongitude() == null) {
+            scooter.setCurrentLatitude(44.7722);
+            scooter.setCurrentLongitude(17.1910);
+        }
         return scooterRepository.save(scooter);
     }
 
@@ -84,6 +86,8 @@ public class ScooterService {
         dto.setImagePath(scooter.getImagePath());
         dto.setRented(scooter.isRented());
         dto.setMaxSpeed(scooter.getMaxSpeed());
+        dto.setCurrentLatitude(scooter.getCurrentLatitude());
+        dto.setCurrentLongitude(scooter.getCurrentLongitude());
 
         dto.setMalfunctions(
                 scooter.getMalfunctions().stream()
