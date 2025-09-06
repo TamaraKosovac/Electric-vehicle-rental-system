@@ -113,4 +113,8 @@ export class VehicleFormComponent implements OnInit {
   onDragLeave(event: DragEvent) {
     (event.currentTarget as HTMLElement).classList.remove('dragover');
   }
+
+  compareManufacturer(m1: Manufacturer, m2: Manufacturer): boolean {
+    return m1 && m2 ? m1.id === m2.id : m1 === m2;
+  }
 }
