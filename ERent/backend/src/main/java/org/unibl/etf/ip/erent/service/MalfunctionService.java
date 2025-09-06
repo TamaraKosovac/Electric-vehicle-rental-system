@@ -2,11 +2,13 @@ package org.unibl.etf.ip.erent.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.unibl.etf.ip.erent.dto.ChartDataDTO;
 import org.unibl.etf.ip.erent.dto.MalfunctionDTO;
 import org.unibl.etf.ip.erent.model.Malfunction;
 import org.unibl.etf.ip.erent.repository.MalfunctionRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,5 +68,20 @@ public class MalfunctionService {
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<ChartDataDTO> countByVehicleType() {
+        List<Malfunction> malfunctions = malfunctionRepository.findAll();
+
+        Map<String, Long> grouped = malfunctions.stream()
+                .filter(m -> m.getVehicle() != null)
+                .collect(Collectors.groupingBy(
+                        m -> m.getVehicle().getClass().getSimpleName(),
+                        Collectors.counting()
+                ));
+
+        return grouped.entrySet().stream()
+                .map(e -> new ChartDataDTO(e.getKey(), e.getValue()))
+                .toList();
     }
 }

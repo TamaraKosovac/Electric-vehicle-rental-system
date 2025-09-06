@@ -30,4 +30,8 @@ export class MalfunctionsService {
   getAll(): Observable<Malfunction[]> {
     return this.http.get<Malfunction[]>(this.apiUrl);
   }
+
+  getMalfunctionsByVehicleType(): Observable<{ label: string, value: number }[]> {
+    return this.http.get<{ label: string, value: number }[]>(`${this.apiUrl}/by-vehicle-type`);
+  }
 }
