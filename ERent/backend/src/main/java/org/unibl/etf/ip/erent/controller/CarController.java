@@ -47,8 +47,7 @@ public class CarController {
             @RequestPart(value = "image", required = false) MultipartFile image
     ) throws IOException {
         Car car = objectMapper.readValue(carJson, Car.class);
-        car.setId(id);
-        return carService.save(car, image);
+        return carService.update(id, car, image);
     }
 
     @DeleteMapping("/{id}")

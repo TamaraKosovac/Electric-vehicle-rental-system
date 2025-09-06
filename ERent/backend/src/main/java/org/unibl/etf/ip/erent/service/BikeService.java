@@ -104,4 +104,37 @@ public class BikeService {
 
         return dto;
     }
+
+    public Bike update(Long id, Bike updated, MultipartFile image) throws IOException {
+        Bike existing = bikeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Bike not found"));
+
+        existing.setUniqueId(updated.getUniqueId());
+        existing.setModel(updated.getModel());
+        existing.setManufacturer(updated.getManufacturer());
+        existing.setAutonomy(updated.getAutonomy());
+        existing.setPurchasePrice(updated.getPurchasePrice());
+        existing.setRented(updated.isRented());
+        existing.setCurrentLatitude(updated.getCurrentLatitude());
+        existing.setCurrentLongitude(updated.getCurrentLongitude());
+
+        if (image != null && !image.isEmpty()) {
+            String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            existing.setImagePath("/" + fileName);
+        }
+
+        if (existing.getCurrentLatitude() == null || existing.getCurrentLongitude() == null) {
+            existing.setCurrentLatitude(44.7722);
+            existing.setCurrentLongitude(17.1910);
+        }
+
+        return bikeRepository.save(existing);
+    }
 }

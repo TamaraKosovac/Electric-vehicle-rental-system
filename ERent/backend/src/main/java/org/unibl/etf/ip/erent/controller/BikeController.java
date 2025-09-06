@@ -43,8 +43,7 @@ public class BikeController {
             @RequestPart("bike") Bike bike,
             @RequestPart(value = "image", required = false) MultipartFile image
     ) throws IOException {
-        bike.setId(id);
-        return bikeService.save(bike, image);
+        return bikeService.update(id, bike, image);
     }
 
     @DeleteMapping("/{id}")

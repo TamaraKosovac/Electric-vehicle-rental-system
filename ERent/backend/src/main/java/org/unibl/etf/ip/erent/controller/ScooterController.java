@@ -43,9 +43,9 @@ public class ScooterController {
             @RequestPart("scooter") Scooter scooter,
             @RequestPart(value = "image", required = false) MultipartFile image
     ) throws IOException {
-        scooter.setId(id);
-        return scooterService.save(scooter, image);
+        return scooterService.update(id, scooter, image);
     }
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
