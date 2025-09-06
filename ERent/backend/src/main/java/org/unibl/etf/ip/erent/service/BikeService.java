@@ -38,6 +38,7 @@ public class BikeService {
                         bike.getManufacturer().getName(),
                         bike.getAutonomy(),
                         bike.getPurchasePrice(),
+                        bike.getImagePath(),
                         !bike.getMalfunctions().isEmpty(),
                         bike.isRented(),
                         bike.getCurrentLatitude(),

@@ -13,6 +13,7 @@ public class VehicleDTO {
     private String model;
     private String manufacturer;
     private Double purchasePrice;
+    private String imagePath;
     private boolean hasMalfunctions;
     private boolean rented;
     private Double currentLatitude;

@@ -38,6 +38,7 @@ public class ScooterService {
                         scooter.getManufacturer().getName(),
                         scooter.getMaxSpeed(),
                         scooter.getPurchasePrice(),
+                        scooter.getImagePath(),
                         !scooter.getMalfunctions().isEmpty(),
                         scooter.isRented(),
                         scooter.getCurrentLatitude(),

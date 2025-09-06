@@ -15,9 +15,9 @@ public class CarDTO extends VehicleDTO {
     private String description;
 
     public CarDTO(Long id, String uniqueId, String model, String manufacturer,
-                  Double purchasePrice, LocalDate purchaseDate,
+                  Double purchasePrice, String imagePath, LocalDate purchaseDate,
                   boolean hasMalfunctions, boolean rented, String description, Double currentLatitude, Double currentLongitude) {
-        super(id, uniqueId, model, manufacturer, purchasePrice, hasMalfunctions, rented, currentLatitude, currentLongitude);
+        super(id, uniqueId, model, manufacturer, purchasePrice, imagePath, hasMalfunctions, rented, currentLatitude, currentLongitude);
         this.purchaseDate = purchaseDate;
         this.description = description;
     }

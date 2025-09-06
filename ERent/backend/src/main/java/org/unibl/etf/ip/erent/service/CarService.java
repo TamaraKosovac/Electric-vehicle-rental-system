@@ -37,6 +37,7 @@ public class CarService {
                         car.getModel(),
                         car.getManufacturer().getName(),
                         car.getPurchasePrice(),
+                        car.getImagePath(),
                         car.getPurchaseDate(),
                         !car.getMalfunctions().isEmpty(),
                         car.isRented(),

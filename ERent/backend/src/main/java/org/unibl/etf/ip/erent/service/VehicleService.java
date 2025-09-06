@@ -33,6 +33,7 @@ public class VehicleService {
                         vehicle.getModel(),
                         vehicle.getManufacturer().getName(),
                         vehicle.getPurchasePrice(),
+                        vehicle.getImagePath(),
                         !vehicle.getMalfunctions().isEmpty(),
                         vehicle.isRented(),
                         vehicle.getCurrentLatitude(),
