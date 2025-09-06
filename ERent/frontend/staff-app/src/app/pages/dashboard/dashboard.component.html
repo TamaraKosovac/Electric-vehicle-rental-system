@@ -6,53 +6,53 @@
       <div class="brand-tagline">Easy. Electric. Everywhere.</div>
     </div>
 
-<nav class="menu">
-  <ng-container *ngIf="userRole === 'admin' || userRole === 'manager'">
-    <a routerLink="vehicles" routerLinkActive="active">
-      <mat-icon>directions_car</mat-icon>
-      <span>Vehicles</span>
-    </a>
-    <a routerLink="manufacturers" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
-      <mat-icon>engineering</mat-icon>
-      <span>Manufacturers</span>
-    </a>
-    <a routerLink="users" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
-      <mat-icon>group</mat-icon>
-      <span>Users</span>
-    </a>
-  </ng-container>
+    <nav class="menu">
+      <ng-container *ngIf="userRole === Role.ADMIN || userRole === Role.MANAGER">
+        <a routerLink="vehicles" routerLinkActive="active">
+          <mat-icon>directions_car</mat-icon>
+          <span>Vehicles</span>
+        </a>
+        <a routerLink="manufacturers" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+          <mat-icon>engineering</mat-icon>
+          <span>Manufacturers</span>
+        </a>
+        <a routerLink="users" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+          <mat-icon>group</mat-icon>
+          <span>Users</span>
+        </a>
+      </ng-container>
 
-  <ng-container *ngIf="userRole === 'operator' || userRole === 'manager'">
-      <a routerLink="rentals" routerLinkActive="active">
-        <mat-icon>assignment</mat-icon>
-        <span>Rentals</span>
-      </a>
-      <a routerLink="rentals-map" routerLinkActive="active">
-        <mat-icon>place</mat-icon>
-        <span>Rentals map</span>
-      </a>
-      <a routerLink="clients" routerLinkActive="active">
-        <mat-icon>people</mat-icon>
-        <span>Clients</span>
-      </a>
-      <a routerLink="malfunctions" routerLinkActive="active">
-        <mat-icon>build</mat-icon>
-        <span>Malfunctions</span>
-      </a>
-    </ng-container>
+      <ng-container *ngIf="userRole === Role.OPERATOR || userRole === Role.MANAGER">
+        <a routerLink="rentals" routerLinkActive="active">
+          <mat-icon>assignment</mat-icon>
+          <span>Rentals</span>
+        </a>
+        <a routerLink="rentals-map" routerLinkActive="active">
+          <mat-icon>place</mat-icon>
+          <span>Rentals map</span>
+        </a>
+        <a routerLink="clients" routerLinkActive="active">
+          <mat-icon>people</mat-icon>
+          <span>Clients</span>
+        </a>
+        <a routerLink="malfunctions" routerLinkActive="active">
+          <mat-icon>build</mat-icon>
+          <span>Malfunctions</span>
+        </a>
+      </ng-container>
 
-    <ng-container *ngIf="userRole === 'manager'">
-      <a routerLink="statistics" routerLinkActive="active">
-        <mat-icon>insert_chart</mat-icon>
-        <span>Statistics</span>
-      </a>
-      <a routerLink="rental-prices" routerLinkActive="active">
-        <mat-icon>sell</mat-icon>
-        <span>Rental prices</span>
-      </a>
-    </ng-container>
+      <ng-container *ngIf="userRole === Role.MANAGER">
+        <a routerLink="statistics" routerLinkActive="active">
+          <mat-icon>insert_chart</mat-icon>
+          <span>Statistics</span>
+        </a>
+        <a routerLink="rental-prices" routerLinkActive="active">
+          <mat-icon>sell</mat-icon>
+          <span>Rental prices</span>
+        </a>
+      </ng-container>
+    </nav>
 
-  </nav>
     <div class="bottom">
       <a href="#" (click)="openLogoutDialog($event)">
         <mat-icon>logout</mat-icon>

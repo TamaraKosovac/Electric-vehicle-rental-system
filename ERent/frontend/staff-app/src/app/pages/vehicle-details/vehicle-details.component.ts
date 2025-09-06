@@ -18,6 +18,7 @@ import { MinimalPaginatorComponent } from '../../shared/minimal-paginator/minima
 import { MalfunctionsService } from '../../services/malfunctions.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RentalsService } from '../../services/rentals.service';
+import { VehicleState } from '../../models/enums/vehicle-state.enum';
 
 
 @Component({
@@ -37,6 +38,7 @@ import { RentalsService } from '../../services/rentals.service';
   styleUrls: ['./vehicle-details.component.css']
 })
 export class VehicleDetailsComponent implements OnInit {
+  VehicleState = VehicleState; 
   vehicleType!: 'cars' | 'bikes' | 'scooters';
   vehicleId!: number;
 

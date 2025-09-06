@@ -1,8 +1,9 @@
 package org.unibl.etf.ip.erent.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import org.unibl.etf.ip.erent.model.VehicleState;
 
 @Data
 @NoArgsConstructor
@@ -11,9 +12,8 @@ public class ScooterDTO extends VehicleDTO {
 
     public ScooterDTO(Long id, String uniqueId, String model, String manufacturer,
                       Integer maxSpeed, Double purchasePrice, String imagePath,
-                      boolean hasMalfunctions, boolean rented, Double  currentLatitude, Double currentLongitude) {
-        super(id, uniqueId, model, manufacturer, purchasePrice, imagePath, hasMalfunctions, rented, currentLatitude, currentLongitude);
+                      VehicleState state, Double currentLatitude, Double currentLongitude) {
+        super(id, uniqueId, model, manufacturer, purchasePrice, imagePath, state, currentLatitude, currentLongitude);
         this.maxSpeed = maxSpeed;
     }
 }
-

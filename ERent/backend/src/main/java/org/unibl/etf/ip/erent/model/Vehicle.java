@@ -22,7 +22,8 @@ public abstract class Vehicle {
     private String model;
     private Double purchasePrice;
     private String imagePath;
-    private boolean rented = false;
+    @Enumerated(EnumType.STRING)
+    private VehicleState state = VehicleState.AVAILABLE;
     private Double currentLatitude;
     private Double currentLongitude;
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)

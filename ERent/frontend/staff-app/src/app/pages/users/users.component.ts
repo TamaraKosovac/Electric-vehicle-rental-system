@@ -12,7 +12,7 @@ import { MinimalPaginatorComponent } from '../../shared/minimal-paginator/minima
 
 import { Client } from '../../models/client.model';
 import { Employee } from '../../models/employee.model';
-import { EmployeeRole } from '../../models/enums/employee-role.enum';
+import { Role } from '../../models/enums/role.enum';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UserFormComponent } from './user-form/user-form.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -56,7 +56,7 @@ export class UsersComponent implements OnInit {
     password: '',
     firstName: '',
     lastName: '',
-    role: EmployeeRole.OPERATOR
+    role: Role.OPERATOR
   };
 
   editingEmployee: Employee | null = null;

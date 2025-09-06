@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import 'leaflet.markercluster';   
 import { VehiclesService } from '../../services/vehicles.service';
 import { Vehicle } from '../../models/vehicle.model';
+import { VehicleState } from '../../models/enums/vehicle-state.enum';
 
 @Component({
   selector: 'app-rentals-map',
@@ -71,6 +72,9 @@ export class RentalsMapComponent implements AfterViewInit, OnDestroy {
               <div style="font-weight:600; font-size:14px; margin-top:2px; color:#2e6f6a;">
                 ${v.manufacturer} ${v.model}
               </div>
+              <div style="margin-top:4px; font-size:12px;">
+                State: ${v.state}
+              </div>
             </div>
           </div>
         `);
@@ -80,7 +84,13 @@ export class RentalsMapComponent implements AfterViewInit, OnDestroy {
   }
 
   private getStatusIcon(v: Vehicle): L.DivIcon {
-    const color = v.rented ? '#ff6b6b' : '#2e6f6a';
+    let color = '#2e6f6a'; 
+
+    if (v.state === VehicleState.RENTED) {
+      color = '#ff6b6b'; 
+    } else if (v.state === VehicleState.BROKEN) {
+      color = '#fb8c00'; 
+    }
 
     return L.divIcon({
       html: `<span class="material-icons" style="color: ${color}; font-size: 36px;">location_on</span>`,
