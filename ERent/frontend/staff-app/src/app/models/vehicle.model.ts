@@ -1,3 +1,5 @@
+import { VehicleState } from './enums/vehicle-state.enum';
+
 export interface Vehicle {
   id: number;
   uniqueId: string;
@@ -5,8 +7,7 @@ export interface Vehicle {
   model: string;
   purchasePrice: number;
   imagePath: string;
-  rented: boolean;
-  hasMalfunctions: boolean;  
+  state: VehicleState;  
   currentLatitude: number;
   currentLongitude: number;
 }

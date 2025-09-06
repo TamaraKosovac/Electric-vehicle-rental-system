@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Role } from '../models/enums/role.enum';  
 
 export interface User {
   username: string;
-  role: string;
+  role: Role;   
   token?: string;
 }
 
@@ -20,7 +21,6 @@ export class AuthService {
   }
 
   setUser(user: User): void {
-    user.role = user.role.toLowerCase();
     localStorage.setItem(this.userKey, JSON.stringify(user));
   }
 

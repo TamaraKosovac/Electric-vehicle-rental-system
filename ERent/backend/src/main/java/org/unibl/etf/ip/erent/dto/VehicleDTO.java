@@ -3,6 +3,7 @@ package org.unibl.etf.ip.erent.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.unibl.etf.ip.erent.model.VehicleState;
 
 @Data
 @NoArgsConstructor
@@ -14,8 +15,7 @@ public class VehicleDTO {
     private String manufacturer;
     private Double purchasePrice;
     private String imagePath;
-    private boolean hasMalfunctions;
-    private boolean rented;
+    private VehicleState state;
     private Double currentLatitude;
     private Double currentLongitude;
 }

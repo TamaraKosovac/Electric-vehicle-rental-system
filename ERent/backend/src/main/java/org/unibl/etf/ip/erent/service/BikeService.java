@@ -8,6 +8,7 @@ import org.unibl.etf.ip.erent.dto.BikeDTO;
 import org.unibl.etf.ip.erent.dto.BikeDetailsDTO;
 import org.unibl.etf.ip.erent.dto.MalfunctionDTO;
 import org.unibl.etf.ip.erent.model.Bike;
+import org.unibl.etf.ip.erent.model.VehicleState;
 import org.unibl.etf.ip.erent.repository.BikeRepository;
 
 import java.io.IOException;
@@ -39,8 +40,7 @@ public class BikeService {
                         bike.getAutonomy(),
                         bike.getPurchasePrice(),
                         bike.getImagePath(),
-                        !bike.getMalfunctions().isEmpty(),
-                        bike.isRented(),
+                        bike.getState(),
                         bike.getCurrentLatitude(),
                         bike.getCurrentLongitude()
                 ))
@@ -68,6 +68,11 @@ public class BikeService {
             bike.setCurrentLatitude(44.7722);
             bike.setCurrentLongitude(17.1910);
         }
+        if (bike.getMalfunctions() != null && !bike.getMalfunctions().isEmpty()) {
+            bike.setState(VehicleState.BROKEN);
+        } else if (bike.getState() == null) {
+            bike.setState(VehicleState.AVAILABLE);
+        }
         return bikeRepository.save(bike);
     }
 
@@ -85,7 +90,7 @@ public class BikeService {
         dto.setModel(bike.getModel());
         dto.setPurchasePrice(bike.getPurchasePrice());
         dto.setImagePath(bike.getImagePath());
-        dto.setRented(bike.isRented());
+        dto.setState(bike.getState());
         dto.setAutonomy(bike.getAutonomy());
         dto.setCurrentLatitude(bike.getCurrentLatitude());
         dto.setCurrentLongitude(bike.getCurrentLongitude());
@@ -115,7 +120,7 @@ public class BikeService {
         existing.setManufacturer(updated.getManufacturer());
         existing.setAutonomy(updated.getAutonomy());
         existing.setPurchasePrice(updated.getPurchasePrice());
-        existing.setRented(updated.isRented());
+        existing.setState(updated.getState());
         existing.setCurrentLatitude(updated.getCurrentLatitude());
         existing.setCurrentLongitude(updated.getCurrentLongitude());
 
@@ -134,6 +139,11 @@ public class BikeService {
         if (existing.getCurrentLatitude() == null || existing.getCurrentLongitude() == null) {
             existing.setCurrentLatitude(44.7722);
             existing.setCurrentLongitude(17.1910);
+        }
+        if (existing.getMalfunctions() != null && !existing.getMalfunctions().isEmpty()) {
+            existing.setState(VehicleState.BROKEN);
+        } else if (existing.getState() == null) {
+            existing.setState(VehicleState.AVAILABLE);
         }
 
         return bikeRepository.save(existing);

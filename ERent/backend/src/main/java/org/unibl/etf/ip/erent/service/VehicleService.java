@@ -34,8 +34,7 @@ public class VehicleService {
                         vehicle.getManufacturer().getName(),
                         vehicle.getPurchasePrice(),
                         vehicle.getImagePath(),
-                        !vehicle.getMalfunctions().isEmpty(),
-                        vehicle.isRented(),
+                        vehicle.getState(),
                         vehicle.getCurrentLatitude(),
                         vehicle.getCurrentLongitude()
                 ))
@@ -127,7 +126,10 @@ public class VehicleService {
                     vehicle.setImagePath(clean(row[14]));
                 }
                 if (row.length > 15 && !row[15].isBlank()) {
-                    vehicle.setRented(Boolean.parseBoolean(clean(row[15])));
+                    boolean rented = Boolean.parseBoolean(clean(row[15]));
+                    vehicle.setState(rented ? VehicleState.RENTED : VehicleState.AVAILABLE);
+                } else {
+                    vehicle.setState(VehicleState.AVAILABLE);
                 }
 
                 Manufacturer m = getOrCreateManufacturer(manufacturerName, country, address, phone, fax, email);
@@ -149,6 +151,9 @@ public class VehicleService {
 
                         malfunction.setVehicle(vehicle);
                         vehicle.getMalfunctions().add(malfunction);
+                    }
+                    if (!vehicle.getMalfunctions().isEmpty()) {
+                        vehicle.setState(VehicleState.BROKEN);
                     }
                 }
 

@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 
 import { Employee } from '../../../models/employee.model';
-import { EmployeeRole } from '../../../models/enums/employee-role.enum';
+import { Role } from '../../../models/enums/role.enum';
 
 @Component({
   selector: 'app-user-form',
@@ -34,7 +34,7 @@ export class UserFormComponent {
     role: null as any
   };
 
-  roles = Object.values(EmployeeRole);
+  roles = Object.values(Role);
 
   constructor(
     public dialogRef: MatDialogRef<UserFormComponent>,

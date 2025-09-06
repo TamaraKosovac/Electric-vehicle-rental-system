@@ -9,5 +9,5 @@ import lombok.*;
 @AllArgsConstructor
 public class Employee extends User {
     @Enumerated(EnumType.STRING)
-    private EmployeeRole role;
+    private Role role;
 }

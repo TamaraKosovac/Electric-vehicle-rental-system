@@ -8,6 +8,7 @@ import { VehicleDetailsComponent } from './pages/vehicle-details/vehicle-details
 import { ManufacturersComponent } from './pages/manufacturers/manufacturers.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AuthGuard } from './guards/auth.guard';
+import { Role } from './models/enums/role.enum';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,23 +18,60 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivateChild: [AuthGuard],
     children: [
-    { path: '', component: DashboardHomeComponent },
+      { path: '', component: DashboardHomeComponent },
 
-      // admin + manager
-      { path: 'vehicles', component: VehiclesComponent, data: { title: 'Vehicles management', roles: ['admin','manager'] } },
-      { path: 'vehicles/:type/:id', component: VehicleDetailsComponent, data: { title: 'Vehicle details', roles: ['admin','manager'] } },
-      { path: 'manufacturers', component: ManufacturersComponent, data: { title: 'Manufacturers management', roles: ['admin','manager'] } },
-      { path: 'users', component: UsersComponent, data: { title: 'Users management', roles: ['admin','manager'] } },
+      { 
+        path: 'vehicles', 
+        component: VehiclesComponent, 
+        data: { title: 'Vehicles management', roles: [Role.ADMIN, Role.MANAGER] } 
+      },
+      { 
+        path: 'vehicles/:type/:id', 
+        component: VehicleDetailsComponent, 
+        data: { title: 'Vehicle details', roles: [Role.ADMIN, Role.MANAGER] } 
+      },
+      { 
+        path: 'manufacturers', 
+        component: ManufacturersComponent, 
+        data: { title: 'Manufacturers management', roles: [Role.ADMIN, Role.MANAGER] } 
+      },
+      { 
+        path: 'users', 
+        component: UsersComponent, 
+        data: { title: 'Users management', roles: [Role.ADMIN, Role.MANAGER] } 
+      },
 
-      // operator + manager
-      { path: 'rentals', loadComponent: () => import('./pages/rentals/rentals.component').then(m => m.RentalsComponent), data: { title: 'Rentals management', roles: ['operator','manager'] } },
-      { path: 'rentals-map', loadComponent: () => import('./pages/rentals-map/rentals-map.component').then(m => m.RentalsMapComponent), data: { title: 'Rentals management', roles: ['operator','manager'] } },
-      { path: 'clients', loadComponent: () => import('./pages/clients/clients.component').then(m => m.ClientsComponent), data: { title: 'Clients management', roles: ['operator','manager'] } },
-      { path: 'malfunctions', loadComponent: () => import('./pages/malfunctions/malfunctions.component').then(m => m.MalfunctionsComponent), data: { title: 'Malfunctions management', roles: ['operator','manager'] } },
+      { 
+        path: 'rentals', 
+        loadComponent: () => import('./pages/rentals/rentals.component').then(m => m.RentalsComponent), 
+        data: { title: 'Rentals management', roles: [Role.OPERATOR, Role.MANAGER] } 
+      },
+      { 
+        path: 'rentals-map', 
+        loadComponent: () => import('./pages/rentals-map/rentals-map.component').then(m => m.RentalsMapComponent), 
+        data: { title: 'Rentals management', roles: [Role.OPERATOR, Role.MANAGER] } 
+      },
+      { 
+        path: 'clients', 
+        loadComponent: () => import('./pages/clients/clients.component').then(m => m.ClientsComponent), 
+        data: { title: 'Clients management', roles: [Role.OPERATOR, Role.MANAGER] } 
+      },
+      { 
+        path: 'malfunctions', 
+        loadComponent: () => import('./pages/malfunctions/malfunctions.component').then(m => m.MalfunctionsComponent), 
+        data: { title: 'Malfunctions management', roles: [Role.OPERATOR, Role.MANAGER] } 
+      },
 
-      // samo manager
-      { path: 'statistics', loadComponent: () => import('./pages/statistics/statistics.component').then(m => m.StatisticsComponent), data: { title: 'Statistics management', roles: ['manager'] } },
-      { path: 'rental-prices', loadComponent: () => import('./pages/rental-prices/rental-prices.component').then(m => m.RentalPricesComponent), data: { title: 'Rental prices management', roles: ['manager'] } },
+      { 
+        path: 'statistics', 
+        loadComponent: () => import('./pages/statistics/statistics.component').then(m => m.StatisticsComponent), 
+        data: { title: 'Statistics management', roles: [Role.MANAGER] } 
+      },
+      { 
+        path: 'rental-prices', 
+        loadComponent: () => import('./pages/rental-prices/rental-prices.component').then(m => m.RentalPricesComponent), 
+        data: { title: 'Rental prices management', roles: [Role.MANAGER] } 
+      },
     ]
   },
 

@@ -8,6 +8,7 @@ import org.unibl.etf.ip.erent.dto.CarDTO;
 import org.unibl.etf.ip.erent.dto.CarDetailsDTO;
 import org.unibl.etf.ip.erent.dto.MalfunctionDTO;
 import org.unibl.etf.ip.erent.model.Car;
+import org.unibl.etf.ip.erent.model.VehicleState;
 import org.unibl.etf.ip.erent.repository.CarRepository;
 
 import java.io.IOException;
@@ -39,8 +40,7 @@ public class CarService {
                         car.getPurchasePrice(),
                         car.getImagePath(),
                         car.getPurchaseDate(),
-                        !car.getMalfunctions().isEmpty(),
-                        car.isRented(),
+                        car.getState(),
                         car.getDescription(),
                         car.getCurrentLatitude(),
                         car.getCurrentLongitude()
@@ -69,6 +69,11 @@ public class CarService {
             car.setCurrentLatitude(44.7722);
             car.setCurrentLongitude(17.1910);
         }
+        if (car.getMalfunctions() != null && !car.getMalfunctions().isEmpty()) {
+            car.setState(VehicleState.BROKEN);
+        } else if (car.getState() == null) {
+            car.setState(VehicleState.AVAILABLE);
+        }
         return carRepository.save(car);
     }
 
@@ -86,7 +91,7 @@ public class CarService {
         dto.setModel(car.getModel());
         dto.setPurchasePrice(car.getPurchasePrice());
         dto.setImagePath(car.getImagePath());
-        dto.setRented(car.isRented());
+        dto.setState(car.getState());
         dto.setDescription(car.getDescription());
         dto.setCurrentLatitude(car.getCurrentLatitude());
         dto.setCurrentLongitude(car.getCurrentLongitude());
@@ -121,7 +126,7 @@ public class CarService {
         existing.setPurchasePrice(updated.getPurchasePrice());
         existing.setPurchaseDate(updated.getPurchaseDate());
         existing.setDescription(updated.getDescription());
-        existing.setRented(updated.isRented());
+        existing.setState(updated.getState());
         existing.setCurrentLatitude(updated.getCurrentLatitude());
         existing.setCurrentLongitude(updated.getCurrentLongitude());
 
@@ -142,7 +147,11 @@ public class CarService {
             existing.setCurrentLongitude(17.1910);
         }
 
+        if (existing.getMalfunctions() != null && !existing.getMalfunctions().isEmpty()) {
+            existing.setState(VehicleState.BROKEN);
+        } else if (existing.getState() == null) {
+            existing.setState(VehicleState.AVAILABLE);
+        }
         return carRepository.save(existing);
     }
-
 }

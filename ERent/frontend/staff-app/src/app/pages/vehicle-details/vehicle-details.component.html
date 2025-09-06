@@ -15,8 +15,13 @@
         <mat-icon>euro</mat-icon> {{ vehicle.purchasePrice }} €
       </div>
       <div>
-        <mat-icon>{{ vehicle.rented ? 'highlight_off' : 'verified' }}</mat-icon>
-        {{ vehicle.rented ? 'Rented' : 'Available' }}
+        <mat-icon *ngIf="vehicle.state === VehicleState.AVAILABLE">verified</mat-icon>
+        <mat-icon *ngIf="vehicle.state === VehicleState.RENTED">shopping_cart</mat-icon>
+        <mat-icon *ngIf="vehicle.state === VehicleState.BROKEN">build</mat-icon>
+
+        <span *ngIf="vehicle.state === VehicleState.AVAILABLE">Available</span>
+        <span *ngIf="vehicle.state === VehicleState.RENTED">Rented</span>
+        <span *ngIf="vehicle.state === VehicleState.BROKEN">Broken</span>
       </div>
 
       <div>

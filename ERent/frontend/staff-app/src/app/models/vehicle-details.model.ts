@@ -1,5 +1,6 @@
 import { Manufacturer } from './manufacturer.model';
 import { Malfunction } from './malfunction.model';
+import { VehicleState } from './enums/vehicle-state.enum';
 
 export interface VehicleDetails {
   id: number;
@@ -8,7 +9,7 @@ export interface VehicleDetails {
   model: string;
   purchasePrice: number;
   imagePath: string;
-  rented: boolean;
+  state: VehicleState;
   currentLatitude: number;
   currentLongitude: number;
   malfunctions: Malfunction[];

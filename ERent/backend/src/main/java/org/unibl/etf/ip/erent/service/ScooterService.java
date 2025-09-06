@@ -8,6 +8,7 @@ import org.unibl.etf.ip.erent.dto.MalfunctionDTO;
 import org.unibl.etf.ip.erent.dto.ScooterDTO;
 import org.unibl.etf.ip.erent.dto.ScooterDetailsDTO;
 import org.unibl.etf.ip.erent.model.Scooter;
+import org.unibl.etf.ip.erent.model.VehicleState;
 import org.unibl.etf.ip.erent.repository.ScooterRepository;
 
 import java.io.IOException;
@@ -39,8 +40,7 @@ public class ScooterService {
                         scooter.getMaxSpeed(),
                         scooter.getPurchasePrice(),
                         scooter.getImagePath(),
-                        !scooter.getMalfunctions().isEmpty(),
-                        scooter.isRented(),
+                        scooter.getState(),
                         scooter.getCurrentLatitude(),
                         scooter.getCurrentLongitude()
                 ))
@@ -68,6 +68,11 @@ public class ScooterService {
             scooter.setCurrentLatitude(44.7722);
             scooter.setCurrentLongitude(17.1910);
         }
+        if (scooter.getMalfunctions() != null && !scooter.getMalfunctions().isEmpty()) {
+            scooter.setState(VehicleState.BROKEN);
+        } else if (scooter.getState() == null) {
+            scooter.setState(VehicleState.AVAILABLE);
+        }
         return scooterRepository.save(scooter);
     }
 
@@ -85,7 +90,7 @@ public class ScooterService {
         dto.setModel(scooter.getModel());
         dto.setPurchasePrice(scooter.getPurchasePrice());
         dto.setImagePath(scooter.getImagePath());
-        dto.setRented(scooter.isRented());
+        dto.setState(scooter.getState());
         dto.setMaxSpeed(scooter.getMaxSpeed());
         dto.setCurrentLatitude(scooter.getCurrentLatitude());
         dto.setCurrentLongitude(scooter.getCurrentLongitude());
@@ -115,7 +120,7 @@ public class ScooterService {
         existing.setManufacturer(updated.getManufacturer());
         existing.setMaxSpeed(updated.getMaxSpeed());
         existing.setPurchasePrice(updated.getPurchasePrice());
-        existing.setRented(updated.isRented());
+        existing.setState(updated.getState());
         existing.setCurrentLatitude(updated.getCurrentLatitude());
         existing.setCurrentLongitude(updated.getCurrentLongitude());
 
@@ -134,6 +139,12 @@ public class ScooterService {
         if (existing.getCurrentLatitude() == null || existing.getCurrentLongitude() == null) {
             existing.setCurrentLatitude(44.7722);
             existing.setCurrentLongitude(17.1910);
+        }
+
+        if (existing.getMalfunctions() != null && !existing.getMalfunctions().isEmpty()) {
+            existing.setState(VehicleState.BROKEN);
+        } else if (existing.getState() == null) {
+            existing.setState(VehicleState.AVAILABLE);
         }
 
         return scooterRepository.save(existing);

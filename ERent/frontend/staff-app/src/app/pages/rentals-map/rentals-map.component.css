@@ -1,13 +1,21 @@
-.map-wrapper {
+#map {
   width: 100%;
-  height: 100%;
-  display: flex;
+  height: 545px; 
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
 }
 
-#map {
-  flex: 1;
-  min-height: 500px; 
-  width: 100%;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+.map-legend {
+  margin-top: 12px;
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: #333;
+  justify-content: center;
+}
+
+.map-legend div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }

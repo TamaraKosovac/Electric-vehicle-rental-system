@@ -1,9 +1,9 @@
 package org.unibl.etf.ip.erent.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.unibl.etf.ip.erent.model.VehicleState;
 
 import java.time.LocalDate;
 
@@ -16,8 +16,9 @@ public class CarDTO extends VehicleDTO {
 
     public CarDTO(Long id, String uniqueId, String model, String manufacturer,
                   Double purchasePrice, String imagePath, LocalDate purchaseDate,
-                  boolean hasMalfunctions, boolean rented, String description, Double currentLatitude, Double currentLongitude) {
-        super(id, uniqueId, model, manufacturer, purchasePrice, imagePath, hasMalfunctions, rented, currentLatitude, currentLongitude);
+                  VehicleState state, String description,
+                  Double currentLatitude, Double currentLongitude) {
+        super(id, uniqueId, model, manufacturer, purchasePrice, imagePath, state, currentLatitude, currentLongitude);
         this.purchaseDate = purchaseDate;
         this.description = description;
     }

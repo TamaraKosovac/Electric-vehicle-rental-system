@@ -14,6 +14,8 @@ import { ManufacturersService } from '../../../services/manufacturers.service';
 import { Car } from '../../../models/car.model';
 import { Bike } from '../../../models/bike.model';
 import { Scooter } from '../../../models/scooter.model';
+import { VehicleState } from '../../../models/enums/vehicle-state.enum';
+
 
 @Component({
   selector: 'app-vehicle-form',
@@ -42,7 +44,7 @@ export class VehicleFormComponent implements OnInit {
     description: '',
     autonomy: undefined,
     maxSpeed: undefined,
-    hasMalfunctions: false
+    state: VehicleState.AVAILABLE 
   };
 
   selectedImage: File | null = null;

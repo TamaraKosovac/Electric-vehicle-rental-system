@@ -1,7 +1,8 @@
 package org.unibl.etf.ip.erent.model;
 
-public enum EmployeeRole {
+public enum Role {
     ADMIN,
     OPERATOR,
-    MANAGER
+    MANAGER,
+    CLIENT
 }
