@@ -61,14 +61,28 @@ export class RentalsMapComponent implements AfterViewInit, OnDestroy {
         const lat = v.currentLatitude || 44.7722;
         const lng = v.currentLongitude || 17.1910;
 
+        let route = '';
+        const prefix = v.uniqueId.toLowerCase();
+        if (prefix.startsWith('car')) {
+          route = 'cars';
+        } else if (prefix.startsWith('bike')) {
+          route = 'bikes';
+        } else if (prefix.startsWith('scooter')) {
+          route = 'scooters';
+        }
+
+        const detailsUrl = `http://localhost:4200/dashboard/vehicles/${route}/${v.id}`;
+
         const marker = L.marker([lat, lng], { icon: this.getStatusIcon(v) });
 
         marker.bindPopup(`
           <div style="min-width:260px; text-align:left; font-size:13px; line-height:1.4; color:#2e6f6a;">
             <div style="text-align:center; margin-bottom:8px;">
-              <img src="${this.getImageUrl(v.imagePath)}" 
-                  alt="${v.manufacturer} ${v.model}" 
-                  style="width:160px; border-radius:8px; margin-bottom:6px;"/>
+              <a href="${detailsUrl}">
+                <img src="${this.getImageUrl(v.imagePath)}" 
+                    alt="${v.manufacturer} ${v.model}" 
+                    style="width:160px; border-radius:8px; margin-bottom:6px; cursor:pointer;"/>
+              </a>
               <div style="font-weight:600; font-size:14px; margin-top:2px; color:#2e6f6a;">
                 ${v.manufacturer} ${v.model}
               </div>
@@ -78,6 +92,7 @@ export class RentalsMapComponent implements AfterViewInit, OnDestroy {
             </div>
           </div>
         `);
+
         this.markerCluster.addLayer(marker);
       });
     });
