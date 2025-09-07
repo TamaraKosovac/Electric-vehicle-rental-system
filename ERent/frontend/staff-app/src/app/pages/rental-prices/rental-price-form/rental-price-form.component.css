@@ -1,0 +1,44 @@
+.full-width {
+  width: 100%;
+}
+
+.field-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 6px;
+  display: block;
+  margin-left: 3px;
+}
+
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+  width: 500px !important;
+  max-width: 95vw !important;
+  min-height: 220px !important;
+  max-height: 85vh !important;
+  overflow-y: auto !important;
+  padding: 16px;
+}
+
+::ng-deep .mat-mdc-dialog-title,
+h2[mat-dialog-title] {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  margin: 0 0 16px 0 !important;
+  color: #2e6f6a !important;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.dialog-actions button {
+  flex: 1;
+  height: 42px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 6px;
+}
