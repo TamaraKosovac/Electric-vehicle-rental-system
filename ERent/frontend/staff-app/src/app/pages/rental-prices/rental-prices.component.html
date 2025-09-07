@@ -1,1 +1,28 @@
-<p>rental-prices works!</p>
+<div class="toolbar-card">
+  <mat-form-field appearance="outline" class="search-field small">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search..." />
+  </mat-form-field>
+</div>
+
+<app-data-table
+  [dataSource]="paginatedPrices"
+  [displayedColumns]="['vehicleType','pricePerHour']"
+  [columnLabels]="{
+    vehicleType: 'Vehicle type',
+    pricePerHour: 'Price per hour(KM)'
+  }"
+  [showInfo]="false"
+  [showEdit]="true"
+  [showDelete]="false"
+  (edit)="editPrice($event)">
+</app-data-table>
+
+<div class="paginator-container">
+  <app-minimal-paginator
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (previous)="previousPage()"
+    (next)="nextPage()">
+  </app-minimal-paginator>
+</div>
