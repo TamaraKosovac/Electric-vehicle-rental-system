@@ -1,5 +1,6 @@
 package org.unibl.etf.ip.erent.dao;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.unibl.etf.ip.erent.dto.ClientDTO;
 import org.unibl.etf.ip.erent.util.DBUtil;
 
@@ -14,24 +15,27 @@ public class ClientDAO {
                 "c.email, c.phone, c.avatar_path, c.blocked " +
                 "FROM user u " +
                 "JOIN client c ON u.id = c.id " +
-                "WHERE u.username=? AND u.password=?";
+                "WHERE u.username=?";
 
         try (Connection con = DBUtil.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
 
             ps.setString(1, username);
-            ps.setString(2, password);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new ClientDTO(
-                            rs.getInt("id"),
-                            rs.getString("username"),
-                            rs.getString("first_name"),
-                            rs.getString("last_name"),
-                            rs.getString("email"),
-                            rs.getBoolean("blocked")
-                    );
+                    String hashedPassword = rs.getString("password");
+
+                    if (BCrypt.checkpw(password, hashedPassword)) {
+                        return new ClientDTO(
+                                rs.getInt("id"),
+                                rs.getString("username"),
+                                rs.getString("first_name"),
+                                rs.getString("last_name"),
+                                rs.getString("email"),
+                                rs.getBoolean("blocked")
+                        );
+                    }
                 }
             }
         } catch (Exception e) {
