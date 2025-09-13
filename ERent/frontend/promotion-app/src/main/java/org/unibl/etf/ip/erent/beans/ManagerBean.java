@@ -1,4 +1,4 @@
-package org.unibl.etf.ip.erent.bean;
+package org.unibl.etf.ip.erent.beans;
 
 public class ManagerBean {
     private int id;
