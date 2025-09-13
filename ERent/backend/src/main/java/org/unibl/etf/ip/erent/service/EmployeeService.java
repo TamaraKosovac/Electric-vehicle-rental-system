@@ -26,10 +26,19 @@ public class EmployeeService {
 
     public Employee save(Employee employee) {
         if (employee.getPassword() != null) {
+            if (!isValidPassword(employee.getPassword())) {
+                throw new IllegalArgumentException("Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character.");
+            }
             employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         }
         return employeeRepository.save(employee);
     }
+
+    private boolean isValidPassword(String password) {
+        String regex = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        return password.matches(regex);
+    }
+
 
     public void delete(Long id) {
         employeeRepository.deleteById(id);

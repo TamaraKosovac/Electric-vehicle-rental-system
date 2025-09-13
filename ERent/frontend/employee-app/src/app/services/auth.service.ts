@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Role } from '../models/enums/role.enum';  
-
-export interface User {
-  username: string;
-  role: Role;   
-  token?: string;
-}
+import { LoginResponse } from '../models/login-response.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -16,21 +10,21 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string): Observable<User> {
-    return this.http.post<User>(this.apiUrl, { username, password });
+  login(username: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.apiUrl, { username, password });
   }
 
-  setUser(user: User): void {
+  setUser(user: LoginResponse): void {
     localStorage.setItem(this.userKey, JSON.stringify(user));
   }
 
-  getUser(): User | null {
+  getUser(): LoginResponse | null {
     const data = localStorage.getItem(this.userKey);
-    return data ? (JSON.parse(data) as User) : null;
+    return data ? (JSON.parse(data) as LoginResponse) : null;
   }
 
   isLoggedIn(): boolean {
-    return !!this.getUser();
+    return !!this.getUser()?.token; 
   }
 
   logout(): void {

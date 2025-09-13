@@ -12,7 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmLogoutDialogComponent } from '../../shared/confirm-logout-dialog/confirm-logout-dialog.component';
 import { Subject, filter, map, takeUntil } from 'rxjs';
-import { AuthService, User } from '../../services/auth.service';
+import { AuthService} from '../../services/auth.service';
 import { Role } from '../../models/enums/role.enum';  
 
 @Component({

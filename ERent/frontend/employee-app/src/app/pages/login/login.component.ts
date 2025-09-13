@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { LoginResponse } from '../../models/login-response.model';
 
 @Component({
   selector: 'app-login',
@@ -32,9 +33,9 @@ export class LoginComponent {
 
   login() {
     this.authService.login(this.username, this.password).subscribe({
-      next: (response) => {
-        this.authService.setUser(response);
-        this.router.navigate(['/dashboard']);
+      next: (response: LoginResponse) => {
+        this.authService.setUser(response); 
+        this.router.navigate(['/dashboard']); 
       },
       error: () => {
         this.errorMessage = 'Wrong username or password!';
