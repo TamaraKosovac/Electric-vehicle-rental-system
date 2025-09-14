@@ -12,35 +12,8 @@
         return;
     }
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-
-    if ("POST".equalsIgnoreCase(request.getMethod()) && "create".equals(request.getParameter("action"))) {
-        String title = request.getParameter("title");
-        String description = request.getParameter("description");
-        String startDate = request.getParameter("startDate");
-        String endDate = request.getParameter("endDate");
-
-        PromotionDTO promo = new PromotionDTO(
-                0,
-                title,
-                description,
-                LocalDateTime.parse(startDate, formatter),
-                LocalDateTime.parse(endDate, formatter),
-                LocalDateTime.now()
-        );
-
-        PromotionDAO.insert(promo);
-        response.sendRedirect("promotions.jsp");
-        return;
-    }
-
-    String keyword = request.getParameter("q");
-    List<PromotionDTO> promotions;
-    if (keyword != null && !keyword.trim().isEmpty()) {
-        promotions = PromotionDAO.search(keyword);
-    } else {
-        promotions = PromotionDAO.getAll();
-    }
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    List<PromotionDTO> promotions = PromotionDAO.getAll();
 %>
 
 <!DOCTYPE html>
@@ -85,52 +58,65 @@
             <div class="dashboard-title">Manager dashboard - Promotions management</div>
             <div class="spacer"></div>
             <div class="user-section">
-                <img src="${pageContext.request.contextPath}/images/admin.png" alt="Admin" class="user-avatar">
+                <img src="${pageContext.request.contextPath}/images/admin.png" alt="Manager" class="user-avatar">
             </div>
         </header>
 
         <div class="page-container">
-            <h2>Create New Promotion</h2>
-            <form method="post">
-                <input type="hidden" name="action" value="create"/>
-                <label>Title:</label><br>
-                <input type="text" name="title" required><br><br>
 
-                <label>Description:</label><br>
-                <textarea name="description" rows="4" cols="40" required></textarea><br><br>
+            <div class="toolbar-card">
+                <div class="search-field small">
+                    <span class="material-icons search-icon">search</span>
+                    <input type="text" id="searchInput" placeholder="Search...">
+                </div>
 
-                <label>Start Date:</label><br>
-                <input type="datetime-local" name="startDate" required><br><br>
+                <div class="actions">
+                    <a href="create-promotion.jsp" class="btn-primary">
+                        <span class="material-icons">add</span>
+                        Add promotion
+                    </a>
+                </div>
+            </div>
 
-                <label>End Date:</label><br>
-                <input type="datetime-local" name="endDate" required><br><br>
-
-                <button type="submit">Save</button>
-            </form>
-
-            <hr>
-            <h3>Search Promotions</h3>
-            <form method="get">
-                <input type="text" name="q" placeholder="Enter keyword" value="<%= keyword != null ? keyword : "" %>">
-                <button type="submit">Search</button>
-            </form>
-
-            <hr>
-            <h3>All Promotions</h3>
-            <ul>
+            <div class="posts-list" id="promotionsList">
                 <% for (PromotionDTO p : promotions) { %>
-                <li>
-                    <b><%= p.getTitle() %></b><br>
-                    <%= p.getDescription() %><br>
-                    <small>
-                        From: <%= p.getStartDate() %> | To: <%= p.getEndDate() %><br>
-                        Created: <%= p.getCreatedAt() %>
-                    </small>
-                </li>
+                <div class="card promo-card">
+                    <h3>
+                        <span class="material-icons">local_offer</span>
+                        <%= p.getTitle() %>
+                    </h3>
+                    <p><%= p.getDescription() %></p>
+                    <div class="date-range">
+                        <span class="material-icons">event</span>
+                        <%= p.getStartDate().format(formatter) %> - <%= p.getEndDate().format(formatter) %>
+                    </div>
+                    <div class="created-at">
+                        <%= p.getCreatedAt().format(formatter) %>
+                    </div>
+                </div>
                 <% } %>
-            </ul>
+            </div>
         </div>
     </main>
 </div>
+
+<script>
+    const searchInput = document.getElementById("searchInput");
+    const promotionsList = document.getElementById("promotionsList");
+    const promos = promotionsList.getElementsByClassName("promo-card");
+
+    searchInput.addEventListener("input", function() {
+        const filter = this.value.toLowerCase();
+        for (let i = 0; i < promos.length; i++) {
+            let title = promos[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
+            let desc = promos[i].getElementsByTagName("p")[0].innerText.toLowerCase();
+            if (title.includes(filter) || desc.includes(filter)) {
+                promos[i].style.display = "";
+            } else {
+                promos[i].style.display = "none";
+            }
+        }
+    });
+</script>
 </body>
 </html>

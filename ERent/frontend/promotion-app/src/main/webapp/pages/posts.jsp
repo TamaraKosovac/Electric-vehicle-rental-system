@@ -70,7 +70,7 @@
             <div class="dashboard-title">Manager dashboard - Posts management</div>
             <div class="spacer"></div>
             <div class="user-section">
-                <img src="${pageContext.request.contextPath}/images/admin.png" alt="Admin" class="user-avatar">
+                <img src="${pageContext.request.contextPath}/images/admin.png" alt="Manager" class="user-avatar">
             </div>
         </header>
 
