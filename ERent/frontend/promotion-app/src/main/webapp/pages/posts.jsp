@@ -2,6 +2,7 @@
 <%@ page import="org.unibl.etf.ip.erent.dao.PostDAO" %>
 <%@ page import="org.unibl.etf.ip.erent.dto.PostDTO" %>
 <%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.util.List" %>
 
 <%
@@ -23,13 +24,8 @@
         return;
     }
 
-    String keyword = request.getParameter("q");
-    List<PostDTO> posts;
-    if (keyword != null && !keyword.trim().isEmpty()) {
-        posts = PostDAO.search(keyword);
-    } else {
-        posts = PostDAO.getAll();
-    }
+    List<PostDTO> posts = PostDAO.getAll();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 %>
 
 <!DOCTYPE html>
@@ -79,36 +75,57 @@
         </header>
 
         <div class="page-container">
-            <h2>Create New Post</h2>
-            <form method="post">
-                <input type="hidden" name="action" value="create"/>
-                <label>Title:</label><br>
-                <input type="text" name="title" required><br><br>
-                <label>Content:</label><br>
-                <textarea name="content" rows="4" cols="40" required></textarea><br><br>
-                <button type="submit">Save</button>
-            </form>
 
-            <hr>
-            <h3>Search Posts</h3>
-            <form method="get">
-                <input type="text" name="q" placeholder="Enter keyword" value="<%= keyword != null ? keyword : "" %>">
-                <button type="submit">Search</button>
-            </form>
+            <div class="toolbar-card">
+                <div class="search-field small">
+                    <span class="material-icons search-icon">search</span>
+                    <input type="text" id="searchInput" placeholder="Search...">
+                </div>
 
-            <hr>
-            <h3>All Posts</h3>
-            <ul>
+                <div class="actions">
+                    <a href="create-post.jsp" class="btn-primary">
+                        <span class="material-icons">add</span>
+                        Add post
+                    </a>
+                </div>
+            </div>
+
+            <div class="posts-list" id="postsList">
                 <% for (PostDTO p : posts) { %>
-                <li>
-                    <b><%= p.getTitle() %></b><br>
-                    <%= p.getContent() %><br>
-                    <small><%= p.getCreatedAt() %></small>
-                </li>
+                <div class="card post-card">
+                    <h3>
+                        <span class="material-icons">article</span>
+                        <%= p.getTitle() %>
+                    </h3>
+                    <p><%= p.getContent() %></p>
+                    <small>
+                        <%= p.getCreatedAt().format(formatter) %>
+                    </small>
+                </div>
                 <% } %>
-            </ul>
+            </div>
+
         </div>
     </main>
 </div>
+
+<script>
+    const searchInput = document.getElementById("searchInput");
+    const postsList = document.getElementById("postsList");
+    const posts = postsList.getElementsByClassName("post-card");
+
+    searchInput.addEventListener("input", function() {
+        const filter = this.value.toLowerCase();
+        for (let i = 0; i < posts.length; i++) {
+            let title = posts[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
+            let content = posts[i].getElementsByTagName("p")[0].innerText.toLowerCase();
+            if (title.includes(filter) || content.includes(filter)) {
+                posts[i].style.display = "";
+            } else {
+                posts[i].style.display = "none";
+            }
+        }
+    });
+</script>
 </body>
 </html>
