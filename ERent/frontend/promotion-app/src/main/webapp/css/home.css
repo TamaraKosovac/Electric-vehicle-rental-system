@@ -203,11 +203,16 @@ html, body {
     gap: 6px;
     background: #4CA79C;
     color: #fff;
-    padding: 8px 14px;
-    border-radius: 5px;
+    padding: 12px 18px;
+    border-radius: 6px;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 15px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    cursor: pointer;
     transition: background 0.2s;
+    height: 44px;
 }
 
 .actions .btn-primary:hover {
@@ -268,4 +273,105 @@ html, body {
     align-items: center;
     gap: 4px;
     margin-top: auto;
+}
+
+.full-width {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+}
+
+.form-row > div {
+    flex: 1;
+}
+
+.field-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 4px;
+    display: block;
+    margin-left: 3px;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #2e6f6a;
+}
+
+.dialog-actions {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+}
+
+.dialog-actions button {
+    flex: 1;
+    height: 44px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.btn-primary,
+.mat-mdc-raised-button.mat-primary {
+    background-color: #4CA79C !important;
+    color: white !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.btn-primary:hover,
+.mat-mdc-raised-button.mat-primary:hover {
+    background-color: #1D4E4A !important;
+}
+
+.btn-cancel {
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 1.5px solid #000 !important;
+    font-weight: 500;
+    transition: 0.2s;
+}
+.btn-cancel:hover {
+    background-color: #f5f5f5 !important;
+}
+
+.modal-header {
+    border-bottom: none !important;
+}
+
+.modal-footer {
+    border-top: none !important;
+}
+
+.full-width input:hover,
+.full-width textarea:hover,
+.form-control:hover {
+    border-color: #4CA79C !important;
+}
+
+.full-width input:focus,
+.full-width textarea:focus,
+.form-control:focus {
+    border-color: #4CA79C !important;
+    box-shadow: 0 0 0 4px rgba(76,167,156,0.12) !important;
+    outline: none !important;
 }

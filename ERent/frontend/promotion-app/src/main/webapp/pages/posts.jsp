@@ -35,6 +35,7 @@
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/logo.png">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/home.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/posts.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
@@ -83,10 +84,10 @@
                 </div>
 
                 <div class="actions">
-                    <a href="create-post.jsp" class="btn-primary">
+                    <button type="button" class="btn-primary" data-bs-toggle="modal" data-bs-target="#createPostModal">
                         <span class="material-icons">add</span>
                         Add post
-                    </a>
+                    </button>
                 </div>
             </div>
 
@@ -106,6 +107,44 @@
             </div>
 
         </div>
+        <div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createPostModalLabel">Add post</h5>
+                    </div>
+
+                    <form method="post">
+                        <div class="modal-body form-container">
+                            <input type="hidden" name="action" value="create"/>
+
+                            <div class="form-row">
+                                <div>
+                                    <label class="field-label">Title</label>
+                                    <input type="text" name="title" class="form-control full-width" placeholder="Title" required minlength="2">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div>
+                                    <label class="field-label">Content</label>
+                                    <textarea name="content" class="form-control full-width" rows="4" placeholder="Content" required minlength="5"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer dialog-actions">
+                            <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
     </main>
 </div>
 
@@ -127,5 +166,6 @@
         }
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
