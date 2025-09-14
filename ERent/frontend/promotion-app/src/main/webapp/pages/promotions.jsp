@@ -14,16 +14,20 @@
 
     if ("POST".equalsIgnoreCase(request.getMethod())
             && "create".equals(request.getParameter("action"))) {
+        try {
+            String title = request.getParameter("title");
+            String description = request.getParameter("description");
+            LocalDateTime startDate = LocalDateTime.parse(request.getParameter("startDate"));
+            LocalDateTime endDate = LocalDateTime.parse(request.getParameter("endDate"));
 
-        String title = request.getParameter("title");
-        String description = request.getParameter("description");
-        LocalDateTime startDate = LocalDateTime.parse(request.getParameter("startDate"));
-        LocalDateTime endDate = LocalDateTime.parse(request.getParameter("endDate"));
-
-        PromotionDTO promo = new PromotionDTO(0, title, description, startDate, endDate, LocalDateTime.now());
-        PromotionDAO.insert(promo);
-        response.sendRedirect("promotions.jsp");
-        return;
+            PromotionDTO promo = new PromotionDTO(0, title, description, startDate, endDate, LocalDateTime.now());
+            PromotionDAO.insert(promo);
+            response.sendRedirect("promotions.jsp?status=success");
+            return;
+        } catch (Exception e) {
+            response.sendRedirect("promotions.jsp?status=error");
+            return;
+        }
     }
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
@@ -61,7 +65,7 @@
         </nav>
 
         <div class="bottom">
-            <a href="home.jsp?action=logout" onclick="return confirm('Are you sure you want to logout?')">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
                 <span class="material-icons">logout</span>
                 <span>Logout</span>
             </a>
@@ -73,7 +77,7 @@
             <div class="dashboard-title">Manager dashboard - Promotions management</div>
             <div class="spacer"></div>
             <div class="user-section">
-                <img src="${pageContext.request.contextPath}/images/admin.png" alt="Manager" class="user-avatar">
+                <img src="${pageContext.request.contextPath}/images/manager.png" alt="Manager" class="user-avatar">
             </div>
         </header>
 
@@ -174,7 +178,31 @@
             </div>
         </div>
 
+        <div id="snackbar-success" class="snackbar snackbar-success">Promotion added successfully!</div>
+        <div id="snackbar-error" class="snackbar snackbar-error">Failed to add promotion.</div>
+
     </main>
+</div>
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content dlg">
+
+            <div class="dlg-header">
+                <span class="material-icons">logout</span>
+                <h2>Logout</h2>
+            </div>
+
+            <div class="dlg-content">
+                <p>Are you sure you want to log out?</p>
+            </div>
+
+            <div class="dlg-actions">
+                <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">No</button>
+                <a href="home.jsp?action=logout" class="btn confirm-btn">Yes</a>
+            </div>
+
+        </div>
+    </div>
 </div>
 
 <script>
@@ -187,11 +215,7 @@
         for (let i = 0; i < promos.length; i++) {
             let title = promos[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
             let desc = promos[i].getElementsByTagName("p")[0].innerText.toLowerCase();
-            if (title.includes(filter) || desc.includes(filter)) {
-                promos[i].style.display = "";
-            } else {
-                promos[i].style.display = "none";
-            }
+            promos[i].style.display = (title.includes(filter) || desc.includes(filter)) ? "" : "none";
         }
     });
 
@@ -202,6 +226,23 @@
         input.addEventListener('blur', function() {
             if (!this.value) this.type = 'text';
         }, { once: true });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get("status");
+
+        if (status === "success") {
+            showSnackbar("snackbar-success");
+        } else if (status === "error") {
+            showSnackbar("snackbar-error");
+        }
+    });
+
+    function showSnackbar(id) {
+        const snackbar = document.getElementById(id);
+        snackbar.classList.add("show");
+        setTimeout(() => snackbar.classList.remove("show"), 3000);
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
