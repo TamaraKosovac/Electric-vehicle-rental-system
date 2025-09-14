@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login - eRent</title>
+    <title>eRent</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f4f4f4; }
         .login-container {
