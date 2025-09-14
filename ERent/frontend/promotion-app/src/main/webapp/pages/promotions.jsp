@@ -1,3 +1,4 @@
+<%@ page import="org.unibl.etf.ip.erent.dto.ManagerDTO" %>
 <%@ page import="org.unibl.etf.ip.erent.dao.PromotionDAO" %>
 <%@ page import="org.unibl.etf.ip.erent.dto.PromotionDTO" %>
 <%@ page import="java.time.LocalDateTime" %>
@@ -5,9 +6,15 @@
 <%@ page import="java.util.List" %>
 
 <%
+    ManagerDTO manager = (ManagerDTO) session.getAttribute("manager");
+    if (manager == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
-    if ("POST".equalsIgnoreCase(request.getMethod()) && request.getParameter("action") != null && request.getParameter("action").equals("create")) {
+    if ("POST".equalsIgnoreCase(request.getMethod()) && "create".equals(request.getParameter("action"))) {
         String title = request.getParameter("title");
         String description = request.getParameter("description");
         String startDate = request.getParameter("startDate");
@@ -39,45 +46,91 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Promotions</title>
+    <title>eRent</title>
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/logo.png">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/home.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/promotions.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-<h2>Manage Promotions</h2>
+<div class="admin-layout">
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="${pageContext.request.contextPath}/images/logo.png" class="brand-logo" alt="eRent"/>
+            <div class="brand-name">eRent</div>
+            <div class="brand-tagline">Easy. Electric. Everywhere.</div>
+        </div>
 
-<h3>Create New Promotion</h3>
-<form method="post">
-    <input type="hidden" name="action" value="create"/>
-    Title: <input type="text" name="title" required><br><br>
-    Description:<br>
-    <textarea name="description" rows="4" cols="40" required></textarea><br><br>
-    Start Date: <input type="datetime-local" name="startDate" required><br><br>
-    End Date: <input type="datetime-local" name="endDate" required><br><br>
-    <button type="submit">Save</button>
-</form>
+        <nav class="menu">
+            <a href="posts.jsp">
+                <span class="material-icons">article</span>
+                <span>Posts</span>
+            </a>
+            <a href="promotions.jsp" class="active">
+                <span class="material-icons">local_offer</span>
+                <span>Promotions</span>
+            </a>
+        </nav>
 
-<hr>
+        <div class="bottom">
+            <a href="home.jsp?action=logout" onclick="return confirm('Are you sure you want to logout?')">
+                <span class="material-icons">logout</span>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
 
-<h3>Search Promotions</h3>
-<form method="get">
-    <input type="text" name="q" placeholder="Enter keyword" value="<%= keyword != null ? keyword : "" %>">
-    <button type="submit">Search</button>
-</form>
+    <main class="content">
+        <header class="topbar">
+            <div class="dashboard-title">Manager dashboard - Promotions management</div>
+            <div class="spacer"></div>
+            <div class="user-section">
+                <img src="${pageContext.request.contextPath}/images/admin.png" alt="Admin" class="user-avatar">
+            </div>
+        </header>
 
-<hr>
+        <div class="page-container">
+            <h2>Create New Promotion</h2>
+            <form method="post">
+                <input type="hidden" name="action" value="create"/>
+                <label>Title:</label><br>
+                <input type="text" name="title" required><br><br>
 
-<h3>All Promotions</h3>
-<ul>
-    <% for (PromotionDTO p : promotions) { %>
-    <li>
-        <b><%= p.getTitle() %></b><br>
-        <%= p.getDescription() %><br>
-        <small>
-            From: <%= p.getStartDate() %> | To: <%= p.getEndDate() %><br>
-            Created: <%= p.getCreatedAt() %>
-        </small>
-    </li>
-    <% } %>
-</ul>
+                <label>Description:</label><br>
+                <textarea name="description" rows="4" cols="40" required></textarea><br><br>
 
+                <label>Start Date:</label><br>
+                <input type="datetime-local" name="startDate" required><br><br>
+
+                <label>End Date:</label><br>
+                <input type="datetime-local" name="endDate" required><br><br>
+
+                <button type="submit">Save</button>
+            </form>
+
+            <hr>
+            <h3>Search Promotions</h3>
+            <form method="get">
+                <input type="text" name="q" placeholder="Enter keyword" value="<%= keyword != null ? keyword : "" %>">
+                <button type="submit">Search</button>
+            </form>
+
+            <hr>
+            <h3>All Promotions</h3>
+            <ul>
+                <% for (PromotionDTO p : promotions) { %>
+                <li>
+                    <b><%= p.getTitle() %></b><br>
+                    <%= p.getDescription() %><br>
+                    <small>
+                        From: <%= p.getStartDate() %> | To: <%= p.getEndDate() %><br>
+                        Created: <%= p.getCreatedAt() %>
+                    </small>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </main>
+</div>
 </body>
 </html>
