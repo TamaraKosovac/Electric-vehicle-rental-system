@@ -31,3 +31,26 @@
     font-size: 14px;
     color: #999;
 }
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+input[type="datetime-local"]::-webkit-clear-button {
+    display: none;
+}
+
+.date-input-wrapper {
+    position: relative;
+}
+.date-input-wrapper .calendar-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: gray;
+    cursor: pointer;
+}
+.date-input-wrapper .calendar-icon:hover {
+    color: #4CA79C;
+}

@@ -12,6 +12,20 @@
         return;
     }
 
+    if ("POST".equalsIgnoreCase(request.getMethod())
+            && "create".equals(request.getParameter("action"))) {
+
+        String title = request.getParameter("title");
+        String description = request.getParameter("description");
+        LocalDateTime startDate = LocalDateTime.parse(request.getParameter("startDate"));
+        LocalDateTime endDate = LocalDateTime.parse(request.getParameter("endDate"));
+
+        PromotionDTO promo = new PromotionDTO(0, title, description, startDate, endDate, LocalDateTime.now());
+        PromotionDAO.insert(promo);
+        response.sendRedirect("promotions.jsp");
+        return;
+    }
+
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
     List<PromotionDTO> promotions = PromotionDAO.getAll();
 %>
@@ -23,6 +37,7 @@
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/logo.png">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/home.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/promotions.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
@@ -71,10 +86,10 @@
                 </div>
 
                 <div class="actions">
-                    <a href="create-promotion.jsp" class="btn-primary">
+                    <button type="button" class="btn-primary" data-bs-toggle="modal" data-bs-target="#createPromotionModal">
                         <span class="material-icons">add</span>
                         Add promotion
-                    </a>
+                    </button>
                 </div>
             </div>
 
@@ -97,6 +112,68 @@
                 <% } %>
             </div>
         </div>
+
+        <div class="modal fade" id="createPromotionModal" tabindex="-1" aria-labelledby="createPromotionModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createPromotionModalLabel">Add promotion</h5>
+                    </div>
+
+                    <form method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="action" value="create"/>
+
+                            <div class="mb-3">
+                                <label class="form-label">Title</label>
+                                <input type="text" name="title" class="form-control" placeholder="Title" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Start date</label>
+                                <div class="date-input-wrapper">
+                                    <input type="text"
+                                           class="form-control"
+                                           name="startDate"
+                                           id="startDate"
+                                           placeholder="Start date"
+                                           required>
+                                    <span class="material-icons calendar-icon"
+                                          onclick="openDateTime('startDate')">event</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">End date</label>
+                                <div class="date-input-wrapper">
+                                    <input type="text"
+                                           class="form-control"
+                                           name="endDate"
+                                           id="endDate"
+                                           placeholder="End date"
+                                           required>
+                                    <span class="material-icons calendar-icon"
+                                          onclick="openDateTime('endDate')">event</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea name="description" class="form-control" placeholder="Description" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer dialog-actions">
+                            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
     </main>
 </div>
 
@@ -117,6 +194,16 @@
             }
         }
     });
+
+    function openDateTime(id) {
+        const input = document.getElementById(id);
+        input.type = 'datetime-local';
+        input.showPicker();
+        input.addEventListener('blur', function() {
+            if (!this.value) this.type = 'text';
+        }, { once: true });
+    }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
