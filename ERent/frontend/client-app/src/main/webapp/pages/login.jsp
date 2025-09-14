@@ -55,6 +55,10 @@
             </div>
 
             <button type="submit" class="btn-login">Login</button>
+            <div class="register-link">
+                Don’t have an account?
+                <a href="${pageContext.request.contextPath}/pages/register.jsp">Register</a>
+            </div>
         </form>
 
         <p class="error-msg"><%= error != null ? error : "" %></p>

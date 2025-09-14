@@ -148,3 +148,22 @@
     margin-top: 12px;
     text-align: center;
 }
+
+.register-link {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #444;
+}
+
+.register-link a {
+    color: #4CA79C;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+    color: #1D4E4A;
+}
