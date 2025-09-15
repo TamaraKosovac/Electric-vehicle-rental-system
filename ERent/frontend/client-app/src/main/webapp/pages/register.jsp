@@ -5,6 +5,7 @@
     <title>eRent</title>
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/logo.png">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/register.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body class="register-body">
 
@@ -18,9 +19,9 @@
             </div>
         </div>
 
-        <form method="post" action="${pageContext.request.contextPath}/RegisterServlet" enctype="multipart/form-data" class="register-form">
+        <form method="post" action="${pageContext.request.contextPath}/register" enctype="multipart/form-data" class="register-form">
 
-            <div class="form-row">
+        <div class="form-row">
                 <div class="form-group">
                     <label for="firstName">First name</label>
                     <input type="text" id="firstName" name="firstName" required class="full-width" placeholder="First name"/>
@@ -36,9 +37,14 @@
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" required class="full-width" placeholder="Username"/>
                 </div>
-                <div class="form-group">
+                <div class="form-group password-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required class="full-width" placeholder="Password"/>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" required class="full-width" placeholder="Password"/>
+                        <button type="button" id="togglePassword" class="toggle-password">
+                            <span id="eye-icon" class="material-icons">visibility_off</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -109,6 +115,20 @@
                 previewImg.src = e.target.result;
             };
             reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+<script>
+    function togglePassword() {
+        const passwordField = document.getElementById("password");
+        const eyeIcon = document.getElementById("eye-icon");
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            eyeIcon.textContent = "visibility";
+        } else {
+            passwordField.type = "password";
+            eyeIcon.textContent = "visibility_off";
         }
     }
 </script>

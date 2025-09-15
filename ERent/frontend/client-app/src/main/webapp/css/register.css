@@ -196,3 +196,38 @@ select.full-width:focus {
     box-shadow: 0 0 0 3px rgba(76,167,156,0.12);
     outline: none;
 }
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 40px;
+    box-sizing: border-box;
+}
+
+.password-wrapper .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+
+.password-wrapper .toggle-password .material-icons {
+    font-size: 18px;
+    color: #000;
+    margin-top: 2px;
+    margin-right: 4px;
+}
+
+.password-wrapper .toggle-password .material-icons:hover {
+    color: #333;
+}
