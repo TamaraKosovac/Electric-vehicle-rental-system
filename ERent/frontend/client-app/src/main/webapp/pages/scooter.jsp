@@ -12,27 +12,16 @@
         return;
     }
 
-    String activePage = request.getParameter("activePage");
-    if (activePage == null) {
-        activePage = "car";
-    }
-
-    String pageTitle;
-    switch (activePage) {
-        case "bike": pageTitle = "Rent a bike"; break;
-        case "scooter": pageTitle = "Rent a scooter"; break;
-        case "profile": pageTitle = "Edit profile"; break;
-        default: pageTitle = "Rent a car";
-    }
+    request.setAttribute("pageTitle", "Rent a Scooter");
+    request.setAttribute("activePage", "scooter");
 %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>eRent</title>
+    <title><%= request.getAttribute("pageTitle") %> - eRent</title>
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/logo.png">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/home.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="admin-layout">
@@ -43,27 +32,27 @@
             <span class="brand-tagline">Easy. Electric. Everywhere.</span>
         </div>
 
-        <nav class="menu">
-            <a href="home.jsp?activePage=car" class="<%= "car".equals(activePage) ? "active" : "" %>">
+        <div class="menu">
+            <a href="car.jsp" class="<%= "car".equals(request.getAttribute("activePage")) ? "active" : "" %>">
                 <span class="material-icons">electric_car</span>
                 <span>Rent a Car</span>
             </a>
-            <a href="home.jsp?activePage=bike" class="<%= "bike".equals(activePage) ? "active" : "" %>">
+            <a href="bike.jsp" class="<%= "bike".equals(request.getAttribute("activePage")) ? "active" : "" %>">
                 <span class="material-icons">electric_bike</span>
                 <span>Rent a Bike</span>
             </a>
-            <a href="home.jsp?activePage=scooter" class="<%= "scooter".equals(activePage) ? "active" : "" %>">
+            <a href="scooter.jsp" class="<%= "scooter".equals(request.getAttribute("activePage")) ? "active" : "" %>">
                 <span class="material-icons">electric_scooter</span>
                 <span>Rent a Scooter</span>
             </a>
-            <a href="home.jsp?activePage=profile" class="<%= "profile".equals(activePage) ? "active" : "" %>">
+            <a href="profile.jsp" class="<%= "profile".equals(request.getAttribute("activePage")) ? "active" : "" %>">
                 <span class="material-icons">person</span>
                 <span>Profile</span>
             </a>
-        </nav>
+        </div>
 
         <div class="bottom">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+            <a href="home.jsp?action=logout">
                 <span class="material-icons">logout</span>
                 <span>Logout</span>
             </a>
@@ -72,7 +61,7 @@
 
     <main class="content">
         <header class="topbar">
-            <div class="dashboard-title"><%= pageTitle %></div>
+            <div class="dashboard-title"><%= request.getAttribute("pageTitle") %></div>
             <div class="spacer"></div>
             <div class="user-section">
                 <img src="${pageContext.request.contextPath}/images/client.png" alt="Client" class="user-avatar">
@@ -80,32 +69,10 @@
         </header>
 
         <div class="page-container">
+            <h3>Select your scooter rental options here</h3>
+            <p>Form for choosing location, payment, and confirming the scooter rental will go here.</p>
         </div>
     </main>
 </div>
-
-<div class="modal fade" id="logoutModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content dlg">
-
-            <div class="dlg-header">
-                <span class="material-icons">logout</span>
-                <h2>Logout</h2>
-            </div>
-
-            <div class="dlg-content">
-                <p>Are you sure you want to log out?</p>
-            </div>
-
-            <div class="dlg-actions">
-                <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">No</button>
-                <a href="home.jsp?action=logout" class="btn confirm-btn">Yes</a>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
