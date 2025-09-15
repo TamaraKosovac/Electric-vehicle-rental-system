@@ -12,7 +12,7 @@
         return;
     }
 
-    request.setAttribute("pageTitle", "Rent a Bike");
+    request.setAttribute("pageTitle", "Rent a bike");
     request.setAttribute("activePage", "bike");
 %>
 <!DOCTYPE html>
@@ -35,15 +35,15 @@
         <div class="menu">
             <a href="car.jsp" class="<%= "car".equals(request.getAttribute("activePage")) ? "active" : "" %>">
                 <span class="material-icons">electric_car</span>
-                <span>Rent a Car</span>
+                <span>Rent a car</span>
             </a>
             <a href="bike.jsp" class="<%= "bike".equals(request.getAttribute("activePage")) ? "active" : "" %>">
                 <span class="material-icons">electric_bike</span>
-                <span>Rent a Bike</span>
+                <span>Rent a bike</span>
             </a>
             <a href="scooter.jsp" class="<%= "scooter".equals(request.getAttribute("activePage")) ? "active" : "" %>">
                 <span class="material-icons">electric_scooter</span>
-                <span>Rent a Scooter</span>
+                <span>Rent a scooter</span>
             </a>
             <a href="profile.jsp" class="<%= "profile".equals(request.getAttribute("activePage")) ? "active" : "" %>">
                 <span class="material-icons">person</span>

@@ -46,15 +46,15 @@
         <nav class="menu">
             <a href="home.jsp?activePage=car" class="<%= "car".equals(activePage) ? "active" : "" %>">
                 <span class="material-icons">electric_car</span>
-                <span>Rent a Car</span>
+                <span>Rent a car</span>
             </a>
             <a href="home.jsp?activePage=bike" class="<%= "bike".equals(activePage) ? "active" : "" %>">
                 <span class="material-icons">electric_bike</span>
-                <span>Rent a Bike</span>
+                <span>Rent a bike</span>
             </a>
             <a href="home.jsp?activePage=scooter" class="<%= "scooter".equals(activePage) ? "active" : "" %>">
                 <span class="material-icons">electric_scooter</span>
-                <span>Rent a Scooter</span>
+                <span>Rent a scooter</span>
             </a>
             <a href="home.jsp?activePage=profile" class="<%= "profile".equals(activePage) ? "active" : "" %>">
                 <span class="material-icons">person</span>
@@ -72,7 +72,7 @@
 
     <main class="content">
         <header class="topbar">
-            <div class="dashboard-title"><%= pageTitle %></div>
+            <div class="dashboard-title">Client dashboard - <%= pageTitle %></div>
             <div class="spacer"></div>
             <div class="user-section">
                 <img src="${pageContext.request.contextPath}/images/client.png" alt="Client" class="user-avatar">

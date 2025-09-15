@@ -9,7 +9,7 @@
     <nav class="menu">
       <ng-container *ngIf="userRole === Role.ADMIN || userRole === Role.MANAGER">
         <a routerLink="vehicles" routerLinkActive="active">
-          <mat-icon>directions_car</mat-icon>
+          <mat-icon>electric_car</mat-icon>
           <span>Vehicles</span>
         </a>
         <a routerLink="manufacturers" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
