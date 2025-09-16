@@ -113,4 +113,34 @@ public class ClientDAO {
         }
         return false;
     }
+
+    public static boolean changePassword(int clientId, String oldPassword, String newPassword) {
+        String selectQuery = "SELECT password FROM user WHERE id=?";
+        String updateQuery = "UPDATE user SET password=? WHERE id=?";
+
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement psSelect = con.prepareStatement(selectQuery)) {
+
+            psSelect.setInt(1, clientId);
+            try (ResultSet rs = psSelect.executeQuery()) {
+                if (rs.next()) {
+                    String currentHash = rs.getString("password");
+
+                    if (!BCrypt.checkpw(oldPassword, currentHash)) {
+                        return false; // stara lozinka nije tačna
+                    }
+
+                    String newHash = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+                    try (PreparedStatement psUpdate = con.prepareStatement(updateQuery)) {
+                        psUpdate.setString(1, newHash);
+                        psUpdate.setInt(2, clientId);
+                        return psUpdate.executeUpdate() > 0;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

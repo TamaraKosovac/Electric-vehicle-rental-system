@@ -21,6 +21,25 @@
 <p><b>Name:</b> <%= client.getFirstName() %> <%= client.getLastName() %></p>
 <p><b>Email:</b> <%= client.getEmail() %></p>
 
+
+<h3>Change Password</h3>
+<form action="${pageContext.request.contextPath}/profile" method="post">
+    <input type="hidden" name="action" value="changePassword">
+    <input type="hidden" name="clientId" value="<%= client.getId() %>">
+
+    <label>Old Password:</label>
+    <input type="password" name="oldPassword" required><br><br>
+
+    <label>New Password:</label>
+    <input type="password" name="newPassword" required><br><br>
+
+    <label>Confirm New Password:</label>
+    <input type="password" name="confirmPassword" required><br><br>
+
+    <button type="submit">Change Password</button>
+</form>
+
+
 <form action="${pageContext.request.contextPath}/profile" method="post"
       onsubmit="return confirm('Are you sure you want to deactivate your profile?');">
     <input type="hidden" name="action" value="deactivate">

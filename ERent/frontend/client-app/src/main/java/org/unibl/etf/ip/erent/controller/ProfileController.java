@@ -36,6 +36,27 @@ public class ProfileController extends HttpServlet {
                 response.sendRedirect(request.getContextPath()
                         + "/pages/home.jsp?activePage=profile&error=Could not deactivate profile");
             }
+        } else if ("changePassword".equals(action)) {
+            int clientId = Integer.parseInt(request.getParameter("clientId"));
+            String oldPassword = request.getParameter("oldPassword");
+            String newPassword = request.getParameter("newPassword");
+            String confirmPassword = request.getParameter("confirmPassword");
+
+            if (!newPassword.equals(confirmPassword)) {
+                response.sendRedirect(request.getContextPath()
+                        + "/pages/home.jsp?activePage=profile&error=Passwords do not match");
+                return;
+            }
+
+            boolean success = ClientDAO.changePassword(clientId, oldPassword, newPassword);
+
+            if (success) {
+                response.sendRedirect(request.getContextPath()
+                        + "/pages/home.jsp?activePage=profile&msg=Password changed successfully");
+            } else {
+                response.sendRedirect(request.getContextPath()
+                        + "/pages/home.jsp?activePage=profile&error=Invalid old password");
+            }
         }
     }
 }
