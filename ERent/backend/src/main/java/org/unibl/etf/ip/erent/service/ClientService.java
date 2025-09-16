@@ -16,7 +16,7 @@ public class ClientService {
     private final PasswordEncoder passwordEncoder;
 
     public List<Client> findAll() {
-        return clientRepository.findAll();
+        return clientRepository.findAllByActiveTrue();
     }
 
     public Client findById(Long id) {

@@ -9,4 +9,5 @@ export interface Client extends User {
   phone: string;
   avatarPath: string;
   blocked: boolean;
+  active: boolean;
 }
