@@ -28,6 +28,8 @@ export class DataTableComponent {
   @Input() showEdit = true;
   @Input() showDelete = true;
   @Input() showBlockUnblock = false;
+  @Input() showActivate = false;                
+  @Output() activate = new EventEmitter<any>(); 
   @Output() blockUnblock = new EventEmitter<any>();
 
   @Output() info = new EventEmitter<any>();  

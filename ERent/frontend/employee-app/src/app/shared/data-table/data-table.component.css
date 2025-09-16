@@ -92,3 +92,19 @@
   font-style: italic;
   padding: 16px;
 }
+
+.status-active {
+  display: inline-flex;                 
+  align-items: center;                
+  justify-content: center;            
+  margin-left: 30px;
+  background-color: #fff;           
+  color: #2e6f6a;                   
+  border: 2px solid #2e6f6a;         
+  border-radius: 4px;                 
+  font-size: 12px;                
+  padding: 2px 8px;                   
+  line-height: 20px;
+  text-transform: none;
+  min-width: 60px;                    
+}

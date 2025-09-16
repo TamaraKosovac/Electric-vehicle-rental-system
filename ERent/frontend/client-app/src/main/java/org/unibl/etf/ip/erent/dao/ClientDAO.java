@@ -11,7 +11,7 @@ public class ClientDAO {
 
     public static ClientDTO login(String username, String password) {
         String query = "SELECT u.id, u.username, u.password, u.first_name, u.last_name, " +
-                "c.email, c.phone, c.avatar_path, c.blocked " +
+                "c.email, c.phone, c.avatar_path, c.blocked, c.active " +
                 "FROM user u " +
                 "JOIN client c ON u.id = c.id " +
                 "WHERE u.username=?";
@@ -26,13 +26,19 @@ public class ClientDAO {
                     String hashedPassword = rs.getString("password");
 
                     if (BCrypt.checkpw(password, hashedPassword)) {
+                        boolean active = rs.getBoolean("active");
+                        if (!active) {
+                            return null;
+                        }
+
                         return new ClientDTO(
                                 rs.getInt("id"),
                                 rs.getString("username"),
                                 rs.getString("first_name"),
                                 rs.getString("last_name"),
                                 rs.getString("email"),
-                                rs.getBoolean("blocked")
+                                rs.getBoolean("blocked"),
+                                active
                         );
                     }
                 }
@@ -45,8 +51,8 @@ public class ClientDAO {
 
     public static boolean register(ClientBean client) {
         String insertUser = "INSERT INTO user (first_name, last_name, username, password) VALUES (?, ?, ?, ?)";
-        String insertClient = "INSERT INTO client (id, document_type, document_number, driving_license, email, phone, avatar_path, blocked) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertClient = "INSERT INTO client (id, document_type, document_number, driving_license, email, phone, avatar_path, blocked, active) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = DBUtil.getConnection();
              PreparedStatement psUser = con.prepareStatement(insertUser, Statement.RETURN_GENERATED_KEYS)) {
@@ -79,6 +85,7 @@ public class ClientDAO {
                 psClient.setString(6, client.getPhone());
                 psClient.setString(7, client.getAvatarPath());
                 psClient.setBoolean(8, false);
+                psClient.setBoolean(9, true);
                 psClient.executeUpdate();
             }
 
@@ -86,6 +93,21 @@ public class ClientDAO {
         } catch (SQLIntegrityConstraintViolationException e) {
             System.out.println("Duplicate entry: " + e.getMessage());
             return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean deactivate(int clientId) {
+        String query = "UPDATE client SET active = false WHERE id = ?";
+
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+
+            ps.setInt(1, clientId);
+            return ps.executeUpdate() > 0;
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -23,10 +23,12 @@
   [currentPage]="currentClientPage"
   [totalPages]="clientTotalPages"
   [showBlockUnblock]="true"
+  [showActivate]="true"
   [showInfo]="false"
   [showEdit]="false"
   [showDelete]="false"
-  (blockUnblock)="blockUnblockClient($event)">
+  (blockUnblock)="blockUnblockClient($event)"
+  (activate)="activateClient($event)">
 </app-data-table>
 
 <app-minimal-paginator

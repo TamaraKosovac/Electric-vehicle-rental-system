@@ -73,8 +73,21 @@ public class RegisterController extends HttpServlet {
             return;
         }
 
-        ClientBean client = new ClientBean(0, username, password, firstName, lastName,
-                documentType, documentNumber, drivingLicense, email, phone, avatarPath, false);
+        ClientBean client = new ClientBean(
+                0,
+                username,
+                password,
+                firstName,
+                lastName,
+                documentType,
+                documentNumber,
+                drivingLicense,
+                email,
+                phone,
+                avatarPath,
+                false,
+                true
+        );
 
         boolean success = ClientDAO.register(client);
 

@@ -84,4 +84,10 @@ export class ClientsComponent implements OnInit {
     this.allClients = filtered;
     this.setClientPage(1);
   }
+
+  activateClient(client: Client) {
+    if (!client.active) {
+      this.usersService.activateClient(client.id).subscribe(() => this.loadClients());
+    }
+  }
 }

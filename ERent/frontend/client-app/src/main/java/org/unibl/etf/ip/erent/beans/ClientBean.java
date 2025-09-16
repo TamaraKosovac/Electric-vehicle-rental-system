@@ -13,12 +13,13 @@ public class ClientBean {
     private String phone;
     private String avatarPath;
     private boolean blocked;
+    private boolean active;
 
     public ClientBean() {}
 
     public ClientBean(int id, String username, String password, String firstName, String lastName,
                       String documentType, String documentNumber, String drivingLicense,
-                      String email, String phone, String avatarPath, boolean blocked) {
+                      String email, String phone, String avatarPath, boolean blocked, boolean active) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -31,6 +32,7 @@ public class ClientBean {
         this.phone = phone;
         this.avatarPath = avatarPath;
         this.blocked = blocked;
+        this.active = active;
     }
 
     public int getId() { return id; }
@@ -68,4 +70,7 @@ public class ClientBean {
 
     public boolean isBlocked() { return blocked; }
     public void setBlocked(boolean blocked) { this.blocked = blocked; }
+
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }

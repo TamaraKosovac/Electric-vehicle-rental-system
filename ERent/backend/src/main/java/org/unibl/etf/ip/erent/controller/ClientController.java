@@ -49,4 +49,9 @@ public class ClientController {
     public Client unblockClient(@PathVariable Long id) {
         return clientService.unblockClient(id);
     }
+
+    @PutMapping("/{id}/activate")
+    public Client activateClient(@PathVariable Long id) {
+        return clientService.activateClient(id);
+    }
 }

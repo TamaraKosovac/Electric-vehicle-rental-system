@@ -37,4 +37,12 @@ export class UsersService {
   deleteEmployee(id: number) {
     return this.http.delete(`${this.baseUrl}/employees/${id}`);
   }
+
+  activateClient(id: number) {
+    return this.http.put(`${this.baseUrl}/clients/${id}/activate`, {});
+  }
+
+  deactivateClient(id: number) {
+    return this.http.put(`${this.baseUrl}/clients/${id}/deactivate`, {});
+  }
 }

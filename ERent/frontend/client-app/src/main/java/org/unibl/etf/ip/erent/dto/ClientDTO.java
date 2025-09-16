@@ -7,16 +7,18 @@ public class ClientDTO {
     private String lastName;
     private String email;
     private boolean blocked;
+    private boolean active;
 
     public ClientDTO() {}
 
-    public ClientDTO(int id, String username, String firstName, String lastName, String email, boolean blocked) {
+    public ClientDTO(int id, String username, String firstName, String lastName, String email, boolean blocked, boolean active) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.blocked = blocked;
+        this.active = active;
     }
 
     public int getId() { return id; }
@@ -36,4 +38,7 @@ public class ClientDTO {
 
     public boolean isBlocked() { return blocked; }
     public void setBlocked(boolean blocked) { this.blocked = blocked; }
+
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }

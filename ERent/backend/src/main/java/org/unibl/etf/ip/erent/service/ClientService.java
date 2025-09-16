@@ -16,7 +16,7 @@ public class ClientService {
     private final PasswordEncoder passwordEncoder;
 
     public List<Client> findAll() {
-        return clientRepository.findAllByActiveTrue();
+        return clientRepository.findAll();
     }
 
     public Client findById(Long id) {
@@ -44,6 +44,12 @@ public class ClientService {
     public Client unblockClient(Long id) {
         Client client = findById(id);
         client.setBlocked(false);
+        return clientRepository.save(client);
+    }
+
+    public Client activateClient(Long id) {
+        Client client = findById(id);
+        client.setActive(true);
         return clientRepository.save(client);
     }
 }

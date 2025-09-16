@@ -258,4 +258,10 @@ export class UsersComponent implements OnInit {
       this.setEmployeePage(1);
     }
   }
+
+  activateClient(client: Client) {
+    if (!client.active) {
+      this.usersService.activateClient(client.id).subscribe(() => this.loadClients());
+    }
+  }
 }

@@ -21,11 +21,18 @@
 <p><b>Name:</b> <%= client.getFirstName() %> <%= client.getLastName() %></p>
 <p><b>Email:</b> <%= client.getEmail() %></p>
 
+<form action="${pageContext.request.contextPath}/profile" method="post"
+      onsubmit="return confirm('Are you sure you want to deactivate your profile?');">
+    <input type="hidden" name="action" value="deactivate">
+    <input type="hidden" name="clientId" value="<%= client.getId() %>">
+    <button type="submit">Deactivate Profile</button>
+</form>
+
 <h3>My Rentals (found: <%= rentals.size() %>)</h3>
 <% if (rentals.isEmpty()) { %>
 <p>No rentals found.</p>
 <% } else { %>
-<table>
+<table border="1" cellpadding="5">
     <tr>
         <th>Manufacturer</th>
         <th>Model</th>

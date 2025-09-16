@@ -23,6 +23,18 @@
         {{ row.blocked ? 'Unblock' : 'Block' }}
       </button>
 
+      <button *ngIf="showActivate && !row.active"
+              mat-stroked-button
+              color="primary"
+              class="small-btn"
+              (click)="activate.emit(row)">
+        Activate
+      </button>
+
+      <span *ngIf="showActivate && row.active" class="status-active">
+        Active
+      </span>
+
       <ng-container *ngIf="!showBlockUnblock">
         <button *ngIf="showInfo"
                 mat-icon-button class="icon-btn info"
