@@ -80,6 +80,15 @@
         </header>
 
         <div class="page-container">
+            <% if ("car".equals(activePage)) { %>
+            <jsp:include page="car.jsp" />
+            <% } else if ("bike".equals(activePage)) { %>
+            <jsp:include page="bike.jsp" />
+            <% } else if ("scooter".equals(activePage)) { %>
+            <jsp:include page="scooter.jsp" />
+            <% } else if ("profile".equals(activePage)) { %>
+            <jsp:include page="profile.jsp" />
+            <% } %>
         </div>
     </main>
 </div>
