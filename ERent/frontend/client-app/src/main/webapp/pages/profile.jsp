@@ -15,68 +15,98 @@
     DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 %>
 
-<h2>My Profile</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile.css">
+</head>
+<body class="bg-light">
 
-<p><b>Username:</b> <%= client.getUsername() %></p>
-<p><b>Name:</b> <%= client.getFirstName() %> <%= client.getLastName() %></p>
-<p><b>Email:</b> <%= client.getEmail() %></p>
+<div class="container my-4">
 
+    <h2 class="mb-3 text-primary">My Profile</h2>
 
-<h3>Change Password</h3>
-<form action="${pageContext.request.contextPath}/profile" method="post">
-    <input type="hidden" name="action" value="changePassword">
-    <input type="hidden" name="clientId" value="<%= client.getId() %>">
+    <p><b>Username:</b> <%= client.getUsername() %></p>
+    <p><b>Name:</b> <%= client.getFirstName() %> <%= client.getLastName() %></p>
+    <p><b>Email:</b> <%= client.getEmail() %></p>
 
-    <label>Old Password:</label>
-    <input type="password" name="oldPassword" required><br><br>
+    <h3 class="mt-4">Change Password</h3>
+    <form action="${pageContext.request.contextPath}/profile" method="post"
+          class="p-3 border rounded bg-white shadow-sm mb-4">
+        <input type="hidden" name="action" value="changePassword">
+        <input type="hidden" name="clientId" value="<%= client.getId() %>">
 
-    <label>New Password:</label>
-    <input type="password" name="newPassword" required><br><br>
+        <div class="mb-3">
+            <label class="form-label">Old Password:</label>
+            <input type="password" name="oldPassword" class="form-control" required>
+        </div>
 
-    <label>Confirm New Password:</label>
-    <input type="password" name="confirmPassword" required><br><br>
+        <div class="mb-3">
+            <label class="form-label">New Password:</label>
+            <input type="password" name="newPassword" class="form-control" required>
+        </div>
 
-    <button type="submit">Change Password</button>
-</form>
+        <div class="mb-3">
+            <label class="form-label">Confirm New Password:</label>
+            <input type="password" name="confirmPassword" class="form-control" required>
+        </div>
 
+        <button type="submit" class="btn btn-primary">Change Password</button>
+    </form>
 
-<form action="${pageContext.request.contextPath}/profile" method="post"
-      onsubmit="return confirm('Are you sure you want to deactivate your profile?');">
-    <input type="hidden" name="action" value="deactivate">
-    <input type="hidden" name="clientId" value="<%= client.getId() %>">
-    <button type="submit">Deactivate Profile</button>
-</form>
+    <form action="${pageContext.request.contextPath}/profile" method="post"
+          onsubmit="return confirm('Are you sure you want to deactivate your profile?');"
+          class="p-3 border rounded bg-white shadow-sm mb-4">
+        <input type="hidden" name="action" value="deactivate">
+        <input type="hidden" name="clientId" value="<%= client.getId() %>">
+        <button type="submit" class="btn btn-danger">Deactivate Profile</button>
+    </form>
 
-<h3>My Rentals (found: <%= rentals.size() %>)</h3>
-<% if (rentals.isEmpty()) { %>
-<p>No rentals found.</p>
-<% } else { %>
-<table border="1" cellpadding="5">
-    <tr>
-        <th>Manufacturer</th>
-        <th>Model</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Duration (h)</th>
-        <th>Price (KM)</th>
-        <th>Start Lat</th>
-        <th>Start Lng</th>
-        <th>End Lat</th>
-        <th>End Lng</th>
-    </tr>
-    <% for (RentalDTO r : rentals) { %>
-    <tr>
-        <td><%= r.getManufacturer() %></td>
-        <td><%= r.getModel() %></td>
-        <td><%= r.getStartDateTime().format(fmt) %></td>
-        <td><%= r.getEndDateTime() != null ? r.getEndDateTime().format(fmt) : "-" %></td>
-        <td><%= r.getDuration() %></td>
-        <td><%= r.getPrice() %></td>
-        <td><%= r.getStartLatitude() %></td>
-        <td><%= r.getStartLongitude() %></td>
-        <td><%= r.getEndLatitude() %></td>
-        <td><%= r.getEndLongitude() %></td>
-    </tr>
+    <h3 class="mt-4">My Rentals (found: <%= rentals.size() %>)</h3>
+    <% if (rentals.isEmpty()) { %>
+    <p>No rentals found.</p>
+    <% } else { %>
+    <div class="table-responsive">
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Start time</th>
+                <th>End time</th>
+                <th>Duration(h)</th>
+                <th>Price(KM)</th>
+                <th>Start latitude</th>
+                <th>Start longitude</th>
+                <th>End latitude</th>
+                <th>End longitude</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for (RentalDTO r : rentals) { %>
+            <tr>
+                <td><%= r.getManufacturer() %></td>
+                <td><%= r.getModel() %></td>
+                <td><%= r.getStartDateTime().format(fmt) %></td>
+                <td><%= r.getEndDateTime() != null ? r.getEndDateTime().format(fmt) : "-" %></td>
+                <td><%= r.getDuration() %></td>
+                <td><%= r.getPrice() %></td>
+                <td><%= r.getStartLatitude() %></td>
+                <td><%= r.getStartLongitude() %></td>
+                <td><%= r.getEndLatitude() %></td>
+                <td><%= r.getEndLongitude() %></td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
     <% } %>
-</table>
-<% } %>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
