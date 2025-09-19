@@ -11,6 +11,7 @@ public class ClientDAO {
 
     public static ClientDTO login(String username, String password) {
         String query = "SELECT u.id, u.username, u.password, u.first_name, u.last_name, " +
+                "c.document_type, c.document_number, c.driving_license, " +
                 "c.email, c.phone, c.avatar_path, c.blocked, c.active " +
                 "FROM user u " +
                 "JOIN client c ON u.id = c.id " +
@@ -36,7 +37,12 @@ public class ClientDAO {
                                 rs.getString("username"),
                                 rs.getString("first_name"),
                                 rs.getString("last_name"),
+                                rs.getString("document_type"),
+                                rs.getString("document_number"),
+                                rs.getString("driving_license"),
                                 rs.getString("email"),
+                                rs.getString("phone"),
+                                rs.getString("avatar_path"),
                                 rs.getBoolean("blocked"),
                                 active
                         );

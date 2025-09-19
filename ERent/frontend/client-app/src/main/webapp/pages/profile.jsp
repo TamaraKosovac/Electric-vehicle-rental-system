@@ -25,79 +25,43 @@
     <meta charset="UTF-8">
     <title>My Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile.css">
 </head>
 <body class="bg-light">
 
 <div class="container my-4">
+    <div class="client-card shadow-sm mb-4">
+        <div class="client-image">
+            <img
+                    src="${pageContext.request.contextPath}/clientphotocontroller?clientId=<%= client.getId() %>"
+                    alt="Profile photo"
+                    onerror="this.remove(); this.parentElement.classList.add('client-avatar-fallback'); this.parentElement.innerHTML='<span><%= initials.toUpperCase() %></span>';"
+            />
+        </div>
 
-    <div class="card profile-card shadow-sm mb-4">
-        <div class="card-body py-3 px-4">
-            <div class="row g-3 align-items-center">
-                <div class="col-auto">
-                    <div class="pc-avatar pc-avatar-lg">
-                        <img
-                                class="pc-avatar-img"
-                                src="${pageContext.request.contextPath}/clientphotocontroller?clientId=<%= client.getId() %>"
-                                alt="Profile photo"
-                                onerror="this.remove(); this.parentElement.classList.add('pc-avatar-fallback'); this.parentElement.innerHTML='<span><%= initials.toUpperCase() %></span>';"
-                        />
-                    </div>
-                </div>
-
-                <div class="col">
-                    <h5 class="mb-2">
-                        <%= client.getFirstName() %> <%= client.getLastName() %>
-                    </h5>
-                    <div class="row row-cols-1 row-cols-sm-2 gy-2 gx-4">
-                        <div class="col">
-                            <span class="pc-label">Username</span>
-                            <span class="pc-value"><%= client.getUsername() %></span>
-                        </div>
-                        <div class="col">
-                            <span class="pc-label">Email</span>
-                            <span class="pc-value"><%= client.getEmail() %></span>
-                        </div>
-                    </div>
-                </div>
+        <div class="client-info">
+            <div class="info-grid">
+                <div><i class="bi bi-person"></i><%= client.getUsername() %></div>
+                <div><i class="bi bi-person"></i><%= client.getFirstName() %> <%= client.getLastName() %></div>
+                <div><i class="bi bi-envelope"></i><%= client.getEmail() %></div>
+                <div><i class="bi bi-telephone"></i><%= client.getPhone() %></div>
+                <div><i class="bi bi-card-text"></i><%= client.getDocumentType() %> - <%= client.getDocumentNumber() %></div>
+                <div><i class="bi bi-credit-card-2-front"></i><%= client.getDrivingLicense() %></div>
             </div>
         </div>
     </div>
 
+    <div class="d-flex justify-content-end gap-3 mb-3">
+        <button class="btn btn-green" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+            <i class="bi bi-key"></i> Change password
+        </button>
 
-    <h3 class="mt-4">Change Password</h3>
-    <form action="${pageContext.request.contextPath}/profile" method="post"
-          class="p-3 border rounded bg-white shadow-sm mb-4">
-        <input type="hidden" name="action" value="changePassword">
-        <input type="hidden" name="clientId" value="<%= client.getId() %>">
+        <button class="btn btn-outline-green" data-bs-toggle="modal" data-bs-target="#deactivateModal">
+            <i class="bi bi-person-x"></i> Deactivate profile
+        </button>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Old Password:</label>
-            <input type="password" name="oldPassword" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">New Password:</label>
-            <input type="password" name="newPassword" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Confirm New Password:</label>
-            <input type="password" name="confirmPassword" class="form-control" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Change Password</button>
-    </form>
-
-    <form action="${pageContext.request.contextPath}/profile" method="post"
-          onsubmit="return confirm('Are you sure you want to deactivate your profile?');"
-          class="p-3 border rounded bg-white shadow-sm mb-4">
-        <input type="hidden" name="action" value="deactivate">
-        <input type="hidden" name="clientId" value="<%= client.getId() %>">
-        <button type="submit" class="btn btn-danger">Deactivate Profile</button>
-    </form>
-
-    <h3 class="mt-4">My Rentals (found: <%= rentals.size() %>)</h3>
     <% if (rentals.isEmpty()) { %>
     <p>No rentals found.</p>
     <% } else { %>
@@ -136,7 +100,67 @@
         </table>
     </div>
     <% } %>
+</div>
 
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content dlg">
+            <div class="dlg-header">
+                <h2>Change password</h2>
+            </div>
+
+            <form action="${pageContext.request.contextPath}/profile" method="post">
+                <div class="dlg-content text-start">
+                    <input type="hidden" name="action" value="changePassword">
+                    <input type="hidden" name="clientId" value="<%= client.getId() %>">
+
+                    <div class="row g-3 mb-3">
+                        <div class="col">
+                            <label class="form-label">Old password</label>
+                            <input type="password" name="oldPassword" class="form-control" required>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">New password</label>
+                            <input type="password" name="newPassword" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Confirm new password</label>
+                        <input type="password" name="confirmPassword" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="dlg-actions">
+                    <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn confirm-btn">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deactivateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content dlg">
+            <div class="dlg-header">
+                <h2>Deactivate profile</h2>
+            </div>
+
+            <div class="dlg-content text-start">
+                <p>Are you sure you want to deactivate your profile?</p>
+            </div>
+
+            <div class="dlg-actions">
+                <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                <form action="${pageContext.request.contextPath}/profile" method="post">
+                    <input type="hidden" name="action" value="deactivate">
+                    <input type="hidden" name="clientId" value="<%= client.getId() %>">
+                    <button type="submit" class="btn confirm-btn">Yes, deactivate</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
