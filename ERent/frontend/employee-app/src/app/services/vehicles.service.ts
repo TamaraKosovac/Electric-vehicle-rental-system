@@ -139,4 +139,11 @@ export class VehiclesService {
   getAllVehicles(): Observable<Vehicle[]> {
     return this.http.get<Vehicle[]>(`${this.baseUrl}/vehicles`);
   }
+
+  getImageUrl(path: string): string {
+    if (!path) {
+      return 'assets/no-image.png'; 
+    }
+    return `http://localhost:8080/images${path}`;
+  }
 }

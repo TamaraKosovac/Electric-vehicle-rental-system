@@ -13,6 +13,10 @@
 
     List<RentalDTO> rentals = RentalDAO.getRentalsByClient(client.getId());
     DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+
+    String f = client.getFirstName() != null ? client.getFirstName() : "";
+    String l = client.getLastName() != null ? client.getLastName() : "";
+    String initials = (f.isEmpty() ? "" : String.valueOf(f.charAt(0))) + (l.isEmpty() ? "" : String.valueOf(l.charAt(0)));
 %>
 
 <!DOCTYPE html>
@@ -27,11 +31,39 @@
 
 <div class="container my-4">
 
-    <h2 class="mb-3 text-primary">My Profile</h2>
+    <div class="card profile-card shadow-sm mb-4">
+        <div class="card-body py-3 px-4">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <div class="pc-avatar pc-avatar-lg">
+                        <img
+                                class="pc-avatar-img"
+                                src="${pageContext.request.contextPath}/clientphotocontroller?clientId=<%= client.getId() %>"
+                                alt="Profile photo"
+                                onerror="this.remove(); this.parentElement.classList.add('pc-avatar-fallback'); this.parentElement.innerHTML='<span><%= initials.toUpperCase() %></span>';"
+                        />
+                    </div>
+                </div>
 
-    <p><b>Username:</b> <%= client.getUsername() %></p>
-    <p><b>Name:</b> <%= client.getFirstName() %> <%= client.getLastName() %></p>
-    <p><b>Email:</b> <%= client.getEmail() %></p>
+                <div class="col">
+                    <h5 class="mb-2">
+                        <%= client.getFirstName() %> <%= client.getLastName() %>
+                    </h5>
+                    <div class="row row-cols-1 row-cols-sm-2 gy-2 gx-4">
+                        <div class="col">
+                            <span class="pc-label">Username</span>
+                            <span class="pc-value"><%= client.getUsername() %></span>
+                        </div>
+                        <div class="col">
+                            <span class="pc-label">Email</span>
+                            <span class="pc-value"><%= client.getEmail() %></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <h3 class="mt-4">Change Password</h3>
     <form action="${pageContext.request.contextPath}/profile" method="post"
@@ -77,8 +109,8 @@
                 <th>Model</th>
                 <th>Start time</th>
                 <th>End time</th>
-                <th>Duration(h)</th>
-                <th>Price(KM)</th>
+                <th>Duration (h)</th>
+                <th>Price (KM)</th>
                 <th>Start latitude</th>
                 <th>Start longitude</th>
                 <th>End latitude</th>

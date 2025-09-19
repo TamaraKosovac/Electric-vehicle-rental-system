@@ -235,7 +235,7 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   getImageUrl(path: string): string {
-    return `http://localhost:8080${path}`;
+    return this.vehiclesService.getImageUrl(path);
   }
 
   applyMalfunctionFilter(event: KeyboardEvent) {

@@ -127,7 +127,7 @@ public class ClientDAO {
                     String currentHash = rs.getString("password");
 
                     if (!BCrypt.checkpw(oldPassword, currentHash)) {
-                        return false; // stara lozinka nije tačna
+                        return false;
                     }
 
                     String newHash = BCrypt.hashpw(newPassword, BCrypt.gensalt());
@@ -142,5 +142,21 @@ public class ClientDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static String getAvatarPathById(int clientId) {
+        String sql = "SELECT avatar_path FROM client WHERE id = ?";
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, clientId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("avatar_path");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
