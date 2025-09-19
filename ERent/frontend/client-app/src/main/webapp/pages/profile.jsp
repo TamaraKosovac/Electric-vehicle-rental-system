@@ -24,6 +24,7 @@
 <head>
     <meta charset="UTF-8">
     <title>My Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile.css">
@@ -117,19 +118,36 @@
                     <div class="row g-3 mb-3">
                         <div class="col">
                             <label class="form-label">Old password</label>
-                            <input type="password" name="oldPassword" class="form-control" required>
+                            <div class="password-wrapper">
+                                <input type="password" id="oldPassword" name="oldPassword"
+                                       class="form-control" placeholder="Old password" required>
+                                <button type="button" class="toggle-password" onclick="togglePassword('oldPassword', 'eye-old')">
+                                    <span id="eye-old" class="material-icons">visibility_off</span>
+                                </button>
+                            </div>
                         </div>
                         <div class="col">
                             <label class="form-label">New password</label>
-                            <input type="password" name="newPassword" class="form-control" required>
+                            <div class="password-wrapper">
+                                <input type="password" id="newPassword" name="newPassword"
+                                       class="form-control" placeholder="New password" required>
+                                <button type="button" class="toggle-password" onclick="togglePassword('newPassword', 'eye-new')">
+                                    <span id="eye-new" class="material-icons">visibility_off</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Confirm new password</label>
-                        <input type="password" name="confirmPassword" class="form-control" required>
+                        <div class="password-wrapper">
+                            <input type="password" id="confirmPassword" name="confirmPassword"
+                                   class="form-control" placeholder="Confirm new password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword', 'eye-confirm')">
+                                <span id="eye-confirm" class="material-icons">visibility_off</span>
+                            </button>
+                        </div>
                     </div>
-                </div>
 
                 <div class="dlg-actions">
                     <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
@@ -164,5 +182,19 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function togglePassword(inputId, eyeId) {
+        const field = document.getElementById(inputId);
+        const eye = document.getElementById(eyeId);
+
+        if (field.type === "password") {
+            field.type = "text";
+            eye.textContent = "visibility";
+        } else {
+            field.type = "password";
+            eye.textContent = "visibility_off";
+        }
+    }
+</script>
 </body>
 </html>

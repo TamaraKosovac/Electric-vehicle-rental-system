@@ -139,10 +139,8 @@ html, body {
 }
 
 .dlg {
-    padding: 30px 36px 28px;
-    width: 500px;
-    min-height: 200px;
-    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
 }
 
 .dlg-header {
@@ -233,4 +231,64 @@ html, body {
     background-color: #e6f4f3 !important;
     border-color: #245854 !important;
     color: #245854 !important;
+}
+
+@media (max-width: 576px) {
+    .client-card {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: center;
+    }
+    .client-image {
+        flex: unset;
+        margin-bottom: 12px;
+    }
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 576px) {
+    .d-flex.justify-content-end.gap-3 {
+        flex-direction: column;
+    }
+    .d-flex.justify-content-end.gap-3 .btn {
+        width: 100%;
+    }
+}
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    padding-right: 40px;
+}
+
+.password-wrapper .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+
+.password-wrapper .toggle-password .material-icons {
+    font-size: 18px;
+    color: #555;
+}
+
+.password-wrapper .toggle-password:hover .material-icons {
+    color: #2e6f6a;
 }

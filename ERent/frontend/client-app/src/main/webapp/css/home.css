@@ -151,10 +151,8 @@ html, body {
 }
 
 .dlg {
-    padding: 28px 32px 24px;
-    width: 300px;
-    min-height: 160px;
-    border-radius: 10px;
+    width: 100%;
+    max-width: 360px;
 }
 
 .dlg-header {
@@ -232,4 +230,54 @@ html, body {
 
 .confirm-btn:active {
     background-color: #1f4a47 !important;
+}
+
+@media (max-width: 768px) {
+    .admin-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        padding: 10px;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .menu {
+        flex-direction: row;
+        gap: 16px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .menu a {
+        padding: 8px 10px;
+        border-radius: 8px;
+        font-size: 13px;
+    }
+
+    .bottom {
+        display: none;
+    }
+
+    .topbar {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 12px;
+    }
+
+    .dashboard-title {
+        font-size: 16px;
+    }
+
+    .page-container {
+        padding: 12px;
+    }
 }

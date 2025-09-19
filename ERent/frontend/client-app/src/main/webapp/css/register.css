@@ -231,3 +231,47 @@ select.full-width:focus {
 .password-wrapper .toggle-password .material-icons:hover {
     color: #333;
 }
+
+@media (max-width: 768px) {
+    .register-box {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px 16px;
+        border-radius: 0;
+        min-height: auto;
+        box-shadow: none;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .register-title {
+        font-size: 22px;
+    }
+
+    .register-tagline {
+        font-size: 12px;
+        margin-bottom: 16px;
+    }
+
+    .btn-register {
+        font-size: 15px;
+        min-height: 44px;
+    }
+
+    .image-preview img {
+        max-width: 100%;
+    }
+
+    .image-dropzone {
+        height: auto;
+        padding: 12px;
+        font-size: 13px;
+    }
+}
