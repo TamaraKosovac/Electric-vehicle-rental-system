@@ -18,7 +18,8 @@
 
 <div class="page-container">
 
-    <form action="${pageContext.request.contextPath}/rent" method="post" class="mt-3">
+    <form action="${pageContext.request.contextPath}/rent" method="post"
+          class="mt-3" onsubmit="return validateForm()">
 
         <input type="hidden" name="clientId" value="<%= client.getId() %>">
         <input type="hidden" name="vehicleType" value="SCOOTER">
@@ -26,8 +27,12 @@
         <div class="mb-3">
             <label class="form-label">Start location (latitude, longitude)</label>
             <div class="d-flex gap-2">
-                <input type="text" class="form-control" name="latitude" placeholder="Latitude" required>
-                <input type="text" class="form-control" name="longitude" placeholder="Longitude" required>
+                <input type="text" class="form-control" name="latitude" placeholder="Latitude"
+                       required pattern="-?[0-9]{1,3}(\\.[0-9]+)?"
+                       title="Please enter a valid latitude (e.g. 44.778)">
+                <input type="text" class="form-control" name="longitude" placeholder="Longitude"
+                       required pattern="-?[0-9]{1,3}(\\.[0-9]+)?"
+                       title="Please enter a valid longitude (e.g. 17.191)">
             </div>
             <button type="button" class="btn btn-sm btn-outline-secondary mt-1" onclick="detectLocation()">Detect automatically</button>
         </div>
@@ -44,14 +49,19 @@
             </select>
         </div>
 
-        <h5>Payment info</h5>
         <div class="mb-3">
             <label class="form-label">Card number</label>
-            <input type="text" class="form-control" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+            <input type="text" class="form-control" name="cardNumber"
+                   placeholder="1234 5678 9012 3456" required
+                   pattern="^[0-9]{16}$" title="Card number must contain exactly 16 digits (no spaces)">
         </div>
         <div class="d-flex gap-2 mb-3">
-            <input type="text" class="form-control" name="expiryDate" placeholder="MM/YY" required>
-            <input type="text" class="form-control" name="cvv" placeholder="CVV" required>
+            <input type="text" class="form-control" name="expiryDate"
+                   placeholder="MM/YY" required
+                   pattern="^(0[1-9]|1[0-2])\\/\\d{2}$" title="Expiry date must be in format MM/YY">
+            <input type="text" class="form-control" name="cvv"
+                   placeholder="CVV" required
+                   pattern="^[0-9]{3,4}$" title="CVV must be 3 or 4 digits">
         </div>
 
         <button type="submit" class="btn btn-success">Start ride</button>
@@ -68,7 +78,16 @@
                 alert("Cannot detect location: " + error.message);
             });
         } else {
-            alert("Geolocation not supported in your browser.");
+            alert("Geolocation is not supported in your browser.");
         }
+    }
+
+    function validateForm() {
+        const form = document.forms[0];
+        if (!form.checkValidity()) {
+            alert("Please fill in all fields correctly before submitting.");
+            return false;
+        }
+        return true;
     }
 </script>

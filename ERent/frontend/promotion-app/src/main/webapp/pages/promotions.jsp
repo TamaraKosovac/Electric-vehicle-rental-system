@@ -125,46 +125,46 @@
                         <h5 class="modal-title" id="createPromotionModalLabel">Add promotion</h5>
                     </div>
 
-                    <form method="post">
+                    <form method="post" onsubmit="return validatePromotionForm(this)">
                         <div class="modal-body">
                             <input type="hidden" name="action" value="create"/>
 
                             <div class="mb-3">
                                 <label class="form-label">Title</label>
-                                <input type="text" name="title" class="form-control" placeholder="Title" required>
+                                <input type="text" name="title" class="form-control" placeholder="Title"
+                                       required minlength="2" maxlength="100"
+                                       title="Title must be between 2 and 100 characters">
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Start date</label>
                                 <div class="date-input-wrapper">
-                                    <input type="text"
+                                    <input type="datetime-local"
                                            class="form-control"
                                            name="startDate"
                                            id="startDate"
-                                           placeholder="Start date"
-                                           required>
-                                    <span class="material-icons calendar-icon"
-                                          onclick="openDateTime('startDate')">event</span>
+                                           required
+                                           title="Please select a valid start date and time">
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">End date</label>
                                 <div class="date-input-wrapper">
-                                    <input type="text"
+                                    <input type="datetime-local"
                                            class="form-control"
                                            name="endDate"
                                            id="endDate"
-                                           placeholder="End date"
-                                           required>
-                                    <span class="material-icons calendar-icon"
-                                          onclick="openDateTime('endDate')">event</span>
+                                           required
+                                           title="Please select a valid end date and time">
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Description</label>
-                                <textarea name="description" class="form-control" placeholder="Description" rows="3" required></textarea>
+                                <textarea name="description" class="form-control" placeholder="Description" rows="3"
+                                          required minlength="5" maxlength="500"
+                                          title="Description must be between 5 and 500 characters"></textarea>
                             </div>
                         </div>
 
@@ -219,15 +219,6 @@
         }
     });
 
-    function openDateTime(id) {
-        const input = document.getElementById(id);
-        input.type = 'datetime-local';
-        input.showPicker();
-        input.addEventListener('blur', function() {
-            if (!this.value) this.type = 'text';
-        }, { once: true });
-    }
-
     window.addEventListener("DOMContentLoaded", () => {
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get("status");
@@ -243,6 +234,45 @@
         const snackbar = document.getElementById(id);
         snackbar.classList.add("show");
         setTimeout(() => snackbar.classList.remove("show"), 3000);
+    }
+
+    function validatePromotionForm(form) {
+        const title = form.title.value.trim();
+        const description = form.description.value.trim();
+        const startDate = form.startDate.value;
+        const endDate = form.endDate.value;
+
+        if (title.length < 2 || title.length > 100) {
+            alert("Title must be between 2 and 100 characters.");
+            form.title.focus();
+            return false;
+        }
+
+        if (description.length < 5 || description.length > 500) {
+            alert("Description must be between 5 and 500 characters.");
+            form.description.focus();
+            return false;
+        }
+
+        if (!startDate) {
+            alert("Please select a start date.");
+            form.startDate.focus();
+            return false;
+        }
+
+        if (!endDate) {
+            alert("Please select an end date.");
+            form.endDate.focus();
+            return false;
+        }
+
+        if (new Date(endDate) <= new Date(startDate)) {
+            alert("End date must be after start date.");
+            form.endDate.focus();
+            return false;
+        }
+
+        return true;
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

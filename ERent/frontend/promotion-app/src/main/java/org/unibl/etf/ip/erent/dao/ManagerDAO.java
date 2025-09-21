@@ -11,6 +11,10 @@ import java.sql.ResultSet;
 public class ManagerDAO {
 
     public static ManagerDTO login(String username, String password) {
+        if (username == null || username.trim().isEmpty() || password == null || password.isEmpty()) {
+            return null;
+        }
+
         String query = "SELECT u.id, u.username, u.password, u.first_name, u.last_name " +
                 "FROM user u " +
                 "JOIN employee e ON u.id = e.id " +
@@ -19,7 +23,7 @@ public class ManagerDAO {
         try (Connection con = DBUtil.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
 
-            ps.setString(1, username);
+            ps.setString(1, username.trim());
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {

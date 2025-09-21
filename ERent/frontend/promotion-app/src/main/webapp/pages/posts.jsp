@@ -119,21 +119,25 @@
                         <h5 class="modal-title" id="createPostModalLabel">Add post</h5>
                     </div>
 
-                    <form method="post">
+                    <form method="post" onsubmit="return validatePostForm(this)">
                         <div class="modal-body form-container">
                             <input type="hidden" name="action" value="create"/>
 
                             <div class="form-row">
                                 <div>
                                     <label class="field-label">Title</label>
-                                    <input type="text" name="title" class="form-control full-width" placeholder="Title" required minlength="2">
+                                    <input type="text" name="title" class="form-control full-width"
+                                           placeholder="Title" required minlength="2" maxlength="100"
+                                           title="Title must be between 2 and 100 characters">
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div>
                                     <label class="field-label">Content</label>
-                                    <textarea name="content" class="form-control full-width" rows="4" placeholder="Content" required minlength="5"></textarea>
+                                    <textarea name="content" class="form-control full-width" rows="4"
+                                              placeholder="Content" required minlength="5" maxlength="1000"
+                                              title="Content must be between 5 and 1000 characters"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -209,6 +213,25 @@
         const snackbar = document.getElementById(id);
         snackbar.classList.add("show");
         setTimeout(() => snackbar.classList.remove("show"), 3000);
+    }
+
+    function validatePostForm(form) {
+        const title = form.title.value.trim();
+        const content = form.content.value.trim();
+
+        if (title.length < 2 || title.length > 100) {
+            alert("Title must be between 2 and 100 characters.");
+            form.title.focus();
+            return false;
+        }
+
+        if (content.length < 5 || content.length > 1000) {
+            alert("Content must be between 5 and 1000 characters.");
+            form.content.focus();
+            return false;
+        }
+
+        return true;
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
