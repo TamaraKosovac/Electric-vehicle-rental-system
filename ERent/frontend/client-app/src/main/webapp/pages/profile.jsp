@@ -105,77 +105,130 @@
 
 <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content dlg">
-            <div class="dlg-header">
-                <h2>Change password</h2>
+        <div class="modal-content modal-change-password">
+            <div class="modal-header" style="border:none;">
+                <h5 class="modal-title" style="color:#2e6f6a; font-size:22px; font-weight:700;">
+                    Change password
+                </h5>
             </div>
-
             <form action="${pageContext.request.contextPath}/profile" method="post">
-                <div class="dlg-content text-start">
+                <div class="modal-body">
                     <input type="hidden" name="action" value="changePassword">
                     <input type="hidden" name="clientId" value="<%= client.getId() %>">
 
                     <div class="row g-3 mb-3">
-                        <div class="col">
+                        <div class="col password-wrapper" style="position:relative;">
                             <label class="form-label">Old password</label>
-                            <div class="password-wrapper">
-                                <input type="password" id="oldPassword" name="oldPassword"
-                                       class="form-control" placeholder="Old password" required>
-                                <button type="button" class="toggle-password" onclick="togglePassword('oldPassword', 'eye-old')">
-                                    <span id="eye-old" class="material-icons">visibility_off</span>
-                                </button>
-                            </div>
+                            <input type="password" id="oldPassword" name="oldPassword"
+                                   class="form-control" placeholder="Enter old password" required
+                                   style="padding-right:40px;">
+                            <span class="material-icons toggle-password"
+                                  onclick="togglePassword('oldPassword', this)"
+                                  style="position:absolute; right:10px; top:50%; transform:translateY(40%); font-size:18px; cursor:pointer; color:#000000;">
+                visibility_off
+              </span>
                         </div>
-                        <div class="col">
+                        <div class="col password-wrapper" style="position:relative;">
                             <label class="form-label">New password</label>
-                            <div class="password-wrapper">
-                                <input type="password" id="newPassword" name="newPassword"
-                                       class="form-control" placeholder="New password" required>
-                                <button type="button" class="toggle-password" onclick="togglePassword('newPassword', 'eye-new')">
-                                    <span id="eye-new" class="material-icons">visibility_off</span>
-                                </button>
-                            </div>
+                            <input type="password" id="newPassword" name="newPassword"
+                                   class="form-control" placeholder="Enter new password" required
+                                   style="padding-right:40px;">
+                            <span class="material-icons toggle-password"
+                                  onclick="togglePassword('newPassword', this)"
+                                  style="position:absolute; right:10px; top:50%; transform:translateY(40%); font-size:18px; cursor:pointer; color:#000000;">
+                visibility_off
+              </span>
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="password-wrapper" style="position:relative;">
                         <label class="form-label">Confirm new password</label>
-                        <div class="password-wrapper">
-                            <input type="password" id="confirmPassword" name="confirmPassword"
-                                   class="form-control" placeholder="Confirm new password" required>
-                            <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword', 'eye-confirm')">
-                                <span id="eye-confirm" class="material-icons">visibility_off</span>
-                            </button>
-                        </div>
+                        <input type="password" id="confirmPassword" name="confirmPassword"
+                               class="form-control" placeholder="Confirm new password" required
+                               style="padding-right:40px;">
+                        <span class="material-icons toggle-password"
+                              onclick="togglePassword('confirmPassword', this)"
+                              style="position:absolute; right:10px; top:50%; transform:translateY(40%); font-size:18px; cursor:pointer; color:#000000;">
+              visibility_off
+            </span>
                     </div>
-
-                <div class="dlg-actions">
-                    <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn confirm-btn">Save</button>
+                </div>
+                <div class="modal-footer justify-content-center" style="border:none; gap:12px;">
+                    <button type="button"
+                            class="btn btn-outline-green"
+                            data-bs-dismiss="modal"
+                            style="min-width:140px; height:44px; font-size:15px; font-weight:600;">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="btn btn-green"
+                            style="min-width:140px; height:44px; font-size:15px; font-weight:600; display:flex; align-items:center; justify-content:center;">
+                        Save
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
+
 <div class="modal fade" id="deactivateModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content dlg">
-            <div class="dlg-header">
-                <h2>Deactivate profile</h2>
+        <div class="modal-content modal-deactivate">
+            <div class="modal-header" style="border:none;">
+                <h5 class="modal-title w-100 text-center" style="font-size:22px; font-weight:700;">
+                    <i class="bi bi-person-x" style="color:#2e6f6a; font-size:26px; margin-right:6px;"></i>
+                    Deactivate profile
+                </h5>
             </div>
-
-            <div class="dlg-content text-start">
+            <div class="modal-body text-center">
                 <p>Are you sure you want to deactivate your profile?</p>
             </div>
-
-            <div class="dlg-actions">
-                <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
-                <form action="${pageContext.request.contextPath}/profile" method="post">
+            <div class="modal-footer justify-content-center" style="border:none; gap:12px;">
+                <button type="button"
+                        class="btn btn-outline-green"
+                        data-bs-dismiss="modal"
+                        style="min-width:140px; height:44px; font-size:15px; font-weight:600;">
+                    No
+                </button>
+                <form action="${pageContext.request.contextPath}/profile" method="post" style="margin:0;">
                     <input type="hidden" name="action" value="deactivate">
                     <input type="hidden" name="clientId" value="<%= client.getId() %>">
-                    <button type="submit" class="btn confirm-btn">Yes, deactivate</button>
+                    <button type="submit"
+                            class="btn btn-green"
+                            style="min-width:140px; height:44px; font-size:15px; font-weight:600; display:flex; align-items:center; justify-content:center;">
+                        Yes
+                    </button>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-logout">
+            <div class="modal-header" style="border:none;">
+                <h5 class="modal-title w-100 text-center" style="font-size:22px; font-weight:700;">
+                    <i class="bi bi-box-arrow-right" style="color:#2e6f6a; font-size:26px; margin-right:6px;"></i>
+                    Logout
+                </h5>
+            </div>
+            <div class="modal-body text-center">
+                <p>Are you sure you want to logout?</p>
+            </div>
+            <div class="modal-footer justify-content-center" style="border:none; gap:12px;">
+                <button type="button"
+                        class="btn btn-outline-green"
+                        data-bs-dismiss="modal"
+                        style="min-width:140px; height:44px; font-size:15px; font-weight:600;">
+                    No
+                </button>
+                <a href="${pageContext.request.contextPath}/logout"
+                   class="btn btn-green"
+                   style="min-width:140px; height:44px; font-size:15px; font-weight:600; display:flex; align-items:center; justify-content:center;">
+                    Yes
+                </a>
             </div>
         </div>
     </div>

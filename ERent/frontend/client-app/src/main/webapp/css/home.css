@@ -153,9 +153,11 @@ html, body {
 .dlg {
     width: 100%;
     max-width: 360px;
+    height: 200px;
 }
 
 .dlg-header {
+    margin-top: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;

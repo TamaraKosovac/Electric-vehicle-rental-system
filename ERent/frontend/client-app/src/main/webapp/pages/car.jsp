@@ -17,7 +17,6 @@
 %>
 
 <div class="page-container">
-    <h2>Rent a car</h2>
 
     <form action="${pageContext.request.contextPath}/rent" method="post" class="mt-3">
 
