@@ -8,7 +8,6 @@ import org.unibl.etf.ip.erent.dto.BikeDTO;
 import org.unibl.etf.ip.erent.dto.BikeDetailsDTO;
 import org.unibl.etf.ip.erent.model.Bike;
 import org.unibl.etf.ip.erent.service.BikeService;
-
 import java.io.IOException;
 import java.util.List;
 

@@ -5,7 +5,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.ip.erent.model.Employee;
 import org.unibl.etf.ip.erent.repository.EmployeeRepository;
-
 import java.util.List;
 
 @Service
@@ -20,17 +19,33 @@ public class EmployeeService {
     }
 
     public Employee findById(Long id) {
-        return employeeRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Employee not found"));
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
     }
 
     public Employee save(Employee employee) {
-        if (employee.getPassword() != null) {
+        if (employee.getUsername() == null || employee.getUsername().trim().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be empty");
+        }
+        if (employee.getFirstName() == null || employee.getFirstName().trim().isEmpty()) {
+            throw new IllegalArgumentException("First name cannot be empty");
+        }
+        if (employee.getLastName() == null || employee.getLastName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Last name cannot be empty");
+        }
+        if (employee.getRole() == null) {
+            throw new IllegalArgumentException("Role must be specified");
+        }
+
+        if (employee.getPassword() != null && !employee.getPassword().isBlank()) {
             if (!isValidPassword(employee.getPassword())) {
-                throw new IllegalArgumentException("Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character.");
+                throw new IllegalArgumentException(
+                        "Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character."
+                );
             }
             employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         }
+
         return employeeRepository.save(employee);
     }
 
@@ -39,8 +54,10 @@ public class EmployeeService {
         return password.matches(regex);
     }
 
-
     public void delete(Long id) {
+        if (!employeeRepository.existsById(id)) {
+            throw new RuntimeException("Employee not found");
+        }
         employeeRepository.deleteById(id);
     }
 }

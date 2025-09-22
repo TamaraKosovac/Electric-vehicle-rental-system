@@ -17,7 +17,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.unibl.etf.ip.erent.model.Role;
 import org.unibl.etf.ip.erent.security.JwtAuthenticationFilter;
-
 import java.util.List;
 
 @Configuration

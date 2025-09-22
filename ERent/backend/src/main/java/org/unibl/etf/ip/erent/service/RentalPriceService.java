@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.ip.erent.model.RentalPrice;
 import org.unibl.etf.ip.erent.repository.RentalPriceRepository;
-
 import java.util.List;
 
 @Service
@@ -18,6 +17,10 @@ public class RentalPriceService {
     }
 
     public RentalPrice update(Long id, RentalPrice dto) {
+        if (dto.getPricePerHour() == null || dto.getPricePerHour() <= 0) {
+            throw new IllegalArgumentException("Price per hour must be a positive number.");
+        }
+
         RentalPrice rentalPrice = rentalPriceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Price not found"));
 

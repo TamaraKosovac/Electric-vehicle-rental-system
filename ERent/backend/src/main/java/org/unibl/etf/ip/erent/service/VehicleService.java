@@ -9,7 +9,6 @@ import org.unibl.etf.ip.erent.dto.VehicleDTO;
 import org.unibl.etf.ip.erent.model.*;
 import org.unibl.etf.ip.erent.repository.ManufacturerRepository;
 import org.unibl.etf.ip.erent.repository.VehicleRepository;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDate;

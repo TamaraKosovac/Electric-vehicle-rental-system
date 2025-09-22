@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.ip.erent.model.Manufacturer;
 import org.unibl.etf.ip.erent.service.ManufacturerService;
-
 import java.util.List;
 
 @RestController

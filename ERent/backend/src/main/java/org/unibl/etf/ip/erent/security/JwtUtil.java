@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 import org.unibl.etf.ip.erent.config.JwtConfig;
-
 import java.util.Date;
 
 @Component

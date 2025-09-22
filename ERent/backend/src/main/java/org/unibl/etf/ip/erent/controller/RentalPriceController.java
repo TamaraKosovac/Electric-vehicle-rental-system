@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.ip.erent.model.RentalPrice;
 import org.unibl.etf.ip.erent.service.RentalPriceService;
-
 import java.util.List;
 
 @RestController

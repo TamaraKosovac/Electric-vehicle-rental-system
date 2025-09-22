@@ -8,7 +8,6 @@ import org.unibl.etf.ip.erent.dto.ScooterDTO;
 import org.unibl.etf.ip.erent.dto.ScooterDetailsDTO;
 import org.unibl.etf.ip.erent.model.Scooter;
 import org.unibl.etf.ip.erent.service.ScooterService;
-
 import java.io.IOException;
 import java.util.List;
 

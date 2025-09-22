@@ -14,7 +14,6 @@ import org.unibl.etf.ip.erent.model.Vehicle;
 import org.unibl.etf.ip.erent.repository.ClientRepository;
 import org.unibl.etf.ip.erent.repository.RentalRepository;
 import org.unibl.etf.ip.erent.repository.VehicleRepository;
-
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
@@ -28,13 +27,14 @@ public class RentalService {
     private final VehicleRepository vehicleRepository;
     private final ClientRepository clientRepository;
 
-
     public Rental findById(Long id) {
         return rentalRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Rental not found"));
     }
 
     public Rental createFromDTO(RentalDTO dto) {
+        validateRentalDTO(dto);
+
         Vehicle vehicle = vehicleRepository.findById(dto.getVehicleId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehicle not found"));
         Client client = clientRepository.findById(dto.getClientId())
@@ -56,6 +56,8 @@ public class RentalService {
     }
 
     public Rental updateFromDTO(Long id, RentalDTO dto) {
+        validateRentalDTO(dto);
+
         Rental rental = findById(id);
 
         Vehicle vehicle = vehicleRepository.findById(dto.getVehicleId())
@@ -157,12 +159,27 @@ public class RentalService {
         Map<String, Double> grouped = rentals.stream()
                 .filter(r -> r.getVehicle() != null && r.getPrice() != null)
                 .collect(Collectors.groupingBy(
-                        r -> r.getVehicle().getClass().getSimpleName(), // "Car", "Bike", "Scooter"
+                        r -> r.getVehicle().getClass().getSimpleName(),
                         Collectors.summingDouble(Rental::getPrice)
                 ));
 
         return grouped.entrySet().stream()
                 .map(e -> new ChartDataDTO(e.getKey(), e.getValue()))
                 .toList();
+    }
+
+    private void validateRentalDTO(RentalDTO dto) {
+        if (dto.getStartDateTime() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Start date is required");
+        }
+        if (dto.getEndDateTime() != null && dto.getEndDateTime().isBefore(dto.getStartDateTime())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "End date must be after start date");
+        }
+        if (dto.getDuration() == null || dto.getDuration() <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duration must be a positive number");
+        }
+        if (dto.getPrice() == null || dto.getPrice() <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Price must be a positive number");
+        }
     }
 }

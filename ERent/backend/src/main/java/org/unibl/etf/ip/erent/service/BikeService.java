@@ -10,7 +10,6 @@ import org.unibl.etf.ip.erent.dto.MalfunctionDTO;
 import org.unibl.etf.ip.erent.model.Bike;
 import org.unibl.etf.ip.erent.model.VehicleState;
 import org.unibl.etf.ip.erent.repository.BikeRepository;
-
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
@@ -53,26 +52,17 @@ public class BikeService {
     }
 
     public Bike save(Bike bike, MultipartFile image) throws IOException {
-        if (image != null && !image.isEmpty()) {
-            String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
-            Path uploadPath = Paths.get(uploadDir);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        validateBike(bike);
 
-            bike.setImagePath("/" + fileName);
-        }
-        if (bike.getCurrentLatitude() == null || bike.getCurrentLongitude() == null) {
-            bike.setCurrentLatitude(44.7722);
-            bike.setCurrentLongitude(17.1910);
-        }
+        handleImageUpload(bike, image);
+        handleCoordinates(bike);
+
         if (bike.getMalfunctions() != null && !bike.getMalfunctions().isEmpty()) {
             bike.setState(VehicleState.BROKEN);
         } else if (bike.getState() == null) {
             bike.setState(VehicleState.AVAILABLE);
         }
+
         return bikeRepository.save(bike);
     }
 
@@ -115,6 +105,8 @@ public class BikeService {
         Bike existing = bikeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Bike not found"));
 
+        validateBike(updated);
+
         existing.setUniqueId(updated.getUniqueId());
         existing.setModel(updated.getModel());
         existing.setManufacturer(updated.getManufacturer());
@@ -124,7 +116,46 @@ public class BikeService {
         existing.setCurrentLatitude(updated.getCurrentLatitude());
         existing.setCurrentLongitude(updated.getCurrentLongitude());
 
+        handleImageUpload(existing, image);
+        handleCoordinates(existing);
+
+        if (existing.getMalfunctions() != null && !existing.getMalfunctions().isEmpty()) {
+            existing.setState(VehicleState.BROKEN);
+        } else if (existing.getState() == null) {
+            existing.setState(VehicleState.AVAILABLE);
+        }
+
+        return bikeRepository.save(existing);
+    }
+
+    private void validateBike(Bike bike) {
+        if (bike == null) {
+            throw new IllegalArgumentException("Bike cannot be null");
+        }
+        if (bike.getUniqueId() == null || bike.getUniqueId().trim().isEmpty()) {
+            throw new IllegalArgumentException("Unique ID is required");
+        }
+        if (bike.getModel() == null || bike.getModel().trim().isEmpty()) {
+            throw new IllegalArgumentException("Model is required");
+        }
+        if (bike.getManufacturer() == null) {
+            throw new IllegalArgumentException("Manufacturer is required");
+        }
+        if (bike.getPurchasePrice() == null || bike.getPurchasePrice() < 0) {
+            throw new IllegalArgumentException("Purchase price must be non-negative");
+        }
+        if (bike.getAutonomy() != null && bike.getAutonomy() < 0) {
+            throw new IllegalArgumentException("Autonomy must be non-negative");
+        }
+    }
+
+    private void handleImageUpload(Bike bike, MultipartFile image) throws IOException {
         if (image != null && !image.isEmpty()) {
+            String contentType = image.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                throw new IllegalArgumentException("Only image files are allowed");
+            }
+
             String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
             Path uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) {
@@ -133,19 +164,19 @@ public class BikeService {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            existing.setImagePath("/" + fileName);
+            bike.setImagePath("/" + fileName);
         }
+    }
 
-        if (existing.getCurrentLatitude() == null || existing.getCurrentLongitude() == null) {
-            existing.setCurrentLatitude(44.7722);
-            existing.setCurrentLongitude(17.1910);
+    private void handleCoordinates(Bike bike) {
+        if (bike.getCurrentLatitude() == null || bike.getCurrentLongitude() == null) {
+            bike.setCurrentLatitude(44.7722);
+            bike.setCurrentLongitude(17.1910);
+        } else {
+            if (bike.getCurrentLatitude() < -90 || bike.getCurrentLatitude() > 90
+                    || bike.getCurrentLongitude() < -180 || bike.getCurrentLongitude() > 180) {
+                throw new IllegalArgumentException("Invalid coordinates");
+            }
         }
-        if (existing.getMalfunctions() != null && !existing.getMalfunctions().isEmpty()) {
-            existing.setState(VehicleState.BROKEN);
-        } else if (existing.getState() == null) {
-            existing.setState(VehicleState.AVAILABLE);
-        }
-
-        return bikeRepository.save(existing);
     }
 }

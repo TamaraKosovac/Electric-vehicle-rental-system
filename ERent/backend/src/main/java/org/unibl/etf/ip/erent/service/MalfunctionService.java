@@ -6,7 +6,7 @@ import org.unibl.etf.ip.erent.dto.ChartDataDTO;
 import org.unibl.etf.ip.erent.dto.MalfunctionDTO;
 import org.unibl.etf.ip.erent.model.Malfunction;
 import org.unibl.etf.ip.erent.repository.MalfunctionRepository;
-
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,11 +31,26 @@ public class MalfunctionService {
     }
 
     public MalfunctionDTO save(Malfunction malfunction) {
+        if (malfunction.getDescription() == null || malfunction.getDescription().trim().isEmpty()) {
+            throw new IllegalArgumentException("Malfunction description cannot be empty");
+        }
+
+        if (malfunction.getDateTime() == null) {
+            malfunction.setDateTime(LocalDateTime.now());
+        }
+
+        if (malfunction.getVehicle() == null || malfunction.getVehicle().getId() == null) {
+            throw new IllegalArgumentException("Malfunction must be linked to a valid vehicle");
+        }
+
         Malfunction saved = malfunctionRepository.save(malfunction);
         return toDto(saved);
     }
 
     public void delete(Long id) {
+        if (!malfunctionRepository.existsById(id)) {
+            throw new RuntimeException("Malfunction not found");
+        }
         malfunctionRepository.deleteById(id);
     }
 

@@ -10,7 +10,6 @@ import org.unibl.etf.ip.erent.dto.ScooterDetailsDTO;
 import org.unibl.etf.ip.erent.model.Scooter;
 import org.unibl.etf.ip.erent.model.VehicleState;
 import org.unibl.etf.ip.erent.repository.ScooterRepository;
-
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
@@ -53,21 +52,10 @@ public class ScooterService {
     }
 
     public Scooter save(Scooter scooter, MultipartFile image) throws IOException {
-        if (image != null && !image.isEmpty()) {
-            String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
-            Path uploadPath = Paths.get(uploadDir);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        validateScooter(scooter);
+        handleImageUpload(scooter, image);
+        handleCoordinates(scooter);
 
-            scooter.setImagePath("/" + fileName);
-        }
-        if (scooter.getCurrentLatitude() == null || scooter.getCurrentLongitude() == null) {
-            scooter.setCurrentLatitude(44.7722);
-            scooter.setCurrentLongitude(17.1910);
-        }
         if (scooter.getMalfunctions() != null && !scooter.getMalfunctions().isEmpty()) {
             scooter.setState(VehicleState.BROKEN);
         } else if (scooter.getState() == null) {
@@ -115,6 +103,8 @@ public class ScooterService {
         Scooter existing = scooterRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Scooter not found"));
 
+        validateScooter(updated);
+
         existing.setUniqueId(updated.getUniqueId());
         existing.setModel(updated.getModel());
         existing.setManufacturer(updated.getManufacturer());
@@ -124,22 +114,8 @@ public class ScooterService {
         existing.setCurrentLatitude(updated.getCurrentLatitude());
         existing.setCurrentLongitude(updated.getCurrentLongitude());
 
-        if (image != null && !image.isEmpty()) {
-            String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
-            Path uploadPath = Paths.get(uploadDir);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-            existing.setImagePath("/" + fileName);
-        }
-
-        if (existing.getCurrentLatitude() == null || existing.getCurrentLongitude() == null) {
-            existing.setCurrentLatitude(44.7722);
-            existing.setCurrentLongitude(17.1910);
-        }
+        handleImageUpload(existing, image);
+        handleCoordinates(existing);
 
         if (existing.getMalfunctions() != null && !existing.getMalfunctions().isEmpty()) {
             existing.setState(VehicleState.BROKEN);
@@ -148,5 +124,57 @@ public class ScooterService {
         }
 
         return scooterRepository.save(existing);
+    }
+
+    private void validateScooter(Scooter scooter) {
+        if (scooter == null) {
+            throw new IllegalArgumentException("Scooter cannot be null");
+        }
+        if (scooter.getUniqueId() == null || scooter.getUniqueId().trim().isEmpty()) {
+            throw new IllegalArgumentException("Unique ID is required");
+        }
+        if (scooter.getModel() == null || scooter.getModel().trim().isEmpty()) {
+            throw new IllegalArgumentException("Model is required");
+        }
+        if (scooter.getManufacturer() == null) {
+            throw new IllegalArgumentException("Manufacturer is required");
+        }
+        if (scooter.getPurchasePrice() == null || scooter.getPurchasePrice() < 0) {
+            throw new IllegalArgumentException("Purchase price must be non-negative");
+        }
+        if (scooter.getMaxSpeed() == null || scooter.getMaxSpeed() <= 0) {
+            throw new IllegalArgumentException("Max speed must be greater than 0");
+        }
+    }
+
+    private void handleImageUpload(Scooter scooter, MultipartFile image) throws IOException {
+        if (image != null && !image.isEmpty()) {
+            String contentType = image.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                throw new IllegalArgumentException("Only image files are allowed");
+            }
+
+            String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            scooter.setImagePath("/" + fileName);
+        }
+    }
+
+    private void handleCoordinates(Scooter scooter) {
+        if (scooter.getCurrentLatitude() == null || scooter.getCurrentLongitude() == null) {
+            scooter.setCurrentLatitude(44.7722);
+            scooter.setCurrentLongitude(17.1910);
+        } else {
+            if (scooter.getCurrentLatitude() < -90 || scooter.getCurrentLatitude() > 90
+                    || scooter.getCurrentLongitude() < -180 || scooter.getCurrentLongitude() > 180) {
+                throw new IllegalArgumentException("Invalid coordinates");
+            }
+        }
     }
 }

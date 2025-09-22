@@ -29,4 +29,3 @@ public abstract class Vehicle {
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Malfunction> malfunctions = new ArrayList<>();
 }
-

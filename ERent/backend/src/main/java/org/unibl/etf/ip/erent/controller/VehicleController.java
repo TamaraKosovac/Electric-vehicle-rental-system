@@ -8,11 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.unibl.etf.ip.erent.dto.VehicleDTO;
 import org.unibl.etf.ip.erent.model.Vehicle;
 import org.unibl.etf.ip.erent.service.VehicleService;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -48,5 +46,4 @@ public class VehicleController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
     }
-
 }

@@ -10,7 +10,6 @@ import org.unibl.etf.ip.erent.dto.MalfunctionDTO;
 import org.unibl.etf.ip.erent.model.Car;
 import org.unibl.etf.ip.erent.model.VehicleState;
 import org.unibl.etf.ip.erent.repository.CarRepository;
-
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
@@ -54,21 +53,11 @@ public class CarService {
     }
 
     public Car save(Car car, MultipartFile image) throws IOException {
-        if (image != null && !image.isEmpty()) {
-            String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
-            Path uploadPath = Paths.get(uploadDir);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        validateCar(car);
 
-            car.setImagePath("/" + fileName);
-        }
-        if (car.getCurrentLatitude() == null || car.getCurrentLongitude() == null) {
-            car.setCurrentLatitude(44.7722);
-            car.setCurrentLongitude(17.1910);
-        }
+        handleImageUpload(car, image);
+        handleCoordinates(car);
+
         if (car.getMalfunctions() != null && !car.getMalfunctions().isEmpty()) {
             car.setState(VehicleState.BROKEN);
         } else if (car.getState() == null) {
@@ -120,6 +109,8 @@ public class CarService {
         Car existing = carRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
+        validateCar(updated);
+
         existing.setUniqueId(updated.getUniqueId());
         existing.setModel(updated.getModel());
         existing.setManufacturer(updated.getManufacturer());
@@ -130,7 +121,42 @@ public class CarService {
         existing.setCurrentLatitude(updated.getCurrentLatitude());
         existing.setCurrentLongitude(updated.getCurrentLongitude());
 
+        handleImageUpload(existing, image);
+        handleCoordinates(existing);
+
+        if (existing.getMalfunctions() != null && !existing.getMalfunctions().isEmpty()) {
+            existing.setState(VehicleState.BROKEN);
+        } else if (existing.getState() == null) {
+            existing.setState(VehicleState.AVAILABLE);
+        }
+        return carRepository.save(existing);
+    }
+
+    private void validateCar(Car car) {
+        if (car == null) {
+            throw new IllegalArgumentException("Car cannot be null");
+        }
+        if (car.getUniqueId() == null || car.getUniqueId().trim().isEmpty()) {
+            throw new IllegalArgumentException("Unique ID is required");
+        }
+        if (car.getModel() == null || car.getModel().trim().isEmpty()) {
+            throw new IllegalArgumentException("Model is required");
+        }
+        if (car.getManufacturer() == null) {
+            throw new IllegalArgumentException("Manufacturer is required");
+        }
+        if (car.getPurchasePrice() == null || car.getPurchasePrice() < 0) {
+            throw new IllegalArgumentException("Purchase price must be non-negative");
+        }
+    }
+
+    private void handleImageUpload(Car car, MultipartFile image) throws IOException {
         if (image != null && !image.isEmpty()) {
+            String contentType = image.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                throw new IllegalArgumentException("Only image files are allowed");
+            }
+
             String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
             Path uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) {
@@ -139,19 +165,19 @@ public class CarService {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            existing.setImagePath("/" + fileName);
+            car.setImagePath("/" + fileName);
         }
+    }
 
-        if (existing.getCurrentLatitude() == null || existing.getCurrentLongitude() == null) {
-            existing.setCurrentLatitude(44.7722);
-            existing.setCurrentLongitude(17.1910);
+    private void handleCoordinates(Car car) {
+        if (car.getCurrentLatitude() == null || car.getCurrentLongitude() == null) {
+            car.setCurrentLatitude(44.7722);
+            car.setCurrentLongitude(17.1910);
+        } else {
+            if (car.getCurrentLatitude() < -90 || car.getCurrentLatitude() > 90
+                    || car.getCurrentLongitude() < -180 || car.getCurrentLongitude() > 180) {
+                throw new IllegalArgumentException("Invalid coordinates");
+            }
         }
-
-        if (existing.getMalfunctions() != null && !existing.getMalfunctions().isEmpty()) {
-            existing.setState(VehicleState.BROKEN);
-        } else if (existing.getState() == null) {
-            existing.setState(VehicleState.AVAILABLE);
-        }
-        return carRepository.save(existing);
     }
 }

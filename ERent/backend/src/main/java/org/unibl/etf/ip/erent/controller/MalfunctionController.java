@@ -8,7 +8,6 @@ import org.unibl.etf.ip.erent.model.Malfunction;
 import org.unibl.etf.ip.erent.model.Vehicle;
 import org.unibl.etf.ip.erent.repository.VehicleRepository;
 import org.unibl.etf.ip.erent.service.MalfunctionService;
-
 import java.util.List;
 
 @RestController

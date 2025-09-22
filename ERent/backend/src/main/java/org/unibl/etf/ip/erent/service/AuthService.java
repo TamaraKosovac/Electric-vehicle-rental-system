@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.unibl.etf.ip.erent.dto.LoginDTO;
 import org.unibl.etf.ip.erent.dto.LoginResponseDTO;
-import org.unibl.etf.ip.erent.model.Client;
 import org.unibl.etf.ip.erent.model.Employee;
-import org.unibl.etf.ip.erent.repository.ClientRepository;
 import org.unibl.etf.ip.erent.repository.EmployeeRepository;
 import org.unibl.etf.ip.erent.security.JwtUtil;
 
@@ -38,4 +36,3 @@ public class AuthService {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
     }
 }
-

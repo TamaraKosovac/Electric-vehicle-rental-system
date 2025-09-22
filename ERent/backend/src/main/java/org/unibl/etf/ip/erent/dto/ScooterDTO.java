@@ -2,7 +2,6 @@ package org.unibl.etf.ip.erent.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import org.unibl.etf.ip.erent.model.VehicleState;
 
 @Data

@@ -8,7 +8,6 @@ import org.unibl.etf.ip.erent.dto.RentalDTO;
 import org.unibl.etf.ip.erent.dto.RentalDetailsDTO;
 import org.unibl.etf.ip.erent.model.Rental;
 import org.unibl.etf.ip.erent.service.RentalService;
-
 import java.util.List;
 
 @RestController

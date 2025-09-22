@@ -3,7 +3,6 @@ package org.unibl.etf.ip.erent.dto;
 import lombok.Data;
 import org.unibl.etf.ip.erent.model.Manufacturer;
 import org.unibl.etf.ip.erent.model.VehicleState;
-
 import java.util.List;
 
 @Data

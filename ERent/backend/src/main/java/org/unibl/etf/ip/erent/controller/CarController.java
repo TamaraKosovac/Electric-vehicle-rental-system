@@ -9,7 +9,6 @@ import org.unibl.etf.ip.erent.dto.CarDTO;
 import org.unibl.etf.ip.erent.dto.CarDetailsDTO;
 import org.unibl.etf.ip.erent.model.Car;
 import org.unibl.etf.ip.erent.service.CarService;
-
 import java.io.IOException;
 import java.util.List;
 

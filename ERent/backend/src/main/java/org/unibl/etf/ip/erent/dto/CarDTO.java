@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.unibl.etf.ip.erent.model.VehicleState;
-
 import java.time.LocalDate;
 
 @Data
