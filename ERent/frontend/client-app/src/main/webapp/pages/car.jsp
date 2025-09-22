@@ -36,7 +36,7 @@
         <input type="hidden" name="vehicleType" value="CAR">
 
         <div class="mb-3">
-            <label class="form-label">Start location (latitude, longitude)</label>
+            <label class="form-label">Start location</label>
             <div class="d-flex gap-2">
                 <input type="text" class="form-control" name="latitude" placeholder="Latitude"
                        required pattern="-?[0-9]{1,2}(\.[0-9]+)?"
@@ -45,7 +45,14 @@
                        required pattern="-?(180(\.0+)?|((1[0-7][0-9])|([0-9]{1,2}))(\.[0-9]+)?)"
                        title="Please enter a valid longitude (e.g. 17.191)">
             </div>
-            <button type="button" class="btn-outline-green" onclick="detectLocation()">Detect automatically</button>
+            <div class="d-flex justify-content-end mt-2">
+                <button type="button" class="btn-outline-green" onclick="detectLocation()">
+                    <span class="material-icons" style="font-size:18px; vertical-align:middle; margin-right:6px;">
+                        my_location
+                    </span>
+                    Detect automatically
+                </button>
+            </div>
         </div>
 
         <div class="mb-3">
@@ -61,7 +68,7 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Card number</label>
+            <label class="form-label">Card details</label>
             <input type="text" class="form-control" name="cardNumber"
                    placeholder="1234567890123456" required
                    pattern="^[0-9]{16}$" title="Card number must contain exactly 16 digits (no spaces)">
@@ -77,7 +84,7 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">ID Document (passport/ID card)</label>
+            <label class="form-label">ID document(passport/ID card)</label>
             <input type="text" class="form-control" name="idDocument"
                    placeholder="e.g. A1234567" required
                    pattern="[A-Za-z0-9]{5,20}"
@@ -91,7 +98,15 @@
                    title="Enter valid driver's license number">
         </div>
 
-        <button type="submit" class="btn-green">Start ride</button>
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn-green">
+                <span class="material-icons" style="font-size:18px; vertical-align:middle; margin-right:6px;">
+                    play_circle_filled
+                </span>
+                Start ride
+            </button>
+        </div>
+
     </form>
 </div>
 

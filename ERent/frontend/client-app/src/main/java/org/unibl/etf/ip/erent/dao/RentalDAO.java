@@ -67,7 +67,7 @@ public class RentalDAO {
             ps.setTimestamp(3, Timestamp.valueOf(now));
             ps.setDouble(4, latitude);
             ps.setDouble(5, longitude);
-            ps.setDouble(6, 1.0);
+            ps.setDouble(6, 0.0);
 
             ps.executeUpdate();
 
@@ -82,9 +82,9 @@ public class RentalDAO {
         return null;
     }
 
-    public static boolean finishRental(Long rentalId,
-                                       double endLatitude, double endLongitude,
-                                       double pricePerHour) {
+    public static Double finishRental(Long rentalId,
+                                      double endLatitude, double endLongitude,
+                                      double pricePerHour) {
         String query = "UPDATE rental SET end_date_time = ?, end_latitude = ?, end_longitude = ?, " +
                 "duration = ?, price = ? WHERE id = ?";
 
@@ -101,11 +101,11 @@ public class RentalDAO {
                 }
             }
 
-            if (start == null) return false;
+            if (start == null) return null;
 
             LocalDateTime end = LocalDateTime.now();
             double durationHours = Duration.between(start, end).toMinutes() / 60.0;
-            double totalPrice = 1.0 + (durationHours * pricePerHour);
+            double totalPrice = (durationHours * pricePerHour);
 
             ps.setTimestamp(1, Timestamp.valueOf(end));
             ps.setDouble(2, endLatitude);
@@ -114,11 +114,12 @@ public class RentalDAO {
             ps.setDouble(5, totalPrice);
             ps.setLong(6, rentalId);
 
-            return ps.executeUpdate() > 0;
+            int rows = ps.executeUpdate();
+            return rows > 0 ? totalPrice : null;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 }

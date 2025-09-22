@@ -64,7 +64,47 @@
     </div>
 
     <% if (rentals.isEmpty()) { %>
-    <p>No rentals found.</p>
+    <div class="table-responsive">
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Start time</th>
+                <th>End time</th>
+                <th>Duration(h)</th>
+                <th>Price(KM)</th>
+                <th>Start latitude</th>
+                <th>Start longitude</th>
+                <th>End latitude</th>
+                <th>End longitude</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% if (rentals.isEmpty()) { %>
+            <tr>
+                <td colspan="10" style="text-align:center; font-style:italic; color:#666;">
+                    No results to display
+                </td>
+            </tr>
+            <% } else {
+                for (RentalDTO r : rentals) { %>
+            <tr>
+                <td><%= r.getManufacturer() %></td>
+                <td><%= r.getModel() %></td>
+                <td><%= r.getStartDateTime().format(fmt) %></td>
+                <td><%= r.getEndDateTime() != null ? r.getEndDateTime().format(fmt) : "-" %></td>
+                <td><%= r.getDuration() %></td>
+                <td><%= r.getPrice() %></td>
+                <td><%= r.getStartLatitude() %></td>
+                <td><%= r.getStartLongitude() %></td>
+                <td><%= r.getEndLatitude() %></td>
+                <td><%= r.getEndLongitude() %></td>
+            </tr>
+            <% }} %>
+            </tbody>
+        </table>
+    </div>
     <% } else { %>
     <div class="table-responsive">
         <table class="styled-table">
@@ -74,8 +114,8 @@
                 <th>Model</th>
                 <th>Start time</th>
                 <th>End time</th>
-                <th>Duration (h)</th>
-                <th>Price (KM)</th>
+                <th>Duration(h)</th>
+                <th>Price(KM)</th>
                 <th>Start latitude</th>
                 <th>Start longitude</th>
                 <th>End latitude</th>
@@ -170,7 +210,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="deactivateModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

@@ -38,7 +38,7 @@ html, body {
 
 .brand-name {
     font-weight: 800;
-    font-size: 20px;
+    font-size: 22px;
     color: #2e6f6a;
 }
 
@@ -222,7 +222,7 @@ html, body {
 }
 
 .confirm-btn {
-    background-color: #2e6f6a !important;
+    background-color: #4CA79C !important;
     color: #fff !important;
 }
 

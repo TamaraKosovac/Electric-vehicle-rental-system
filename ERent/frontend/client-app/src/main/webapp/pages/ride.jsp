@@ -1,4 +1,5 @@
 <%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%
     Long rentalId = (Long) session.getAttribute("rentalId");
     if (rentalId == null) {
@@ -10,7 +11,10 @@
     if (pricePerHour == null) {
         pricePerHour = 0.0;
     }
-    double basePrice = 1.0;
+    double basePrice = 0.0;
+    LocalDateTime startTime = LocalDateTime.now();
+    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    String formattedStartTime = startTime.format(fmt);
 %>
 <!DOCTYPE html>
 <html>
@@ -24,11 +28,11 @@
 <div class="ride-container">
     <h2><span class="material-icons">directions_car</span> Ride in progress...</h2>
 
-    <p><strong>Start time:</strong> <%= LocalDateTime.now() %></p>
+    <p><strong>Start time:</strong> <%= formattedStartTime %></p>
     <p><strong>Elapsed time:</strong> <span id="timer">0:00</span></p>
-    <p><strong>Estimated price:</strong> <span id="price">1.00</span> KM</p>
+    <p><strong>Estimated price:</strong> <span id="price">0.00</span> KM</p>
 
-    <form action="${pageContext.request.contextPath}/rental" method="post" onsubmit="return validateEndRide()">
+    <form id="endRideForm" action="${pageContext.request.contextPath}/rental" method="post" onsubmit="return validateEndRide()">
         <input type="hidden" name="action" value="end"/>
         <input type="hidden" name="latitude" id="endLat"/>
         <input type="hidden" name="longitude" id="endLon"/>
@@ -45,7 +49,7 @@
     let pricePerHour = <%= pricePerHour %>;
     let priceElement = document.getElementById("price");
 
-    setInterval(function () {
+    let timerInterval = setInterval(function () {
         seconds++;
         let minutes = Math.floor(seconds / 60);
         let sec = seconds % 60;
@@ -56,21 +60,20 @@
         priceElement.textContent = price.toFixed(2);
     }, 1000);
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (pos) {
-            document.getElementById("endLat").value = pos.coords.latitude;
-            document.getElementById("endLon").value = pos.coords.longitude;
-        });
-    }
-
     function validateEndRide() {
-        const lat = document.getElementById("endLat").value;
-        const lon = document.getElementById("endLon").value;
-        if (!lat || !lon) {
-            alert("Please wait until location is detected before ending the ride.");
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (pos) {
+                document.getElementById("endLat").value = pos.coords.latitude;
+                document.getElementById("endLon").value = pos.coords.longitude;
+                clearInterval(timerInterval);
+                document.getElementById("timer").textContent = "Finished";
+                document.getElementById("endRideForm").submit();
+            });
+            return false;
+        } else {
+            alert("Geolocation not supported.");
             return false;
         }
-        return true;
     }
 </script>
 </body>

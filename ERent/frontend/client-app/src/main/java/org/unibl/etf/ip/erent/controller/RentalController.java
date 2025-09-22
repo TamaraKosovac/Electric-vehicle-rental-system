@@ -9,6 +9,8 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import com.lowagie.text.Document;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
@@ -40,24 +42,29 @@ public class RentalController extends HttpServlet {
             RentalPriceDTO price = RentalPriceDAO.getByVehicleType("CAR");
 
             if (rentalId != null && price != null) {
-                RentalDAO.finishRental(rentalId, endLat, endLon, price.getPricePerHour());
+                Double finalPrice = RentalDAO.finishRental(rentalId, endLat, endLon, price.getPricePerHour());
 
-                resp.setContentType("application/pdf");
-                resp.setHeader("Content-Disposition", "attachment; filename=invoice_" + rentalId + ".pdf");
+                if (finalPrice != null) {
+                    resp.setContentType("application/pdf");
+                    resp.setHeader("Content-Disposition", "attachment; filename=invoice_" + rentalId + ".pdf");
 
-                try (OutputStream out = resp.getOutputStream()) {
-                    Document document = new Document();
-                    PdfWriter.getInstance(document, out);
-                    document.open();
+                    try (OutputStream out = resp.getOutputStream()) {
+                        Document document = new Document();
+                        PdfWriter.getInstance(document, out);
+                        document.open();
 
-                    document.add(new Paragraph("Rental Invoice"));
-                    document.add(new Paragraph("Date: " + LocalDateTime.now()));
-                    document.add(new Paragraph("Rental ID: " + rentalId));
-                    document.add(new Paragraph("Price per hour: " + pricePerHour + " KM"));
-                    document.add(new Paragraph("Final price was calculated and stored in DB."));
-                    document.add(new Paragraph("End location: " + endLat + ", " + endLon));
+                        LocalDateTime now = LocalDateTime.now();
+                        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+                        String formattedDate = now.format(fmt);
 
-                    document.close();
+                        document.add(new Paragraph("Rental Invoice"));
+                        document.add(new Paragraph("Date: " + formattedDate));
+                        document.add(new Paragraph("Price per hour: " + pricePerHour + " KM"));
+                        document.add(new Paragraph("Total charged: " + finalPrice + " KM"));
+                        document.add(new Paragraph("End location: " + endLat + ", " + endLon));
+
+                        document.close();
+                    }
                 }
             }
 
