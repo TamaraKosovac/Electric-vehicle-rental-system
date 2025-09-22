@@ -2,7 +2,6 @@ package org.unibl.etf.ip.erent.dao;
 
 import org.unibl.etf.ip.erent.beans.MalfunctionBean;
 import org.unibl.etf.ip.erent.util.DBUtil;
-
 import java.sql.*;
 import java.util.*;
 

@@ -4,7 +4,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.unibl.etf.ip.erent.beans.ClientBean;
 import org.unibl.etf.ip.erent.dto.ClientDTO;
 import org.unibl.etf.ip.erent.util.DBUtil;
-
 import java.sql.*;
 
 public class ClientDAO {

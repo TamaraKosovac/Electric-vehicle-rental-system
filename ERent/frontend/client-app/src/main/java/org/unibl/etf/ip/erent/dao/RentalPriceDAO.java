@@ -2,7 +2,6 @@ package org.unibl.etf.ip.erent.dao;
 
 import org.unibl.etf.ip.erent.dto.RentalPriceDTO;
 import org.unibl.etf.ip.erent.util.DBUtil;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

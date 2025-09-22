@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="org.unibl.etf.ip.erent.dto.ClientDTO" %>
 <%@ page import="org.unibl.etf.ip.erent.dto.ScooterDTO" %>
 <%@ page import="org.unibl.etf.ip.erent.dao.ScooterDAO" %>
@@ -15,6 +16,16 @@
     List<ScooterDTO> scooters = ScooterDAO.findAvailableDTO();
     RentalPriceDTO priceScooter = RentalPriceDAO.getByVehicleType("SCOOTER");
 %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Rent a Scooter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile.css">
+</head>
+<body>
 
 <div class="page-container">
 
@@ -34,7 +45,7 @@
                        required pattern="-?(180(\.0+)?|((1[0-7][0-9])|([0-9]{1,2}))(\.[0-9]+)?)"
                        title="Please enter a valid longitude (e.g. 17.191)">
             </div>
-            <button type="button" class="btn btn-sm btn-outline-secondary mt-1" onclick="detectLocation()">Detect automatically</button>
+            <button type="button" class="btn-outline-green" onclick="detectLocation()">Detect automatically</button>
         </div>
 
         <div class="mb-3">
@@ -80,7 +91,7 @@
                    title="Enter valid driver's license number">
         </div>
 
-        <button type="submit" class="btn btn-success">Start ride</button>
+        <button type="submit" class="btn-green">Start ride</button>
     </form>
 </div>
 
@@ -107,3 +118,6 @@
         return true;
     }
 </script>
+
+</body>
+</html>

@@ -3,7 +3,6 @@ package org.unibl.etf.ip.erent.dao;
 import org.unibl.etf.ip.erent.beans.VehicleBean;
 import org.unibl.etf.ip.erent.beans.ManufacturerBean;
 import org.unibl.etf.ip.erent.util.DBUtil;
-
 import java.sql.*;
 import java.util.*;
 

@@ -224,7 +224,7 @@
                         style="min-width:140px; height:44px; font-size:15px; font-weight:600;">
                     No
                 </button>
-                <a href="${pageContext.request.contextPath}/logout"
+                <a href="${pageContext.request.contextPath}/login"
                    class="btn btn-green"
                    style="min-width:140px; height:44px; font-size:15px; font-weight:600; display:flex; align-items:center; justify-content:center;">
                     Yes

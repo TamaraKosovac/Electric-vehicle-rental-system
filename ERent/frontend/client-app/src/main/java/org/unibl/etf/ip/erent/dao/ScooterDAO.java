@@ -4,7 +4,6 @@ import org.unibl.etf.ip.erent.beans.ScooterBean;
 import org.unibl.etf.ip.erent.beans.ManufacturerBean;
 import org.unibl.etf.ip.erent.dto.ScooterDTO;
 import org.unibl.etf.ip.erent.util.DBUtil;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

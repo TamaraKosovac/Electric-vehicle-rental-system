@@ -2,7 +2,6 @@ package org.unibl.etf.ip.erent.dao;
 
 import org.unibl.etf.ip.erent.dto.PostDTO;
 import org.unibl.etf.ip.erent.util.DBUtil;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
