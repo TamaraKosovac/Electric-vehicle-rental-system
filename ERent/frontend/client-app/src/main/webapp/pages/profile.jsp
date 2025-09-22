@@ -236,16 +236,15 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    function togglePassword(inputId, eyeId) {
+    function togglePassword(inputId, eyeElement) {
         const field = document.getElementById(inputId);
-        const eye = document.getElementById(eyeId);
 
         if (field.type === "password") {
             field.type = "text";
-            eye.textContent = "visibility";
+            eyeElement.textContent = "visibility";
         } else {
             field.type = "password";
-            eye.textContent = "visibility_off";
+            eyeElement.textContent = "visibility_off";
         }
     }
 </script>

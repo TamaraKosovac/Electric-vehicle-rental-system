@@ -76,7 +76,10 @@
             <div class="dashboard-title">Client dashboard - <%= pageTitle %></div>
             <div class="spacer"></div>
             <div class="user-section">
-                <img src="${pageContext.request.contextPath}/images/client.png" alt="Client" class="user-avatar">
+                <img src="${pageContext.request.contextPath}/clientphotocontroller?clientId=<%= client.getId() %>"
+                     alt="Client"
+                     class="user-avatar"
+                     onerror="this.src='${pageContext.request.contextPath}/images/client.png'">
             </div>
         </header>
 

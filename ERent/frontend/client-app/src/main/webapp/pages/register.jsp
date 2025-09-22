@@ -42,7 +42,7 @@
                     <label for="password">Password</label>
                     <div class="password-wrapper">
                         <input type="password" id="password" name="password" required class="full-width" placeholder="Password"/>
-                        <button type="button" id="togglePassword" class="toggle-password">
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
                             <span id="eye-icon" class="material-icons">visibility_off</span>
                         </button>
                     </div>
