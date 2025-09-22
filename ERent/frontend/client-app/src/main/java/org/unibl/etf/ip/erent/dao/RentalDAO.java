@@ -2,6 +2,7 @@ package org.unibl.etf.ip.erent.dao;
 
 import org.unibl.etf.ip.erent.dto.RentalDTO;
 import org.unibl.etf.ip.erent.util.DBUtil;
+
 import java.sql.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -67,9 +68,14 @@ public class RentalDAO {
             ps.setTimestamp(3, Timestamp.valueOf(now));
             ps.setDouble(4, latitude);
             ps.setDouble(5, longitude);
-            ps.setDouble(6, 0.0);
+            ps.setDouble(6, 0.0); 
 
             ps.executeUpdate();
+
+            try (PreparedStatement ps2 = con.prepareStatement("UPDATE vehicle SET state = 'RENTED' WHERE id = ?")) {
+                ps2.setLong(1, vehicleId);
+                ps2.executeUpdate();
+            }
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -92,11 +98,14 @@ public class RentalDAO {
              PreparedStatement ps = con.prepareStatement(query)) {
 
             LocalDateTime start = null;
-            try (PreparedStatement ps2 = con.prepareStatement("SELECT start_date_time FROM rental WHERE id=?")) {
+            Long vehicleId = null;
+
+            try (PreparedStatement ps2 = con.prepareStatement("SELECT start_date_time, vehicle_id FROM rental WHERE id=?")) {
                 ps2.setLong(1, rentalId);
                 try (ResultSet rs = ps2.executeQuery()) {
                     if (rs.next()) {
                         start = rs.getTimestamp("start_date_time").toLocalDateTime();
+                        vehicleId = rs.getLong("vehicle_id");
                     }
                 }
             }
@@ -115,6 +124,14 @@ public class RentalDAO {
             ps.setLong(6, rentalId);
 
             int rows = ps.executeUpdate();
+
+            if (vehicleId != null) {
+                try (PreparedStatement ps3 = con.prepareStatement("UPDATE vehicle SET state = 'AVAILABLE' WHERE id = ?")) {
+                    ps3.setLong(1, vehicleId);
+                    ps3.executeUpdate();
+                }
+            }
+
             return rows > 0 ? totalPrice : null;
 
         } catch (Exception e) {
