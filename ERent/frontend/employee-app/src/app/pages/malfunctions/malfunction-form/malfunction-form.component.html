@@ -14,12 +14,13 @@
             [(ngModel)]="malfunction.vehicleId"
             placeholder="Select vehicle"
             required
+            #vehicleCtrl="ngModel"
           >
             <mat-option *ngFor="let v of vehicles" [value]="v.id">
               {{ v.manufacturer }} {{ v.model }}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="malfunctionForm.submitted && !malfunction.vehicleId">
+          <mat-error *ngIf="malfunctionForm.submitted && vehicleCtrl.errors?.['required']">
             Vehicle is required
           </mat-error>
         </mat-form-field>
@@ -35,10 +36,11 @@
             [(ngModel)]="malfunction.date"
             placeholder="Date"
             required
+            #dateCtrl="ngModel"
           />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
-          <mat-error *ngIf="malfunctionForm.submitted && !malfunction.date">
+          <mat-error *ngIf="malfunctionForm.submitted && dateCtrl.errors?.['required']">
             Date is required
           </mat-error>
         </mat-form-field>
@@ -57,12 +59,13 @@
             placeholder="Time (hh:mm)"
             pattern="^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
             required
+            #timeCtrl="ngModel"
           />
           <mat-icon matSuffix>access_time</mat-icon>
-          <mat-error *ngIf="malfunctionForm.submitted && !malfunction.time">
+          <mat-error *ngIf="malfunctionForm.submitted && timeCtrl.errors?.['required']">
             Time is required
           </mat-error>
-          <mat-error *ngIf="malfunctionForm.submitted && malfunction.time && !malfunctionForm.controls['time']?.valid">
+          <mat-error *ngIf="malfunctionForm.submitted && timeCtrl.errors?.['pattern']">
             Time must be in format HH:mm
           </mat-error>
         </mat-form-field>
@@ -78,9 +81,14 @@
             [(ngModel)]="malfunction.description"
             placeholder="Description"
             required
+            minlength="5"
+            #descCtrl="ngModel"
           ></textarea>
-          <mat-error *ngIf="malfunctionForm.submitted && !malfunction.description">
+          <mat-error *ngIf="malfunctionForm.submitted && descCtrl.errors?.['required']">
             Description is required
+          </mat-error>
+          <mat-error *ngIf="malfunctionForm.submitted && descCtrl.errors?.['minlength']">
+            Description must be at least 5 characters
           </mat-error>
         </mat-form-field>
       </div>
@@ -88,7 +96,14 @@
 
     <div mat-dialog-actions class="dialog-actions">
       <button mat-stroked-button color="warn" (click)="cancel()">Cancel</button>
-      <button mat-raised-button color="primary" type="submit">Save</button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!malfunctionForm.form.valid"
+      >
+        Save
+      </button>
     </div>
   </form>
 </div>

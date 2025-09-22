@@ -14,7 +14,7 @@
                  [(ngModel)]="employee.username"
                  placeholder="Username"
                  required minlength="3" />
-          <mat-error *ngIf="employeeForm.submitted && !employee.username">
+          <mat-error *ngIf="employeeForm.submitted && !employee?.username">
             Username is required
           </mat-error>
         </mat-form-field>
@@ -28,24 +28,24 @@
                  [(ngModel)]="employee.password"
                  placeholder="Password"
                  required minlength="8" />
-          <mat-error *ngIf="employeeForm.submitted && !employee.password">
+          <mat-error *ngIf="employeeForm.submitted && !employee?.password">
             Password is required
           </mat-error>
-          <mat-error *ngIf="employeeForm.submitted && employee.password?.length! < 6">
+          <mat-error *ngIf="employeeForm.submitted && employee?.password && employee.password.length < 8">
             Password must be at least 8 characters
           </mat-error>
         </mat-form-field>
       </div>
 
-        <div *ngIf="data?.employee">
+      <div *ngIf="data?.employee">
         <label class="field-label">Password</label>
         <mat-form-field class="full-width" appearance="outline">
           <input matInput type="password"
-                name="newPassword"
-                [(ngModel)]="employee.password"
-                placeholder="Password"
-                minlength="8" />
-          <mat-error *ngIf="employeeForm.submitted && employee.password && employee.password.length < 6">
+                 name="newPassword"
+                 [(ngModel)]="employee.password"
+                 placeholder="Password"
+                 minlength="8" />
+          <mat-error *ngIf="employeeForm.submitted && employee?.password && employee.password.length < 8">
             Password must be at least 8 characters
           </mat-error>
         </mat-form-field>
@@ -61,7 +61,7 @@
                  [(ngModel)]="employee.firstName"
                  placeholder="First Name"
                  required minlength="2" />
-          <mat-error *ngIf="employeeForm.submitted && !employee.firstName">
+          <mat-error *ngIf="employeeForm.submitted && !employee?.firstName">
             First Name is required
           </mat-error>
         </mat-form-field>
@@ -75,7 +75,7 @@
                  [(ngModel)]="employee.lastName"
                  placeholder="Last Name"
                  required minlength="2" />
-          <mat-error *ngIf="employeeForm.submitted && !employee.lastName">
+          <mat-error *ngIf="employeeForm.submitted && !employee?.lastName">
             Last Name is required
           </mat-error>
         </mat-form-field>
@@ -95,7 +95,7 @@
               {{ r }}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="employeeForm.submitted && !employee.role">
+          <mat-error *ngIf="employeeForm.submitted && !employee?.role">
             Role is required
           </mat-error>
         </mat-form-field>

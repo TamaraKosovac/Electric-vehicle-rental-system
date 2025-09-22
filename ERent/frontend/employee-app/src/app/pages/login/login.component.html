@@ -6,15 +6,24 @@
         <h2 class="login-title">eRent</h2>
         <div class="login-tagline">Easy. Electric. Everywhere.</div>
       </div>
-  </div>
+    </div>
 
-
-    <form (ngSubmit)="login()" class="login-form">
+    <form #loginForm="ngForm" (ngSubmit)="login()" class="login-form">
       <div class="form-group">
         <label for="username">Username</label>
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <input matInput placeholder="Enter username"
-                 [(ngModel)]="username" name="username" required />
+          <input matInput
+                 placeholder="Enter username"
+                 [(ngModel)]="username"
+                 #usernameCtrl="ngModel"
+                 name="username"
+                 required minlength="3" />
+          <mat-error *ngIf="usernameCtrl.errors?.['required']">
+            Username is required
+          </mat-error>
+          <mat-error *ngIf="usernameCtrl.errors?.['minlength']">
+            Username must be at least 3 characters
+          </mat-error>
         </mat-form-field>
       </div>
 
@@ -24,17 +33,34 @@
           <input matInput
                  [type]="hide ? 'password' : 'text'"
                  placeholder="Enter password"
-                 [(ngModel)]="password" name="password" required />
+                 [(ngModel)]="password"
+                 #passwordCtrl="ngModel"
+                 name="password"
+                 required minlength="8"
+                 pattern="^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).+$" />
           <button mat-icon-button matSuffix type="button"
                   (click)="hide = !hide"
                   [attr.aria-label]="hide ? 'Show password' : 'Hide password'"
                   [attr.aria-pressed]="!hide">
             <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
+          <mat-error *ngIf="passwordCtrl.errors?.['required']">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="passwordCtrl.errors?.['minlength']">
+            Password must be at least 8 characters
+          </mat-error>
+          <mat-error *ngIf="passwordCtrl.errors?.['pattern']">
+            Password must contain at least 1 uppercase letter, 1 number and 1 special character
+          </mat-error>
         </mat-form-field>
       </div>
 
-      <button mat-raised-button color="primary" type="submit" class="full-width">Login</button>
+      <button mat-raised-button color="primary" type="submit"
+              [disabled]="!loginForm.form.valid"
+              class="full-width">
+        Login
+      </button>
     </form>
 
     <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>

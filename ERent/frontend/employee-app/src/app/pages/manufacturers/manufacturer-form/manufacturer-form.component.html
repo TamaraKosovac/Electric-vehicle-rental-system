@@ -9,12 +9,18 @@
       <div>
         <label class="field-label">Name</label>
         <mat-form-field class="full-width" appearance="outline">
-          <input matInput name="name"
+          <input matInput
+                 name="name"
                  [(ngModel)]="manufacturer.name"
                  placeholder="Name"
-                 required minlength="2" />
-          <mat-error *ngIf="manufacturerForm.submitted && !manufacturer.name">
+                 required
+                 minlength="2"
+                 #nameCtrl="ngModel" />
+          <mat-error *ngIf="nameCtrl.errors?.['required']">
             Name is required
+          </mat-error>
+          <mat-error *ngIf="nameCtrl.errors?.['minlength']">
+            Name must be at least 2 characters
           </mat-error>
         </mat-form-field>
       </div>
@@ -22,12 +28,18 @@
       <div>
         <label class="field-label">Country</label>
         <mat-form-field class="full-width" appearance="outline">
-          <input matInput name="country"
+          <input matInput
+                 name="country"
                  [(ngModel)]="manufacturer.country"
                  placeholder="Country"
-                 required minlength="2" />
-          <mat-error *ngIf="manufacturerForm.submitted && !manufacturer.country">
+                 required
+                 minlength="2"
+                 #countryCtrl="ngModel" />
+          <mat-error *ngIf="countryCtrl.errors?.['required']">
             Country is required
+          </mat-error>
+          <mat-error *ngIf="countryCtrl.errors?.['minlength']">
+            Country must be at least 2 characters
           </mat-error>
         </mat-form-field>
       </div>
@@ -37,12 +49,18 @@
       <div>
         <label class="field-label">Address</label>
         <mat-form-field class="full-width" appearance="outline">
-          <input matInput name="address"
+          <input matInput
+                 name="address"
                  [(ngModel)]="manufacturer.address"
                  placeholder="Address"
-                 required minlength="5" />
-          <mat-error *ngIf="manufacturerForm.submitted && !manufacturer.address">
+                 required
+                 minlength="5"
+                 #addressCtrl="ngModel" />
+          <mat-error *ngIf="addressCtrl.errors?.['required']">
             Address is required
+          </mat-error>
+          <mat-error *ngIf="addressCtrl.errors?.['minlength']">
+            Address must be at least 5 characters
           </mat-error>
         </mat-form-field>
       </div>
@@ -50,16 +68,18 @@
       <div>
         <label class="field-label">Phone</label>
         <mat-form-field class="full-width" appearance="outline">
-          <input matInput name="phone"
+          <input matInput
+                 name="phone"
                  [(ngModel)]="manufacturer.phone"
                  placeholder="Phone"
                  required
-                 pattern="^[0-9\\-\\+\\s\\(\\)]{6,}$" />
-          <mat-error *ngIf="manufacturerForm.submitted && !manufacturer.phone">
+                 pattern="^[0-9\\-\\+\\s\\(\\)]{6,}$"
+                 #phoneCtrl="ngModel" />
+          <mat-error *ngIf="phoneCtrl.errors?.['required']">
             Phone is required
           </mat-error>
-          <mat-error *ngIf="manufacturerForm.submitted && manufacturer.phone && manufacturer.phone.length < 6">
-            Phone must be at least 6 digits
+          <mat-error *ngIf="phoneCtrl.errors?.['pattern']">
+            Phone must have at least 6 valid digits
           </mat-error>
         </mat-form-field>
       </div>
@@ -69,23 +89,29 @@
       <div>
         <label class="field-label">Fax</label>
         <mat-form-field class="full-width" appearance="outline">
-          <input matInput name="fax"
+          <input matInput
+                 name="fax"
                  [(ngModel)]="manufacturer.fax"
-                 placeholder="Fax" />
+                 placeholder="Fax"
+                 #faxCtrl="ngModel" />
         </mat-form-field>
       </div>
 
       <div>
         <label class="field-label">Email</label>
         <mat-form-field class="full-width" appearance="outline">
-          <input matInput type="email" name="email"
+          <input matInput
+                 type="email"
+                 name="email"
                  [(ngModel)]="manufacturer.email"
                  placeholder="Email"
-                 required email />
-          <mat-error *ngIf="manufacturerForm.submitted && !manufacturer.email">
+                 required
+                 email
+                 #emailCtrl="ngModel" />
+          <mat-error *ngIf="emailCtrl.errors?.['required']">
             Email is required
           </mat-error>
-          <mat-error *ngIf="manufacturerForm.submitted && manufacturer.email && !manufacturer.email.includes('@')">
+          <mat-error *ngIf="emailCtrl.errors?.['email']">
             Invalid email format
           </mat-error>
         </mat-form-field>
@@ -98,7 +124,7 @@
 <div mat-dialog-actions class="dialog-actions">
   <button mat-stroked-button color="warn" (click)="cancel()">Cancel</button>
   <button mat-raised-button color="primary"
-          [disabled]="!manufacturerForm.valid"
+          [disabled]="!manufacturerForm.form.valid"
           (click)="save()">
     Save
   </button>

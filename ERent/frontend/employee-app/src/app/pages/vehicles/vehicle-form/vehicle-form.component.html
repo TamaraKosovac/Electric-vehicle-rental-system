@@ -12,8 +12,8 @@
           <input matInput name="uniqueId"
                  [(ngModel)]="vehicle.uniqueId"
                  placeholder="ID"
-                 required minlength="3"
-                 pattern="^[a-zA-Z0-9\-]+$" />
+                 required minlength="3" maxlength="50"
+                 pattern="^[a-zA-Z0-9\\-]+$" />
           <mat-error *ngIf="vehicleForm.submitted && !vehicle.uniqueId">
             ID is required
           </mat-error>
@@ -49,7 +49,7 @@
           <input matInput name="model"
                  [(ngModel)]="vehicle.model"
                  placeholder="Model"
-                 required minlength="2" />
+                 required minlength="2" maxlength="100" />
           <mat-error *ngIf="vehicleForm.submitted && !vehicle.model">
             Model is required
           </mat-error>
@@ -80,8 +80,7 @@
           <mat-form-field class="full-width" appearance="outline">
             <input matInput [matDatepicker]="picker" name="purchaseDate"
                    [(ngModel)]="vehicle.purchaseDate"
-                   required
-                   placeholder="Purchase date" />
+                   required placeholder="Purchase date" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -90,40 +89,38 @@
           </mat-error>
         </div>
 
-<div>
-  <label class="field-label">Image</label>
-
-  <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
-    <img [src]="'http://localhost:8080' + vehicle.imagePath"
-         alt="Vehicle image"
-         style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
-  </div>
-
-  <div class="image-preview" *ngIf="selectedImage">
-    <img [src]="selectedImagePreview"
-         alt="New vehicle image"
-         style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
-  </div>
-
-  <div class="image-dropzone"
-          (dragover)="onDragOver($event)"
-          (dragleave)="onDragLeave($event)"
-          (drop)="onDrop($event)">
-        <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
-        <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
-        <input type="file"
-              class="file-input"
-              (change)="onFileSelected($event)"
-              accept="image/*" />
-      </div>
-    </div>
+        <div>
+          <label class="field-label">Image</label>
+          <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
+            <img [src]="'http://localhost:8080' + vehicle.imagePath"
+                 alt="Vehicle image"
+                 style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+          </div>
+          <div class="image-preview" *ngIf="selectedImage">
+            <img [src]="selectedImagePreview"
+                 alt="New vehicle image"
+                 style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+          </div>
+          <div class="image-dropzone"
+               (dragover)="onDragOver($event)"
+               (dragleave)="onDragLeave($event)"
+               (drop)="onDrop($event)">
+            <p *ngIf="!selectedImage">Drag & drop image here or click to select</p>
+            <p *ngIf="selectedImage">Selected: {{ selectedImage.name }}</p>
+            <input type="file"
+                   class="file-input"
+                   (change)="onFileSelected($event)"
+                   accept="image/*" />
+          </div>
+        </div>
       </div>
 
       <label class="field-label">Description</label>
       <mat-form-field class="full-width" appearance="outline">
-      <textarea matInput rows="3" name="description"
-                [(ngModel)]="vehicle.description"
-                placeholder="Description"></textarea>
+        <textarea matInput rows="3" name="description"
+                  [(ngModel)]="vehicle.description"
+                  placeholder="Description"
+                  minlength="5" maxlength="255"></textarea>
       </mat-form-field>
     </ng-container>
 
@@ -146,13 +143,13 @@
           <label class="field-label">Image</label>
           <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
             <img [src]="'http://localhost:8080' + vehicle.imagePath"
-                alt="Vehicle image"
-                style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+                 alt="Vehicle image"
+                 style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
           </div>
           <div class="image-preview" *ngIf="selectedImage">
             <img [src]="selectedImagePreview"
-                alt="New vehicle image"
-                style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+                 alt="New vehicle image"
+                 style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
           </div>
           <div class="image-dropzone"
                (dragover)="onDragOver($event)"
@@ -186,16 +183,16 @@
 
         <div>
           <label class="field-label">Image</label>
-            <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
-              <img [src]="'http://localhost:8080' + vehicle.imagePath"
-                  alt="Vehicle image"
-                  style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
-            </div>
-            <div class="image-preview" *ngIf="selectedImage">
-              <img [src]="selectedImagePreview"
-                  alt="New vehicle image"
-                  style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
-            </div>
+          <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
+            <img [src]="'http://localhost:8080' + vehicle.imagePath"
+                 alt="Vehicle image"
+                 style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+          </div>
+          <div class="image-preview" *ngIf="selectedImage">
+            <img [src]="selectedImagePreview"
+                 alt="New vehicle image"
+                 style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+          </div>
           <div class="image-dropzone"
                (dragover)="onDragOver($event)"
                (dragleave)="onDragLeave($event)"
