@@ -135,6 +135,7 @@ html, body {
     color: #4CA79C;
 }
 
+
 @media (max-width: 576px) {
     .client-card {
         flex-direction: column;
@@ -154,4 +155,34 @@ html, body {
     .d-flex.justify-content-end.gap-3 .btn {
         width: 100%;
     }
+}
+
+.btn-green {
+    background-color: #2e6f6a !important;
+    color: #fff !important;
+    border: none !important;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+.btn-green:hover {
+    background-color: #245854 !important;
+}
+
+.btn-outline-green {
+    background-color: #fff !important;
+    color: #2e6f6a !important;
+    border: 2px solid #2e6f6a !important;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+.btn-outline-green:hover {
+    background-color: #e6f4f3 !important;
+    border-color: #245854 !important;
+    color: #245854 !important;
 }

@@ -54,11 +54,11 @@
     </div>
 
     <div class="d-flex justify-content-end gap-3 mb-3">
-        <button class="btn btn-green" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+        <button class="btn-green" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
             <i class="bi bi-key"></i> Change password
         </button>
 
-        <button class="btn btn-outline-green" data-bs-toggle="modal" data-bs-target="#deactivateModal">
+        <button class="btn-outline-green" data-bs-toggle="modal" data-bs-target="#deactivateModal">
             <i class="bi bi-person-x"></i> Deactivate profile
         </button>
     </div>
@@ -155,13 +155,13 @@
                 </div>
                 <div class="modal-footer justify-content-center" style="border:none; gap:12px;">
                     <button type="button"
-                            class="btn btn-outline-green"
+                            class="btn-outline-green"
                             data-bs-dismiss="modal"
                             style="min-width:140px; height:44px; font-size:15px; font-weight:600;">
                         Cancel
                     </button>
                     <button type="submit"
-                            class="btn btn-green"
+                            class="btn-green"
                             style="min-width:140px; height:44px; font-size:15px; font-weight:600; display:flex; align-items:center; justify-content:center;">
                         Save
                     </button>
@@ -186,7 +186,7 @@
             </div>
             <div class="modal-footer justify-content-center" style="border:none; gap:12px;">
                 <button type="button"
-                        class="btn btn-outline-green"
+                        class="btn-outline-green"
                         data-bs-dismiss="modal"
                         style="min-width:140px; height:44px; font-size:15px; font-weight:600;">
                     No
@@ -195,7 +195,7 @@
                     <input type="hidden" name="action" value="deactivate">
                     <input type="hidden" name="clientId" value="<%= client.getId() %>">
                     <button type="submit"
-                            class="btn btn-green"
+                            class="btn-green"
                             style="min-width:140px; height:44px; font-size:15px; font-weight:600; display:flex; align-items:center; justify-content:center;">
                         Yes
                     </button>

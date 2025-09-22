@@ -1,0 +1,79 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    background: #f5f7f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ride-container {
+    background: #fff;
+    padding: 32px 26px;
+    border-radius: 20px;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.12);
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    text-align: center;
+}
+
+.ride-container h2 {
+    font-size: 26px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: #1D4E4A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.ride-container p {
+    margin: 6px 0;
+    font-size: 15px;
+    color: #333;
+}
+
+.btn-end {
+    width: 100%;
+    padding: 12px 14px;
+    border: none;
+    border-radius: 10px;
+    background-color: #4CA79C;
+    color: white;
+    font-size: 17px;
+    cursor: pointer;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background-color .2s ease;
+}
+
+.btn-end:hover {
+    background-color: #1D4E4A;
+}
+
+.material-icons {
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+@media (max-width: 576px) {
+    .ride-container {
+        padding: 20px 18px;
+        border-radius: 14px;
+    }
+    .ride-container h2 {
+        font-size: 22px;
+    }
+    .btn-end {
+        font-size: 15px;
+        padding: 10px;
+    }
+}
