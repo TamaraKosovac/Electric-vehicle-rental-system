@@ -33,6 +33,26 @@ public class ManufacturerService {
         return manufacturerRepository.save(manufacturer);
     }
 
+    public Manufacturer update(Long id, Manufacturer manufacturerDetails) {
+        Manufacturer manufacturer = manufacturerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Manufacturer not found"));
+
+        if (!manufacturer.getName().equalsIgnoreCase(manufacturerDetails.getName())) {
+            manufacturerRepository.findByName(manufacturerDetails.getName())
+                    .ifPresent(m -> {
+                        throw new IllegalArgumentException("Manufacturer with this name already exists");
+                    });
+        }
+        manufacturer.setName(manufacturerDetails.getName());
+        manufacturer.setCountry(manufacturerDetails.getCountry());
+        manufacturer.setAddress(manufacturerDetails.getAddress());
+        manufacturer.setPhone(manufacturerDetails.getPhone());
+        manufacturer.setFax(manufacturerDetails.getFax());
+        manufacturer.setEmail(manufacturerDetails.getEmail());
+
+        return manufacturerRepository.save(manufacturer);
+    }
+
     public void delete(Long id) {
         if (!manufacturerRepository.existsById(id)) {
             throw new RuntimeException("Manufacturer not found");

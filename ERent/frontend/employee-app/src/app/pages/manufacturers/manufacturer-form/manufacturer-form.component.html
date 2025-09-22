@@ -73,7 +73,7 @@
                  [(ngModel)]="manufacturer.phone"
                  placeholder="Phone"
                  required
-                 pattern="^[0-9\\-\\+\\s\\(\\)]{6,}$"
+                 pattern="^[0-9+\-\s()]{6,}$"
                  #phoneCtrl="ngModel" />
           <mat-error *ngIf="phoneCtrl.errors?.['required']">
             Phone is required
