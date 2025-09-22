@@ -13,7 +13,7 @@
                  [(ngModel)]="vehicle.uniqueId"
                  placeholder="ID"
                  required minlength="3" maxlength="50"
-                 pattern="^[a-zA-Z0-9\\-]+$" />
+                 pattern="^[a-zA-Z0-9\-]+$" />
           <mat-error *ngIf="vehicleForm.submitted && !vehicle.uniqueId">
             ID is required
           </mat-error>
@@ -92,9 +92,11 @@
         <div>
           <label class="field-label">Image</label>
           <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
-            <img [src]="'http://localhost:8080' + vehicle.imagePath"
-                 alt="Vehicle image"
-                 style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+            <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
+              <img [src]="vehiclesService.getImageUrl(vehicle.imagePath)"
+                  alt="Vehicle image"
+                  style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+            </div>
           </div>
           <div class="image-preview" *ngIf="selectedImage">
             <img [src]="selectedImagePreview"
@@ -142,9 +144,9 @@
         <div>
           <label class="field-label">Image</label>
           <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
-            <img [src]="'http://localhost:8080' + vehicle.imagePath"
-                 alt="Vehicle image"
-                 style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+            <img [src]="vehiclesService.getImageUrl(vehicle.imagePath)"
+                alt="Vehicle image"
+                style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
           </div>
           <div class="image-preview" *ngIf="selectedImage">
             <img [src]="selectedImagePreview"
@@ -184,9 +186,11 @@
         <div>
           <label class="field-label">Image</label>
           <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
-            <img [src]="'http://localhost:8080' + vehicle.imagePath"
-                 alt="Vehicle image"
-                 style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+          <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
+            <img [src]="vehiclesService.getImageUrl(vehicle.imagePath)"
+                alt="Vehicle image"
+                style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
+          </div>
           </div>
           <div class="image-preview" *ngIf="selectedImage">
             <img [src]="selectedImagePreview"

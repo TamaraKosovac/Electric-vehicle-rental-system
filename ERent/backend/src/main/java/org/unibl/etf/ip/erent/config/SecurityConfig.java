@@ -41,7 +41,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/images/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/employees")
+                        .requestMatchers("/api/employees/**")
                         .hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
                         .requestMatchers("/api/vehicles/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name(), Role.OPERATOR.name())
                         .requestMatchers("/api/cars/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
@@ -49,7 +49,6 @@ public class SecurityConfig implements WebMvcConfigurer {
                         .requestMatchers("/api/bikes/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
                         .requestMatchers("/api/manufacturers/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
                         .requestMatchers("/api/clients/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name(), Role.OPERATOR.name())
-                        .requestMatchers("/api/employees/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
                         .requestMatchers("/api/rentals/**").hasAnyRole(Role.OPERATOR.name(), Role.MANAGER.name())
                         .requestMatchers("/api/malfunctions/**").hasAnyRole(Role.OPERATOR.name(), Role.MANAGER.name())
                         .requestMatchers("/api/rental-prices/**").hasRole(Role.MANAGER.name())

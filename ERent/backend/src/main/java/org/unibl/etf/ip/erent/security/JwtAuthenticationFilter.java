@@ -27,8 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         String method = request.getMethod();
 
-        return path.startsWith("/api/auth/login") ||
-                (path.startsWith("/api/employees") && "POST".equalsIgnoreCase(method));
+        return path.startsWith("/api/auth/login");
     }
 
     @Override

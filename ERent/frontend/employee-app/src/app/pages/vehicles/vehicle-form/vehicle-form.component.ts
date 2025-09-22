@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { Manufacturer } from '../../../models/manufacturer.model';
 import { ManufacturersService } from '../../../services/manufacturers.service';
+import { VehiclesService } from '../../../services/vehicles.service';
 import { Car } from '../../../models/car.model';
 import { Bike } from '../../../models/bike.model';
 import { Scooter } from '../../../models/scooter.model';
@@ -53,6 +54,7 @@ export class VehicleFormComponent implements OnInit {
 
   constructor(
     private manufacturersService: ManufacturersService,
+    public vehiclesService: VehiclesService,
     public dialogRef: MatDialogRef<VehicleFormComponent>,
     @Inject(MAT_DIALOG_DATA) 
     public data: { 

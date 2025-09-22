@@ -52,7 +52,7 @@ export class RentalsMapComponent implements AfterViewInit, OnDestroy {
   }
 
   getImageUrl(path: string): string {
-    return `http://localhost:8080${path}`;
+    return `http://localhost:8080/images${path}`;
   }
 
   private loadVehicles(): void {
