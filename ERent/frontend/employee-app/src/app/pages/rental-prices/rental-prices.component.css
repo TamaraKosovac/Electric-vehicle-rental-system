@@ -34,6 +34,7 @@
   min-height: 36px !important;
   display: flex;
   align-items: center; 
+  margin-left: -10px;
 }
 
 :host ::ng-deep .search-field.small .mat-mdc-input-element {

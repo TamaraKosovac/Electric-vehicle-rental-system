@@ -33,6 +33,7 @@ export class UserFormComponent {
     lastName: '',
     role: null as any
   };
+  newPassword: string = '';
 
   roles = Object.values(Role);
 
@@ -46,7 +47,15 @@ export class UserFormComponent {
   }
 
   save() {
-    this.dialogRef.close(this.employee);
+    const payload: any = { ...this.employee };
+
+    if (this.newPassword && this.newPassword.trim() !== '') {
+      payload.password = this.newPassword;
+    } else {
+      delete payload.password; 
+    }
+
+    this.dialogRef.close(payload);
   }
 
   cancel() {

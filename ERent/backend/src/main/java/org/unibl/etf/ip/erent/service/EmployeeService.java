@@ -37,7 +37,24 @@ public class EmployeeService {
             throw new IllegalArgumentException("Role must be specified");
         }
 
-        if (employee.getPassword() != null && !employee.getPassword().isBlank()) {
+        if (employee.getId() != null) {
+            Employee existing = employeeRepository.findById(employee.getId())
+                    .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+            if (employee.getPassword() == null || employee.getPassword().isBlank()) {
+                employee.setPassword(existing.getPassword());
+            } else {
+                if (!isValidPassword(employee.getPassword())) {
+                    throw new IllegalArgumentException(
+                            "Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character."
+                    );
+                }
+                employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+            }
+        } else {
+            if (employee.getPassword() == null || employee.getPassword().isBlank()) {
+                throw new IllegalArgumentException("Password cannot be empty");
+            }
             if (!isValidPassword(employee.getPassword())) {
                 throw new IllegalArgumentException(
                         "Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character."

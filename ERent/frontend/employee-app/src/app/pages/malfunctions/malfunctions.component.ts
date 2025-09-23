@@ -95,10 +95,20 @@ export class MalfunctionsComponent implements OnInit {
             this.allMalfunctions.push(newM);
             this.malfunctions = [...this.allMalfunctions];
             this.updatePage();
-            this.snackBar.open('Malfunction added successfully!', '', { duration: 3000 });
+            this.snackBar.open('Malfunction added successfully!', '', { 
+            duration: 3000,
+            horizontalPosition: 'right', 
+            verticalPosition: 'top',     
+            panelClass: ['snackbar-success']
+          });
           },
           error: () => {
-            this.snackBar.open('Failed to add malfunction.', '', { duration: 3000 });
+            this.snackBar.open('Failed to add malfunction.', '', { 
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-error']
+          });
           }
         });
       }

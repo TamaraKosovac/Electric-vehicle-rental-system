@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.unibl.etf.ip.erent.dto.ChartDataDTO;
 import org.unibl.etf.ip.erent.dto.MalfunctionDTO;
 import org.unibl.etf.ip.erent.model.Malfunction;
+import org.unibl.etf.ip.erent.model.VehicleState;
 import org.unibl.etf.ip.erent.repository.MalfunctionRepository;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,7 +43,7 @@ public class MalfunctionService {
         if (malfunction.getVehicle() == null || malfunction.getVehicle().getId() == null) {
             throw new IllegalArgumentException("Malfunction must be linked to a valid vehicle");
         }
-
+        malfunction.getVehicle().setState(VehicleState.BROKEN);
         Malfunction saved = malfunctionRepository.save(malfunction);
         return toDto(saved);
     }

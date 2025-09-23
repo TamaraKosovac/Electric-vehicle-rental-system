@@ -41,13 +41,10 @@
         <label class="field-label">Password</label>
         <mat-form-field class="full-width" appearance="outline">
           <input matInput type="password"
-                 name="newPassword"
-                 [(ngModel)]="employee.password"
-                 placeholder="Password"
-                 minlength="8" />
-          <mat-error *ngIf="employeeForm.submitted && employee?.password && employee.password.length < 8">
-            Password must be at least 8 characters
-          </mat-error>
+                name="newPassword"
+                [(ngModel)]="newPassword"
+                placeholder="Password"
+                minlength="8" />
         </mat-form-field>
       </div>
     </div>

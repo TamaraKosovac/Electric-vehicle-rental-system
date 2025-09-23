@@ -68,7 +68,7 @@ public class RentalDAO {
             ps.setTimestamp(3, Timestamp.valueOf(now));
             ps.setDouble(4, latitude);
             ps.setDouble(5, longitude);
-            ps.setDouble(6, 0.0); 
+            ps.setDouble(6, 0.0);
 
             ps.executeUpdate();
 
