@@ -2,7 +2,6 @@ package org.unibl.etf.ip.erent.model;
 
 import jakarta.persistence.Entity;
 import lombok.*;
-
 import java.time.LocalDate;
 
 @Entity

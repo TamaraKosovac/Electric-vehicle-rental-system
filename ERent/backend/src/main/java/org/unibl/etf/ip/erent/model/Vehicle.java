@@ -2,7 +2,6 @@ package org.unibl.etf.ip.erent.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
 

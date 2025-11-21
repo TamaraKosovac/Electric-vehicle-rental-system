@@ -8,7 +8,6 @@ import org.unibl.etf.ip.erent.model.Post;
 import org.unibl.etf.ip.erent.model.Promotion;
 import org.unibl.etf.ip.erent.repository.PostRepository;
 import org.unibl.etf.ip.erent.repository.PromotionRepository;
-
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;

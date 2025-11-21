@@ -25,10 +25,9 @@ public class ManufacturerService {
         if (manufacturer.getName() == null || manufacturer.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Manufacturer name cannot be empty");
         }
-        manufacturerRepository.findByName(manufacturer.getName())
-                .ifPresent(m -> {
-                    throw new IllegalArgumentException("Manufacturer with this name already exists");
-                });
+        if (!manufacturerRepository.findByName(manufacturer.getName()).isEmpty()) {
+            throw new IllegalArgumentException("Manufacturer with this name already exists");
+        }
 
         return manufacturerRepository.save(manufacturer);
     }
@@ -38,10 +37,9 @@ public class ManufacturerService {
                 .orElseThrow(() -> new RuntimeException("Manufacturer not found"));
 
         if (!manufacturer.getName().equalsIgnoreCase(manufacturerDetails.getName())) {
-            manufacturerRepository.findByName(manufacturerDetails.getName())
-                    .ifPresent(m -> {
-                        throw new IllegalArgumentException("Manufacturer with this name already exists");
-                    });
+            if (!manufacturerRepository.findByName(manufacturerDetails.getName()).isEmpty()) {
+                throw new IllegalArgumentException("Manufacturer with this name already exists");
+            }
         }
         manufacturer.setName(manufacturerDetails.getName());
         manufacturer.setCountry(manufacturerDetails.getCountry());
