@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 
-import { UsersService } from '../../services/users.service';
+import { UserService } from '../../services/user.service';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MinimalPaginatorComponent } from '../../shared/minimal-paginator/minimal-paginator.component';
@@ -61,7 +61,7 @@ export class UsersComponent implements OnInit {
 
   editingEmployee: Employee | null = null;
 
-  constructor(private usersService: UsersService,
+  constructor(private userService: UserService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -80,7 +80,7 @@ export class UsersComponent implements OnInit {
   }
 
   loadClients() {
-    this.usersService.getClients().subscribe(data => {
+    this.userService.getClients().subscribe(data => {
       this.allClients = data.map(c => ({
         ...c,
         fullName: `${c.firstName} ${c.lastName}`
@@ -110,14 +110,14 @@ export class UsersComponent implements OnInit {
 
   blockUnblockClient(client: Client) {
     if (client.blocked) {
-      this.usersService.unblockClient(client.id).subscribe(() => this.loadClients());
+      this.userService.unblockClient(client.id).subscribe(() => this.loadClients());
     } else {
-      this.usersService.blockClient(client.id).subscribe(() => this.loadClients());
+      this.userService.blockClient(client.id).subscribe(() => this.loadClients());
     }
   }
 
   loadEmployees() {
-    this.usersService.getEmployees().subscribe(data => {
+    this.userService.getEmployees().subscribe(data => {
       this.allEmployees = data.map(e => ({
         ...e,
         fullName: `${e.firstName} ${e.lastName}`
@@ -154,7 +154,7 @@ export class UsersComponent implements OnInit {
           delete result.id;
         }
 
-        this.usersService.createEmployee(result).subscribe({
+        this.userService.createEmployee(result).subscribe({
           next: () => {
             this.loadEmployees();
             this.snackBar.open('Employee created successfully!', '', {
@@ -185,7 +185,7 @@ export class UsersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.usersService.updateEmployee(e.id, result).subscribe({
+        this.userService.updateEmployee(e.id, result).subscribe({
           next: () => {
             this.loadEmployees();
             this.snackBar.open('Employee updated successfully!', '', {
@@ -209,7 +209,7 @@ export class UsersComponent implements OnInit {
   }
 
   deleteEmployee(id: number) {
-    this.usersService.deleteEmployee(id).subscribe({
+    this.userService.deleteEmployee(id).subscribe({
       next: () => {
         this.allEmployees = this.allEmployees.filter(e => e.id !== id);
         this.setEmployeePage(this.currentEmployeePage);
@@ -261,7 +261,7 @@ export class UsersComponent implements OnInit {
 
   activateClient(client: Client) {
     if (!client.active) {
-      this.usersService.activateClient(client.id).subscribe(() => this.loadClients());
+      this.userService.activateClient(client.id).subscribe(() => this.loadClients());
     }
   }
 }

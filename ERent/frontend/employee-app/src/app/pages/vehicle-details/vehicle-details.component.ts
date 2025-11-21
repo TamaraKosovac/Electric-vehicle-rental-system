@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { VehiclesService } from '../../services/vehicles.service';
+import { VehicleService } from '../../services/vehicle.service';
 
 import { CarDetails } from '../../models/car-details.model';
 import { BikeDetails } from '../../models/bike-details.model';
@@ -15,9 +15,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
 import { MalfunctionFormComponent } from './malfunction-form/malfunction-form.component';
 import { MinimalPaginatorComponent } from '../../shared/minimal-paginator/minimal-paginator.component';
-import { MalfunctionsService } from '../../services/malfunctions.service';
+import { MalfunctionService } from '../../services/malfunction.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { RentalsService } from '../../services/rentals.service';
+import { RentalService } from '../../services/rental.service';
 import { VehicleState } from '../../models/enums/vehicle-state.enum';
 
 
@@ -58,25 +58,25 @@ export class VehicleDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private vehiclesService: VehiclesService,
-    private malfunctionsService: MalfunctionsService,
+    private vehicleService: VehicleService,
+    private malfunctionService: MalfunctionService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private rentalsService: RentalsService, 
+    private rentalService: RentalService, 
   ) {}
 
   ngOnInit(): void {
     this.vehicleType = this.route.snapshot.paramMap.get('type') as 'cars' | 'bikes' | 'scooters';
     this.vehicleId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.vehiclesService.getVehicleById(this.vehicleType, this.vehicleId)
+    this.vehicleService.getVehicleById(this.vehicleType, this.vehicleId)
       .subscribe(v => {
         this.vehicle = v;
         this.malfunctions = v.malfunctions || []; 
         this.updateMalfunctionPage();
       });
 
-      this.rentalsService.getRentalsByVehicleId(this.vehicleId)
+      this.rentalService.getRentalsByVehicleId(this.vehicleId)
         .subscribe(r => {
           this.rentals = r.map(item => ({
             ...item,
@@ -134,7 +134,7 @@ export class VehicleDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.malfunctionsService
+        this.malfunctionService
           .create(result)
           .subscribe({
             next: (newM) => {
@@ -162,7 +162,7 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   deleteMalfunction(id: number) {
-    this.malfunctionsService.delete(id).subscribe({
+    this.malfunctionService.delete(id).subscribe({
       next: () => {
         this.malfunctions = this.malfunctions.filter(m => m.id !== id);
         this.updateMalfunctionPage();
@@ -193,7 +193,7 @@ export class VehicleDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.malfunctionsService
+        this.malfunctionService
           .update(malfunction.id, result)   
           .subscribe({
             next: (updatedM) => {
@@ -235,7 +235,7 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   getImageUrl(path: string): string {
-    return this.vehiclesService.getImageUrl(path);
+    return this.vehicleService.getImageUrl(path);
   }
 
   applyMalfunctionFilter(event: KeyboardEvent) {

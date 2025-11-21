@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { MinimalPaginatorComponent } from '../../shared/minimal-paginator/minimal-paginator.component';
 import { Client } from '../../models/client.model';
-import { UsersService } from '../../services/users.service';
+import { UserService } from '../../services/user.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
@@ -29,14 +29,14 @@ export class ClientsComponent implements OnInit {
 
   pageSize = 10;
 
-  constructor(private usersService: UsersService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.loadClients();
   }
 
   loadClients() {
-    this.usersService.getClients().subscribe(data => {
+    this.userService.getClients().subscribe(data => {
       this.allClients = data.map(c => ({
         ...c,
         fullName: `${c.firstName} ${c.lastName}`
@@ -66,9 +66,9 @@ export class ClientsComponent implements OnInit {
 
   blockUnblockClient(client: Client) {
     if (client.blocked) {
-      this.usersService.unblockClient(client.id).subscribe(() => this.loadClients());
+      this.userService.unblockClient(client.id).subscribe(() => this.loadClients());
     } else {
-      this.usersService.blockClient(client.id).subscribe(() => this.loadClients());
+      this.userService.blockClient(client.id).subscribe(() => this.loadClients());
     }
   }
 
@@ -87,7 +87,7 @@ export class ClientsComponent implements OnInit {
 
   activateClient(client: Client) {
     if (!client.active) {
-      this.usersService.activateClient(client.id).subscribe(() => this.loadClients());
+      this.userService.activateClient(client.id).subscribe(() => this.loadClients());
     }
   }
 }

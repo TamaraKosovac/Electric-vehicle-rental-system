@@ -93,7 +93,7 @@
           <label class="field-label">Image</label>
           <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
             <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
-              <img [src]="vehiclesService.getImageUrl(vehicle.imagePath)"
+              <img [src]="vehicleService.getImageUrl(vehicle.imagePath)"
                   alt="Vehicle image"
                   style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
             </div>
@@ -144,7 +144,7 @@
         <div>
           <label class="field-label">Image</label>
           <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
-            <img [src]="vehiclesService.getImageUrl(vehicle.imagePath)"
+            <img [src]="vehicleService.getImageUrl(vehicle.imagePath)"
                 alt="Vehicle image"
                 style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
           </div>
@@ -187,7 +187,7 @@
           <label class="field-label">Image</label>
           <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
           <div class="image-preview" *ngIf="vehicle.imagePath && !selectedImage">
-            <img [src]="vehiclesService.getImageUrl(vehicle.imagePath)"
+            <img [src]="vehicleService.getImageUrl(vehicle.imagePath)"
                 alt="Vehicle image"
                 style="max-width: 200px; border-radius: 8px; margin-bottom: 8px;"/>
           </div>

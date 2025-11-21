@@ -10,7 +10,7 @@ import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { Malfunction } from '../../../models/malfunction.model';
-import { VehiclesService } from '../../../services/vehicles.service';
+import { VehicleService } from '../../../services/vehicle.service';
 import { Vehicle } from '../../../models/vehicle.model';
 
 @Component({
@@ -44,7 +44,7 @@ export class MalfunctionFormComponent implements OnInit {
   vehicles: Vehicle[] = [];
 
   constructor(
-    private vehiclesService: VehiclesService,
+    private vehicleService: VehicleService,
     public dialogRef: MatDialogRef<MalfunctionFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data?: { malfunction?: Malfunction; vehicleId?: number }
   ) {
@@ -65,7 +65,7 @@ export class MalfunctionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.vehiclesService.getAllVehicles().subscribe((data) => {
+    this.vehicleService.getAllVehicles().subscribe((data) => {
       this.vehicles = data;
     });
   }

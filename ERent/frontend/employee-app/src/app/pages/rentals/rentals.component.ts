@@ -9,7 +9,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { MinimalPaginatorComponent } from '../../shared/minimal-paginator/minimal-paginator.component';
 
-import { RentalsService } from '../../services/rentals.service';
+import { RentalService } from '../../services/rental.service';
 import { RentalDetails } from '../../models/rental-details.model';
 
 @Component({
@@ -36,14 +36,14 @@ export class RentalsComponent implements OnInit {
   totalPages = 1;
   pageSize = 10;
 
-  constructor(private rentalsService: RentalsService, private snackBar: MatSnackBar) {}
+  constructor(private rentalService: RentalService, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.loadRentals();
   }
 
   loadRentals() {
-    this.rentalsService.getAll().subscribe({
+    this.rentalService.getAll().subscribe({
       next: (data) => {
         this.rentals = data.map(r => ({
           ...r,

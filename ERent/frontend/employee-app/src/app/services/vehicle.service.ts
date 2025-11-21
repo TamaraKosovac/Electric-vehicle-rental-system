@@ -13,7 +13,7 @@ import { Vehicle } from '../models/vehicle.model';
 @Injectable({
   providedIn: 'root'
 })
-export class VehiclesService {
+export class VehicleService {
   private baseUrl = 'http://localhost:8080/api';
 
   constructor(private http: HttpClient) {}

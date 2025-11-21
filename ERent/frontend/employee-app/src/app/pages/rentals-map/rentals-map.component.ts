@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';   
-import { VehiclesService } from '../../services/vehicles.service';
+import { VehicleService } from '../../services/vehicle.service';
 import { Vehicle } from '../../models/vehicle.model';
 import { VehicleState } from '../../models/enums/vehicle-state.enum';
 
@@ -15,7 +15,7 @@ export class RentalsMapComponent implements AfterViewInit, OnDestroy {
   private markerCluster!: L.MarkerClusterGroup;
   private resizeHandler = () => this.map.invalidateSize();
 
-  constructor(private vehiclesService: VehiclesService) {}
+  constructor(private vehicleService: VehicleService) {}
 
   ngAfterViewInit(): void {
     this.initMap();
@@ -56,7 +56,7 @@ export class RentalsMapComponent implements AfterViewInit, OnDestroy {
   }
 
   private loadVehicles(): void {
-    this.vehiclesService.getAllVehicles().subscribe((vehicles: Vehicle[]) => {
+    this.vehicleService.getAllVehicles().subscribe((vehicles: Vehicle[]) => {
       vehicles.forEach(v => {
         const lat = v.currentLatitude || 44.7722;
         const lng = v.currentLongitude || 17.1910;

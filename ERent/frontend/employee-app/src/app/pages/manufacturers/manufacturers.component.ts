@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-import { ManufacturersService } from '../../services/manufacturers.service';
+import { ManufacturerService } from '../../services/manufacturer.service';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { Manufacturer } from '../../models/manufacturer.model';
 import { MatIconModule } from '@angular/material/icon';
@@ -38,7 +38,7 @@ export class ManufacturersComponent implements OnInit {
   pageSize = 10;
 
   constructor(
-    private manufacturersService: ManufacturersService,
+    private manufacturerService: ManufacturerService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -48,7 +48,7 @@ export class ManufacturersComponent implements OnInit {
   }
 
   loadManufacturers() {
-    this.manufacturersService.getAll().subscribe(data => {
+    this.manufacturerService.getAll().subscribe(data => {
       this.manufacturers = data;
       this.filteredManufacturers = [...data];
       this.updatePagination();
@@ -91,7 +91,7 @@ export class ManufacturersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         const { id, ...payload } = result;
-        this.manufacturersService.create(payload as Manufacturer).subscribe({
+        this.manufacturerService.create(payload as Manufacturer).subscribe({
           next: () => {
             this.loadManufacturers();
             this.snackBar.open('Manufacturer created successfully!', '', {
@@ -122,7 +122,7 @@ export class ManufacturersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.manufacturersService.update(m.id, result).subscribe({
+        this.manufacturerService.update(m.id, result).subscribe({
           next: () => {
             this.loadManufacturers();
             this.snackBar.open('Manufacturer updated successfully!', '', {
@@ -146,7 +146,7 @@ export class ManufacturersComponent implements OnInit {
   }
 
   deleteManufacturer(id: number) {
-    this.manufacturersService.delete(id).subscribe({
+    this.manufacturerService.delete(id).subscribe({
       next: () => {
         this.loadManufacturers();
         this.snackBar.open('Manufacturer deleted successfully!', '', {

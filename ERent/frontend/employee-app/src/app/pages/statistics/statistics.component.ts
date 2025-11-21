@@ -8,8 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
-import { RentalsService } from '../../services/rentals.service';
-import { MalfunctionsService } from '../../services/malfunctions.service';
+import { RentalService } from '../../services/rental.service';
+import { MalfunctionService } from '../../services/malfunction.service';
 
 Chart.register(...registerables);
 
@@ -56,8 +56,8 @@ export class StatisticsComponent implements OnInit {
   revenueByVehicleTypeData: ChartData<'pie'> = { labels: [], datasets: [] };
 
   constructor(
-    private rentalsService: RentalsService,
-    private malfunctionsService: MalfunctionsService
+    private rentalService: RentalService,
+    private malfunctionService: MalfunctionService
   ) {}
 
   ngOnInit(): void {
@@ -70,7 +70,7 @@ export class StatisticsComponent implements OnInit {
   }
 
   loadDailyRevenue(): void {
-    this.rentalsService.getDailyRevenue(this.selectedYear, this.selectedMonth).subscribe(data => {
+    this.rentalService.getDailyRevenue(this.selectedYear, this.selectedMonth).subscribe(data => {
       const sorted = data.sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       );
@@ -96,7 +96,7 @@ export class StatisticsComponent implements OnInit {
   }
 
   loadMalfunctions(): void {
-    this.malfunctionsService.getMalfunctionsByVehicleType().subscribe(data => {
+    this.malfunctionService.getMalfunctionsByVehicleType().subscribe(data => {
       this.malfunctionsData = {
         labels: data.map(d => d.label),
         datasets: [
@@ -113,7 +113,7 @@ export class StatisticsComponent implements OnInit {
   }
 
   loadRevenueByVehicleType(): void {
-    this.rentalsService.getRevenueByVehicleType().subscribe(data => {
+    this.rentalService.getRevenueByVehicleType().subscribe(data => {
       this.revenueByVehicleTypeData = {
         labels: data.map(d => d.label),
         datasets: [

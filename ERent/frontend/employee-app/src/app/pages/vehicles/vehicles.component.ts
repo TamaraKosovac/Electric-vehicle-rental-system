@@ -12,7 +12,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 
-import { VehiclesService } from '../../services/vehicles.service';
+import { VehicleService } from '../../services/vehicle.service';
 import { Car } from '../../models/car.model';
 import { Bike } from '../../models/bike.model';
 import { Scooter } from '../../models/scooter.model';
@@ -74,7 +74,7 @@ export class VehiclesComponent implements OnInit {
   activeTabIndex = 0;
 
   constructor(
-    private vehiclesService: VehiclesService,
+    private vehicleService: VehicleService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private router: Router
@@ -148,19 +148,19 @@ export class VehiclesComponent implements OnInit {
   }
 
   loadData() {
-    this.vehiclesService.getCars().subscribe(data => {
+    this.vehicleService.getCars().subscribe(data => {
       this.allCars = data;
       this.currentCarPage = 1;
       this.updateCarPage();
     });
 
-    this.vehiclesService.getBikes().subscribe(data => {
+    this.vehicleService.getBikes().subscribe(data => {
       this.allBikes = data;
       this.currentBikePage = 1;
       this.updateBikePage();
     });
 
-    this.vehiclesService.getScooters().subscribe(data => {
+    this.vehicleService.getScooters().subscribe(data => {
       this.allScooters = data;
       this.currentScooterPage = 1;
       this.updateScooterPage();
@@ -188,7 +188,7 @@ export class VehiclesComponent implements OnInit {
   }
 
   deleteCar(id: number) {
-    this.vehiclesService.deleteCar(id).subscribe(() => {
+    this.vehicleService.deleteCar(id).subscribe(() => {
       this.allCars = this.allCars.filter(c => c.id !== id);
       this.updateCarPage();
       this.snackBar.open('Car deleted successfully!', '', {
@@ -208,7 +208,7 @@ export class VehiclesComponent implements OnInit {
   }
 
   deleteBike(id: number) {
-    this.vehiclesService.deleteBike(id).subscribe(() => {
+    this.vehicleService.deleteBike(id).subscribe(() => {
       this.allBikes = this.allBikes.filter(b => b.id !== id);
       this.updateBikePage();
       this.snackBar.open('Bike deleted successfully!', '', {
@@ -228,7 +228,7 @@ export class VehiclesComponent implements OnInit {
   }
 
   deleteScooter(id: number) {
-    this.vehiclesService.deleteScooter(id).subscribe(() => {
+    this.vehicleService.deleteScooter(id).subscribe(() => {
       this.allScooters = this.allScooters.filter(s => s.id !== id);
       this.updateScooterPage();
       this.snackBar.open('Scooter deleted successfully!', '', {
@@ -260,11 +260,11 @@ export class VehiclesComponent implements OnInit {
 
         let create$: Observable<Car | Bike | Scooter>;
         if (type === 'cars') {
-          create$ = this.vehiclesService.createCar(vehicle, image);
+          create$ = this.vehicleService.createCar(vehicle, image);
         } else if (type === 'bikes') {
-          create$ = this.vehiclesService.createBike(vehicle, image);
+          create$ = this.vehicleService.createBike(vehicle, image);
         } else {
-          create$ = this.vehiclesService.createScooter(vehicle, image);
+          create$ = this.vehicleService.createScooter(vehicle, image);
         }
 
         create$.subscribe({
@@ -310,7 +310,7 @@ export class VehiclesComponent implements OnInit {
     const file = event.target.files[0];
     if (!file) return;
 
-    this.vehiclesService.uploadCsv(file).subscribe({
+    this.vehicleService.uploadCsv(file).subscribe({
       next: () => {
         this.loadData(); 
         this.snackBar.open('CSV uploaded successfully!', '', {
@@ -332,7 +332,7 @@ export class VehiclesComponent implements OnInit {
   }
 
   onEditCar(car: Car) {
-    this.vehiclesService.getCarById(car.id).subscribe(fetchedCar => {
+    this.vehicleService.getCarById(car.id).subscribe(fetchedCar => {
       const dialogRef = this.dialog.open(VehicleFormComponent, {
         width: '500px',
         data: { type: 'cars', vehicle: fetchedCar }
@@ -341,7 +341,7 @@ export class VehiclesComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           const { vehicle, image } = result as { vehicle: Car; image?: File };
-          this.vehiclesService.updateCar(car.id, vehicle, image).subscribe(updated => {
+          this.vehicleService.updateCar(car.id, vehicle, image).subscribe(updated => {
             const idx = this.allCars.findIndex(c => c.id === updated.id);
             if (idx !== -1) this.allCars[idx] = updated;
             this.updateCarPage();
@@ -358,7 +358,7 @@ export class VehiclesComponent implements OnInit {
   }
 
   onEditBike(bike: Bike) {
-    this.vehiclesService.getBikeById(bike.id).subscribe(fetchedBike => {
+    this.vehicleService.getBikeById(bike.id).subscribe(fetchedBike => {
       const dialogRef = this.dialog.open(VehicleFormComponent, {
         width: '500px',
         data: { type: 'bikes', vehicle: fetchedBike }
@@ -367,7 +367,7 @@ export class VehiclesComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           const { vehicle, image } = result as { vehicle: Bike; image?: File };
-          this.vehiclesService.updateBike(bike.id, vehicle, image).subscribe(updated => {
+          this.vehicleService.updateBike(bike.id, vehicle, image).subscribe(updated => {
             const idx = this.allBikes.findIndex(b => b.id === updated.id);
             if (idx !== -1) this.allBikes[idx] = updated;
             this.updateBikePage();
@@ -384,7 +384,7 @@ export class VehiclesComponent implements OnInit {
   }
 
   onEditScooter(scooter: Scooter) {
-    this.vehiclesService.getScooterById(scooter.id).subscribe(fetchedScooter => {
+    this.vehicleService.getScooterById(scooter.id).subscribe(fetchedScooter => {
       const dialogRef = this.dialog.open(VehicleFormComponent, {
         width: '500px',
         data: { type: 'scooters', vehicle: fetchedScooter }
@@ -393,7 +393,7 @@ export class VehiclesComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           const { vehicle, image } = result as { vehicle: Scooter; image?: File };
-          this.vehiclesService.updateScooter(scooter.id, vehicle, image).subscribe(updated => {
+          this.vehicleService.updateScooter(scooter.id, vehicle, image).subscribe(updated => {
             const idx = this.allScooters.findIndex(s => s.id === updated.id);
             if (idx !== -1) this.allScooters[idx] = updated;
             this.updateScooterPage();

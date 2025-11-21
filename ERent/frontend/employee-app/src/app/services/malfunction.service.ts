@@ -6,7 +6,7 @@ import { Malfunction } from '../models/malfunction.model';
 @Injectable({
   providedIn: 'root'
 })
-export class MalfunctionsService {
+export class MalfunctionService {
   private apiUrl = 'http://localhost:8080/api/malfunctions';
 
   constructor(private http: HttpClient) {}

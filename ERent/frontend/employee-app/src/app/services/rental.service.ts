@@ -6,7 +6,7 @@ import { RentalDetails } from '../models/rental-details.model';
 @Injectable({
   providedIn: 'root'
 })
-export class RentalsService {
+export class RentalService {
 
   private baseUrl = 'http://localhost:8080/api/rentals';
 

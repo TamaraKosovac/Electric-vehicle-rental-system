@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { MinimalPaginatorComponent } from '../../shared/minimal-paginator/minimal-paginator.component';
-import { MalfunctionsService } from '../../services/malfunctions.service';
+import { MalfunctionService } from '../../services/malfunction.service';
 import { Malfunction } from '../../models/malfunction.model';
 import { MalfunctionFormComponent } from '../malfunctions/malfunction-form/malfunction-form.component';
 
@@ -36,7 +36,7 @@ export class MalfunctionsComponent implements OnInit {
   totalPages = 1;
 
   constructor(
-    private malfunctionsService: MalfunctionsService,
+    private malfunctionService: MalfunctionService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -46,7 +46,7 @@ export class MalfunctionsComponent implements OnInit {
   }
 
   loadMalfunctions() {
-    this.malfunctionsService.getAll().subscribe(m => {
+    this.malfunctionService.getAll().subscribe(m => {
       this.allMalfunctions = m || [];
       this.malfunctions = [...this.allMalfunctions];
       this.updatePage();
@@ -90,7 +90,7 @@ export class MalfunctionsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.malfunctionsService.create(result).subscribe({
+        this.malfunctionService.create(result).subscribe({
           next: newM => {
             this.allMalfunctions.push(newM);
             this.malfunctions = [...this.allMalfunctions];
