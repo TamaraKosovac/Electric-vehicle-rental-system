@@ -61,6 +61,9 @@ export class UsersComponent implements OnInit {
 
   editingEmployee: Employee | null = null;
 
+  originalClients: Client[] = [];
+  originalEmployees: Employee[] = [];
+
   constructor(private userService: UserService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
@@ -81,10 +84,14 @@ export class UsersComponent implements OnInit {
 
   loadClients() {
     this.userService.getClients().subscribe(data => {
-      this.allClients = data.map(c => ({
+      const list = data.map(c => ({
         ...c,
         fullName: `${c.firstName} ${c.lastName}`
       }));
+
+      this.originalClients = [...list];  
+      this.allClients = [...list];       
+
       this.setClientPage(1);
     });
   }
@@ -118,10 +125,14 @@ export class UsersComponent implements OnInit {
 
   loadEmployees() {
     this.userService.getEmployees().subscribe(data => {
-      this.allEmployees = data.map(e => ({
+      const list = data.map(e => ({
         ...e,
         fullName: `${e.firstName} ${e.lastName}`
       }));
+
+      this.originalEmployees = [...list];   
+      this.allEmployees = [...list];        
+
       this.setEmployeePage(1);
     });
   }
@@ -235,26 +246,26 @@ export class UsersComponent implements OnInit {
     const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
 
     if (type === 'clients') {
-      const filtered = value
-        ? this.allClients.filter(c =>
-            c.username.toLowerCase().includes(value) ||
-            c.email.toLowerCase().includes(value) ||
-            `${c.firstName} ${c.lastName}`.toLowerCase().includes(value)
+      this.allClients = value
+        ? this.originalClients.filter(c =>
+            c.username.toLowerCase().includes(value)
+            || c.email.toLowerCase().includes(value)
+            || `${c.firstName} ${c.lastName}`.toLowerCase().includes(value)
           )
-        : [...this.allClients];
-      this.allClients = filtered;
+        : [...this.originalClients];
+
       this.setClientPage(1);
     }
 
     if (type === 'employees') {
-      const filtered = value
-        ? this.allEmployees.filter(e =>
-            e.username.toLowerCase().includes(value) ||
-            e.role.toLowerCase().includes(value) ||
-            `${e.firstName} ${e.lastName}`.toLowerCase().includes(value)
+      this.allEmployees = value
+        ? this.originalEmployees.filter(e =>
+            e.username.toLowerCase().includes(value)
+            || e.role.toLowerCase().includes(value)
+            || `${e.firstName} ${e.lastName}`.toLowerCase().includes(value)
           )
-        : [...this.allEmployees];
-      this.allEmployees = filtered;
+        : [...this.originalEmployees];
+
       this.setEmployeePage(1);
     }
   }

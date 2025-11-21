@@ -22,6 +22,7 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class ClientsComponent implements OnInit {
   allClients: Client[] = [];
+  originalClients: Client[] = [];
   clients: Client[] = [];
 
   currentClientPage = 1;
@@ -37,10 +38,14 @@ export class ClientsComponent implements OnInit {
 
   loadClients() {
     this.userService.getClients().subscribe(data => {
-      this.allClients = data.map(c => ({
+      const list = data.map(c => ({
         ...c,
         fullName: `${c.firstName} ${c.lastName}`
       }));
+
+      this.originalClients = [...list];   
+      this.allClients = [...list];      
+
       this.setClientPage(1);
     });
   }
@@ -72,16 +77,17 @@ export class ClientsComponent implements OnInit {
     }
   }
 
-  applyFilter(event: Event) {
+ applyFilter(event: Event) {
     const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    const filtered = value
-      ? this.allClients.filter(c =>
+
+    this.allClients = value
+      ? this.originalClients.filter(c =>
           c.username.toLowerCase().includes(value) ||
           c.email.toLowerCase().includes(value) ||
           `${c.firstName} ${c.lastName}`.toLowerCase().includes(value)
         )
-      : [...this.allClients];
-    this.allClients = filtered;
+      : [...this.originalClients];
+
     this.setClientPage(1);
   }
 

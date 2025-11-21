@@ -35,7 +35,7 @@ export class UserFormComponent {
   };
   newPassword: string = '';
 
-  roles = Object.values(Role);
+  roles = Object.values(Role).filter(r => r !== Role.CLIENT);
 
   constructor(
     public dialogRef: MatDialogRef<UserFormComponent>,
@@ -49,10 +49,20 @@ export class UserFormComponent {
   save() {
     const payload: any = { ...this.employee };
 
-    if (this.newPassword && this.newPassword.trim() !== '') {
-      payload.password = this.newPassword;
-    } else {
-      delete payload.password; 
+    if (!this.employee.id || this.employee.id === 0) {
+      payload.password = this.employee.password; 
+    }
+
+    if (this.employee.id) {
+      if (this.newPassword.trim() !== '') {
+        payload.password = this.newPassword; 
+      } else {
+        delete payload.password; 
+      }
+    }
+
+    if (!this.employee.id || this.employee.id === 0) {
+      delete payload.id;
     }
 
     this.dialogRef.close(payload);

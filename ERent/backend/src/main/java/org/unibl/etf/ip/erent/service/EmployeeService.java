@@ -37,7 +37,7 @@ public class EmployeeService {
             throw new IllegalArgumentException("Role must be specified");
         }
 
-        if (employee.getId() != null) {
+        if (employee.getId() != null && employee.getId() > 0) {
             Employee existing = employeeRepository.findById(employee.getId())
                     .orElseThrow(() -> new RuntimeException("Employee not found"));
 

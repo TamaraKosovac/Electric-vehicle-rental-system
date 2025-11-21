@@ -172,17 +172,28 @@ export class VehiclesComponent implements OnInit {
 
     if (this.activeTab === 'cars') {
       this.carsDS.data = this.allCars
-        .filter(c => (c.model ?? '').toLowerCase().includes(value))
+        .filter(c =>
+          (c.model ?? '').toLowerCase().includes(value) ||
+          (c.manufacturer ?? '').toLowerCase().includes(value)
+        )
         .slice(0, this.pageSize);
     }
+
     if (this.activeTab === 'bikes') {
       this.bikesDS.data = this.allBikes
-        .filter(b => (b.model ?? '').toLowerCase().includes(value))
+        .filter(b =>
+          (b.model ?? '').toLowerCase().includes(value) ||
+          (b.manufacturer ?? '').toLowerCase().includes(value)
+        )
         .slice(0, this.pageSize);
     }
+
     if (this.activeTab === 'scooters') {
       this.scootersDS.data = this.allScooters
-        .filter(s => (s.model ?? '').toLowerCase().includes(value))
+        .filter(s =>
+          (s.model ?? '').toLowerCase().includes(value) ||
+          (s.manufacturer ?? '').toLowerCase().includes(value)
+        )
         .slice(0, this.pageSize);
     }
   }

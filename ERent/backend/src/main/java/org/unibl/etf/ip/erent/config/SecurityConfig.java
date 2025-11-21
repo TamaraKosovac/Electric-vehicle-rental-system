@@ -51,7 +51,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                         .requestMatchers("/api/manufacturers/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
                         .requestMatchers("/api/clients/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name(), Role.OPERATOR.name())
                         .requestMatchers("/api/rentals/**").hasAnyRole(Role.OPERATOR.name(), Role.MANAGER.name(), Role.ADMIN.name())
-                        .requestMatchers("/api/malfunctions/**").hasAnyRole(Role.OPERATOR.name(), Role.MANAGER.name())
+                        .requestMatchers("/api/malfunctions/**").hasAnyRole(Role.OPERATOR.name(), Role.MANAGER.name(), Role.ADMIN.name())
                         .requestMatchers("/api/rental-prices/**").hasRole(Role.MANAGER.name())
                         .anyRequest().authenticated()
                 )
