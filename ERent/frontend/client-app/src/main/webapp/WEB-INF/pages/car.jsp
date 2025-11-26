@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="org.unibl.etf.ip.erent.dto.ClientDTO" %>
-<%@ page import="org.unibl.etf.ip.erent.dto.BikeDTO" %>
-<%@ page import="org.unibl.etf.ip.erent.dao.BikeDAO" %>
+<%@ page import="org.unibl.etf.ip.erent.dto.CarDTO" %>
+<%@ page import="org.unibl.etf.ip.erent.dao.CarDAO" %>
 <%@ page import="org.unibl.etf.ip.erent.dao.RentalPriceDAO" %>
 <%@ page import="org.unibl.etf.ip.erent.dto.RentalPriceDTO" %>
 <%@ page import="java.util.List" %>
@@ -9,19 +9,19 @@
 <%
     ClientDTO client = (ClientDTO) session.getAttribute("client");
     if (client == null) {
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("login");
         return;
     }
 
-    List<BikeDTO> bikes = BikeDAO.findAvailableDTO();
-    RentalPriceDTO priceBike = RentalPriceDAO.getByVehicleType("BIKE");
+    List<CarDTO> cars = CarDAO.findAvailableDTO();
+    RentalPriceDTO priceCar = RentalPriceDAO.getByVehicleType("CAR");
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Rent a Bike</title>
+    <title>Rent a Car</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile.css">
 </head>
@@ -33,7 +33,7 @@
           class="mt-3" onsubmit="return validateForm()">
 
         <input type="hidden" name="clientId" value="<%= client.getId() %>">
-        <input type="hidden" name="vehicleType" value="BIKE">
+        <input type="hidden" name="vehicleType" value="CAR">
 
         <div class="mb-3">
             <label class="form-label">Start location</label>
@@ -56,12 +56,12 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Choose a bike</label>
+            <label class="form-label">Choose a car</label>
             <select name="vehicleId" class="form-select" required>
-                <% for (BikeDTO bike : bikes) { %>
-                <option value="<%= bike.getId() %>">
-                    <%= bike.getManufacturerName() %> - <%= bike.getModel() %>
-                    (<%= priceBike != null ? priceBike.getPricePerHour() : "N/A" %> KM/h)
+                <% for (CarDTO car : cars) { %>
+                <option value="<%= car.getId() %>">
+                    <%= car.getManufacturerName() %> - <%= car.getModel() %>
+                    (<%= priceCar != null ? priceCar.getPricePerHour() : "N/A" %> KM/h)
                 </option>
                 <% } %>
             </select>
@@ -106,6 +106,7 @@
                 Start ride
             </button>
         </div>
+
     </form>
 </div>
 

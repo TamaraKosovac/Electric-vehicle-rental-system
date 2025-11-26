@@ -15,7 +15,7 @@ public class ProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/pages/profile.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/pages/profile.jsp").forward(request, response);
     }
 
     @Override
@@ -31,10 +31,10 @@ public class ProfileController extends HttpServlet {
 
             if (success) {
                 request.getSession().invalidate();
-                response.sendRedirect(request.getContextPath() + "/pages/login.jsp?msg=deactivated");
+                response.sendRedirect(request.getContextPath() + "/login?msg=deactivated");
             } else {
                 response.sendRedirect(request.getContextPath()
-                        + "/pages/home.jsp?activePage=profile&error=Could not deactivate profile");
+                        + "/home?activePage=profile&error=Could not deactivate profile");
             }
         } else if ("changePassword".equals(action)) {
             int clientId = Integer.parseInt(request.getParameter("clientId"));
@@ -44,7 +44,7 @@ public class ProfileController extends HttpServlet {
 
             if (!newPassword.equals(confirmPassword)) {
                 response.sendRedirect(request.getContextPath()
-                        + "/pages/home.jsp?activePage=profile&error=Passwords do not match");
+                        + "/home?activePage=profile&error=Passwords do not match");
                 return;
             }
 
@@ -52,10 +52,10 @@ public class ProfileController extends HttpServlet {
 
             if (success) {
                 response.sendRedirect(request.getContextPath()
-                        + "/pages/home.jsp?activePage=profile&msg=Password changed successfully");
+                        + "/home?activePage=profile&msg=Password changed successfully");
             } else {
                 response.sendRedirect(request.getContextPath()
-                        + "/pages/home.jsp?activePage=profile&error=Invalid old password");
+                        + "/home?activePage=profile&error=Invalid old password");
             }
         }
     }

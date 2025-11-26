@@ -7,7 +7,7 @@
 <%
     ClientDTO client = (ClientDTO) session.getAttribute("client");
     if (client == null) {
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("login");
         return;
     }
 

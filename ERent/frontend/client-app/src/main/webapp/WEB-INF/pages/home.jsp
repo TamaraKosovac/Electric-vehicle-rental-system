@@ -2,13 +2,13 @@
 <%
     if ("logout".equals(request.getParameter("action"))) {
         session.invalidate();
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("login");
         return;
     }
 
     ClientDTO client = (ClientDTO) session.getAttribute("client");
     if (client == null) {
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("login");
         return;
     }
 
@@ -45,19 +45,19 @@
         </div>
 
         <nav class="menu">
-            <a href="home.jsp?activePage=car" class="<%= "car".equals(activePage) ? "active" : "" %>">
+            <a href="home?activePage=car" class="<%= "car".equals(activePage) ? "active" : "" %>">
                 <span class="material-icons">electric_car</span>
                 <span>Rent a car</span>
             </a>
-            <a href="home.jsp?activePage=bike" class="<%= "bike".equals(activePage) ? "active" : "" %>">
+            <a href="home?activePage=bike" class="<%= "bike".equals(activePage) ? "active" : "" %>">
                 <span class="material-icons">electric_bike</span>
                 <span>Rent a bike</span>
             </a>
-            <a href="home.jsp?activePage=scooter" class="<%= "scooter".equals(activePage) ? "active" : "" %>">
+            <a href="home?activePage=scooter" class="<%= "scooter".equals(activePage) ? "active" : "" %>">
                 <span class="material-icons">electric_scooter</span>
                 <span>Rent a scooter</span>
             </a>
-            <a href="home.jsp?activePage=profile" class="<%= "profile".equals(activePage) ? "active" : "" %>">
+            <a href="home?activePage=profile" class="<%= "profile".equals(activePage) ? "active" : "" %>">
                 <span class="material-icons">person</span>
                 <span>Profile</span>
             </a>
@@ -85,13 +85,13 @@
 
         <div class="page-container">
             <% if ("car".equals(activePage)) { %>
-            <jsp:include page="car.jsp" />
+            <jsp:include page="/WEB-INF/pages/car.jsp" />
             <% } else if ("bike".equals(activePage)) { %>
-            <jsp:include page="bike.jsp" />
+            <jsp:include page="/WEB-INF/pages/bike.jsp" />
             <% } else if ("scooter".equals(activePage)) { %>
-            <jsp:include page="scooter.jsp" />
+            <jsp:include page="/WEB-INF/pages/scooter.jsp" />
             <% } else if ("profile".equals(activePage)) { %>
-            <jsp:include page="profile.jsp" />
+            <jsp:include page="/WEB-INF/pages/profile.jsp" />
             <% } %>
         </div>
     </main>
@@ -112,7 +112,7 @@
 
             <div class="dlg-actions">
                 <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">No</button>
-                <a href="home.jsp?action=logout" class="btn confirm-btn">Yes</a>
+                <a href="home?action=logout" class="btn confirm-btn">Yes</a>
             </div>
 
         </div>

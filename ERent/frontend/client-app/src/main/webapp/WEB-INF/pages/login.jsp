@@ -11,7 +11,7 @@
 
         if (client != null) {
             session.setAttribute("client", client);
-            response.sendRedirect(request.getContextPath() + "/pages/home.jsp");
+            response.sendRedirect(request.getContextPath() + "/home");
             return;
         } else {
             error = "Invalid username or password!";
@@ -58,7 +58,7 @@
             <button type="submit" class="btn-login">Login</button>
             <div class="register-link">
                 Don’t have an account?
-                <a href="${pageContext.request.contextPath}/pages/register.jsp">Register</a>
+                <a href="${pageContext.request.contextPath}/register">Register</a>
             </div>
         </form>
 

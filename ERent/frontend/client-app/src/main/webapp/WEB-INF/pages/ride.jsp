@@ -3,7 +3,7 @@
 <%
     Long rentalId = (Long) session.getAttribute("rentalId");
     if (rentalId == null) {
-        response.sendRedirect("index.jsp");
+        response.sendRedirect(request.getContextPath() + "/home");
         return;
     }
 

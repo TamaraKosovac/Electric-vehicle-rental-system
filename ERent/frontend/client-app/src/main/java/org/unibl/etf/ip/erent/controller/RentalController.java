@@ -83,7 +83,7 @@ public class RentalController extends HttpServlet {
                 Long rentalId = RentalDAO.startRental(clientId, vehicleId, lat, lon, price.getPricePerHour());
                 req.getSession().setAttribute("rentalId", rentalId);
                 req.getSession().setAttribute("pricePerHour", price.getPricePerHour());
-                resp.sendRedirect("pages/ride.jsp");
+                resp.sendRedirect(req.getContextPath() + "/ride");
             } else {
                 resp.sendRedirect("error.jsp");
             }

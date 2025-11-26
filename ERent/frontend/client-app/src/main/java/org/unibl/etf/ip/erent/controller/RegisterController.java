@@ -26,7 +26,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/pages/register.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/pages/register.jsp");
         rd.forward(request, response);
     }
 
@@ -68,7 +68,7 @@ public class RegisterController extends HttpServlet {
 
         if (!isValidPassword(password)) {
             request.setAttribute("error", "Password must have at least 8 characters, one uppercase letter, one number, and one special character.");
-            RequestDispatcher rd = request.getRequestDispatcher("/pages/register.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/pages/register.jsp");
             rd.forward(request, response);
             return;
         }
@@ -95,7 +95,7 @@ public class RegisterController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
             request.setAttribute("error", "Username or email already exists!");
-            RequestDispatcher rd = request.getRequestDispatcher("/pages/register.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/pages/register.jsp");
             rd.forward(request, response);
         }
     }
